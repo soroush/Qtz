@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WizardBackupDatabase</class>
+ <widget class="QWizard" name="WizardBackupDatabase">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>531</width>
+    <height>414</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Backup Database Wizard</string>
+  </property>
+  <widget class="QWizardPage" name="wizardPageIntro">
+   <property name="title">
+    <string>Backup Database Wizard</string>
+   </property>
+   <property name="subTitle">
+    <string>This wizard helps you to backup all your data stored in database.</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Welcome to database backup wizard !
+
+This wizard is designed to help you protect your critical data agains software or hardware failure or user faults.</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="wizardPageSelectData">
+   <property name="title">
+    <string>Select Data Source</string>
+   </property>
+   <property name="subTitle">
+    <string>Please select which data source you want to backup.</string>
+   </property>
+   <widget class="QStackedWidget" name="stackedWidgetDatabases">
+    <property name="geometry">
+     <rect>
+      <x>4</x>
+      <y>78</y>
+      <width>507</width>
+      <height>268</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="page">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="7" column="1">
+       <widget class="QCheckBox" name="checkBoxRemember">
+        <property name="text">
+         <string>Remember</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelDatabase">
+        <property name="text">
+         <string>Database:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>lineEditDatabase</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="checkBoxLocal">
+        <property name="text">
+         <string>Local</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QCheckBox" name="checkBoxDefaultPort">
+        <property name="text">
+         <string>Default</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="lineEditPassword">
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="lineEditDatabase"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelUserName">
+        <property name="text">
+         <string>User:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>lineEditUser</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineEditHost"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="labelPassword">
+        <property name="text">
+         <string>Password:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>lineEditPassword</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelPort">
+        <property name="text">
+         <string>Port:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>spinBox</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelHost">
+        <property name="text">
+         <string>Host:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>lineEditHost</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QPushButton" name="pushButtonTest">
+        <property name="text">
+         <string>Test</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinBox">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>999999</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="lineEditUser"/>
+      </item>
+      <item row="6" column="1" colspan="2">
+       <widget class="QPlainTextEdit" name="plainTextEditResult">
+        <property name="styleSheet">
+         <string notr="true">background : transparent;</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="labelResult_">
+        <property name="text">
+         <string>Result:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>plainTextEditResult</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="page_2">
+     <widget class="QLabel" name="labelDatabaseLocation">
+      <property name="geometry">
+       <rect>
+        <x>26</x>
+        <y>23</y>
+        <width>66</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&amp;Database:</string>
+      </property>
+      <property name="buddy">
+       <cstring>lineEditDatabaseLocation</cstring>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEditDatabaseLocation">
+      <property name="geometry">
+       <rect>
+        <x>99</x>
+        <y>18</y>
+        <width>113</width>
+        <height>23</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QToolButton" name="toolButtonSelectDBFile">
+      <property name="geometry">
+       <rect>
+        <x>215</x>
+        <y>17</y>
+        <width>25</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>98</x>
+      <y>29</y>
+      <width>78</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>4</x>
+      <y>31</y>
+      <width>84</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Database Type:</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>4</x>
+      <y>4</y>
+      <width>304</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Settings:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton">
+       <property name="text">
+        <string>Application defaluts</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton_2">
+       <property name="text">
+        <string>Manual</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
