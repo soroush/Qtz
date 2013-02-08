@@ -89,6 +89,7 @@ void Database::backup(const QString &filename)
     {
         QList<TableNode*> tables;
         QQueue<TableNode*> tablesQueue;
+        QQueue<TableNode*> orderedQueue;
         while(fetchTables.next())
         {
             TableNode* item = new TableNode(fetchTables.value(0).toString(),-1);
@@ -131,27 +132,35 @@ void Database::backup(const QString &filename)
             }
         }
 
-        while(tables.at(0)->degreeOfFreedom == -1)
+        while(! tablesQueue.isEmpty())
         {
-            // 1. Check dependencies
+            // Check dependencies
             bool satisfied = true;
-            foreach(TableNode* parent, tables.at(0)->referencedTables)
+            foreach(TableNode* parent, tablesQueue.head()->referencedTables)
             {
                 if(parent->degreeOfFreedom == -1)
                 {
                     satisfied = false;
                     break;
                 }
+                else
+                {
+
+                }
             }
             if(satisfied)
             {
-                // 2. Write data
+                int max =0;
+                foreach(TableNode* parent, tablesQueue.head()->referencedTables)
+                    max = (max < parent->degreeOfFreedom+1) ? parent->degreeOfFreedom+1 : max;
+                tablesQueue.head()->degreeOfFreedom = max;
+                orderedQueue.enqueue(tablesQueue.dequeue());
             }
             else
             {
                 tablesQueue.enqueue(tablesQueue.dequeue());
             }
         }
-        // 3. Backup tables
+        // TODO: Add backup code here
     }
 }
