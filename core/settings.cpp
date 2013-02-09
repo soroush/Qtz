@@ -1,5 +1,6 @@
 #include <QSettings>
 #include "settings.h"
+#include "qio.h"
 
 QSettings* Settings::instance;
 bool Settings::set;
@@ -13,6 +14,7 @@ QSettings *Settings::getInstance()
 {
     if(!set)
     {
+        QIO::qcerr << tr("Request for non-existing instance. Returning null.") << endl;
         return NULL;
     }
     return instance;
