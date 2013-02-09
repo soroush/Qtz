@@ -162,5 +162,6 @@ void Database::backup(const QString &filename)
             }
         }
         // TODO: Add backup code here
+        // Starting task
     }
 }
