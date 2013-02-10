@@ -1,0 +1,8 @@
+<database name><number of tables=n>
+{
+    <name of table><record count=m>
+    {
+        <record data 1>....<record data n>
+    }*m
+...
+}*n
