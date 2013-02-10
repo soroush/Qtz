@@ -9,9 +9,9 @@ class QIO : public QObject
     Q_OBJECT
 public:
     explicit QIO(QObject *parent = 0);
-    static QTextStream qcout;
-    static QTextStream qcin;
-    static QTextStream qcerr;
+    static QTextStream cout;
+    static QTextStream cin;
+    static QTextStream cerr;
 signals:
     
 public slots:

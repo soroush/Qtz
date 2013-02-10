@@ -25,7 +25,7 @@ ACL *ACL::instance()
 
 void ACL::drop()
 {
-    QIO::qcerr << "drop called" ;
+    QIO::cerr << "drop called" ;
 //    QMutex mutex;
 //    mutex.lock();
 ////    delete m_Instance;
@@ -63,14 +63,14 @@ bool ACL::acquireAccess(const QString &Class, const QString &Object)
         }
         else
         {
-            QIO::qcerr << QObject::tr("Access control not defined for this item") << endl;
+            QIO::cerr << QObject::tr("Access control not defined for this item") << endl;
             return false;
         }
     }
     else
     {
-        QIO::qcerr << QObject::tr("Unable to execute statement") << endl;
-        QIO::qcerr << accessQuery.lastError().text() << endl;
+        QIO::cerr << QObject::tr("Unable to execute statement") << endl;
+        QIO::cerr << accessQuery.lastError().text() << endl;
         return false;
     }
 

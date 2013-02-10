@@ -14,7 +14,7 @@ QSettings *Settings::getInstance()
 {
     if(!set)
     {
-        QIO::qcerr << tr("Request for non-existing instance. Returning null.") << endl;
+        QIO::cerr << tr("Request for non-existing instance. Returning null.") << endl;
         return NULL;
     }
     return instance;

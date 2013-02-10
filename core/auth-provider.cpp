@@ -80,14 +80,14 @@ bool AuthProvider::checkLogin(const QString &username, const QString &password)
         }
         else
         {
-            QIO::qcerr << QObject::tr("Unable to authenticate with provided credentials.") << endl;
+            QIO::cerr << QObject::tr("Unable to authenticate with provided credentials.") << endl;
             return false;
         }
     }
     else
     {
-        QIO::qcerr << QObject::tr("Unable to execute database query. Reason:") << endl;
-        QIO::qcerr << loginQuery.lastError().text();
+        QIO::cerr << QObject::tr("Unable to execute database query. Reason:") << endl;
+        QIO::cerr << loginQuery.lastError().text();
         return false;
     }
 }
