@@ -4,9 +4,12 @@
 #include <agt/core/qio.h>
 #include <QFile>
 #include <QSqlQuery>
+#include <QSqlRecord>
 #include <QSqlError>
-#include <QList>
-#include <QQueue>
+#include <QDate>
+#include <QDateTime>
+#include <QTime>
+#include <QRegExp>
 #include <string>
 
 #include "table-node.h"
@@ -92,7 +95,24 @@ unsigned int Database::blockSize() const
     return this->m_blockSize;
 }
 
-void Database::backup(const QString &filename)
+void Database::backup(const QString &filename, const Database::BackupStrategy &strategy)
+{
+    switch(strategy)
+    {
+    case BinaryByVariantStrategy:
+        backupByVariant(filename);
+        break;
+    case BinaryRuntimeCheckStrategy:
+        backupByRuntimeCheck(filename);
+        break;
+    case BinaryCompileCheckStrategy:
+        break;
+    case TextBasedStrategy:
+        break;
+    }
+}
+
+void Database::backupByVariant(const QString &filename)
 {
     QQueue<TableNode*> tablesQueue;
     getTables(tablesQueue);
@@ -104,16 +124,18 @@ void Database::backup(const QString &filename)
     QFile backupFile(filename);
     if(backupFile.open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
-        // Prepare
+        emit backupStageChanged(tr("Analyzing database information..."));
         uint totalRows = getNumberOfDBRows();
         uint writtenRows = 0;
 
         QDataStream out(&backupFile);
 
-        // Write database information:
+        emit backupStageChanged(tr("Writing database information..."));
         out << Database::getInstance()->database()->databaseName(); // Stored as QString
         out << quint32(orderedQueue.size());
+        out << quint32(totalRows);
 
+        emit backupStageChanged(tr("Writing data..."));
         foreach(TableNode* table, orderedQueue)
         {
             uint fieldCount = getNumberOfTableColumns(table->name);
@@ -134,6 +156,8 @@ void Database::backup(const QString &filename)
                 {
                     while(selectQuery.next())
                     {
+                        // First strategy:
+                        // Store all data in QVariant format
                         for (uint f = 0; f < fieldCount; ++f) {
                             out << selectQuery.value(f);
                         }
@@ -145,8 +169,10 @@ void Database::backup(const QString &filename)
                 {
                 }
             }
-        }
-
+        } // end of foreach (table)
+        backupFile.close();
+        emit backupStageChanged(tr("Done."));
+        emit completed();
     }
     else
     {
@@ -154,16 +180,182 @@ void Database::backup(const QString &filename)
     }
 }
 
+void Database::backupByRuntimeCheck(const QString &filename)
+{
+    QQueue<TableNode*> tablesQueue;
+    getTables(tablesQueue);
+    getParents(tablesQueue);
+    QQueue<TableNode*> orderedQueue;
+    sortTables(tablesQueue,orderedQueue);
+
+    // Starting task
+    QFile backupFile(filename);
+    if(backupFile.open(QIODevice::WriteOnly | QIODevice::Truncate))
+    {
+        emit backupStageChanged(tr("Analyzing database information..."));
+        uint totalRows = getNumberOfDBRows();
+        uint writtenRows = 0;
+
+        QDataStream out(&backupFile);
+
+        emit backupStageChanged(tr("Writing database information..."));
+        out << Database::getInstance()->database()->databaseName(); // Stored as QString
+        out << quint32(orderedQueue.size());
+        out << quint32(totalRows);
+
+        emit backupStageChanged(tr("Writing data..."));
+        foreach(TableNode* table, orderedQueue)
+        {
+            uint fieldCount = getNumberOfTableColumns(table->name);
+            uint rowCount = getNumberOfTableRows(table->name);
+
+            QVector<FieldType> types;
+            getTableFiledTypes(table->name,types);
+
+            out << table->name;
+            out << (rowCount);
+            uint blockCount = rowCount/blockSize();
+            if(rowCount%blockSize() != 0)
+                ++blockCount;
+            QString selectQueryText =  QString("SELECT * FROM %1 LIMIT %2,%3")
+                    .arg(table->name,"%1",QString::number(blockSize()));
+            QSqlQuery selectQuery;
+            for (uint i = 0; i < blockCount; ++i)
+            {
+                QString selectQueryText2 = selectQueryText.arg(i*blockSize());
+                selectQuery.prepare(selectQueryText2);
+                if(selectQuery.exec())
+                {
+                    while(selectQuery.next())
+                    {
+                        // Second strategy:
+                        // Store all data in native binary representation, check types at runtime
+                        for (uint f = 0; f < fieldCount; ++f) {
+                            switch(types[f])
+                            {
+                            case Type_I8:
+                                out << static_cast<qint8>(selectQuery.value(f).toInt());
+                                break;
+                            case Type_UI8:
+                                out << static_cast<quint8>(selectQuery.value(f).toInt());
+                                break;
+                            case Type_I16:
+                                out << static_cast<qint16>(selectQuery.value(f).toInt());
+                                break;
+                            case Type_UI16:
+                                out << static_cast<quint16>(selectQuery.value(f).toInt());
+                                break;
+                            case Type_I32:
+                                out << static_cast<qint32>(selectQuery.value(f).toInt());
+                                break;
+                            case Type_UI32:
+                                out << static_cast<quint32>(selectQuery.value(f).toInt());
+                                break;
+                            case Type_I64:
+                                out << static_cast<qint64>(selectQuery.value(f).toInt());
+                                break;
+                            case Type_UI64:
+                                out << static_cast<quint64>(selectQuery.value(f).toInt());
+                                break;
+                            case Type_BOOL:
+                                out << selectQuery.value(f).toBool();
+                                break;
+                            case Type_TEXT:
+                                out << QString::fromUtf8(selectQuery.value(f).toByteArray());
+                                break;
+                            case Type_FLOAT:
+                                out << selectQuery.value(f).toFloat();
+                                break;
+                            case Type_DOUBLE:
+                                out << selectQuery.value(f).toDouble();
+                                break;
+                            case Type_DATE_TIME:
+                                out << selectQuery.value(f).toDateTime();
+                                break;
+                            case Type_DATE:
+                                out << selectQuery.value(f).toDate();
+                                break;
+                            case Type_TIME:
+                                out << selectQuery.value(f).toTime();
+                                break;
+                            }
+                        }
+                        ++writtenRows;
+                    }
+                    emit completed(100.0*static_cast<double>(writtenRows)/static_cast<double>(totalRows));
+                }
+                else
+                {
+                }
+            }
+        } // end of foreach (table)
+        backupFile.close();
+        emit backupStageChanged(tr("Done."));
+        emit completed();
+    }
+    else
+    {
+        QIO::cerr << tr("Unable to open backup file for writing.") << endl;
+    }
+}
+
+void Database::restore(const QString &filename)
+{
+    QFile backupFile(filename);
+    if(backupFile.open(QIODevice::ReadOnly))
+    {
+        QDataStream in(&backupFile);
+        QString schemaName;
+        quint32 tableCount, totalRows;
+        in >> schemaName;
+        in >> tableCount >> totalRows;
+        qDebug() << schemaName << tableCount << totalRows;
+        if(schemaName != database()->databaseName())
+        {
+            QIO::cerr << tr("Database names mismatch") << endl;
+            return;
+        }
+        for(quint32 t=0; t<tableCount; ++t)
+        {
+            QString tableName;
+            quint32 rowCount;
+            in >> tableName >> rowCount;
+            qDebug() << tableName << rowCount;
+            quint32 columnsCount = getNumberOfTableColumns(tableName);
+            for(quint32 r=0; r<rowCount; ++r)
+            {
+                for(uint c=0; c<columnsCount; ++c)
+                {
+                    QVariant value;
+                    in >> value;
+                }
+//                qDebug() << "value";
+            }
+        }
+    }
+    else
+    {
+        QIO::cerr << tr("Unable to open backup file for reading.") << endl;
+    }
+}
+
 
 uint Database::getNumberOfDBRows()
 {
-    QSqlQuery query;
-    if( query.exec("SELECT SUM(TABLE_ROWS) "
-                   "FROM INFORMATION_SCHEMA.TABLES "
-                   "WHERE TABLE_SCHEMA = DATABASE()"))
+    QSqlQuery prepareData;
+    if(!prepareData.exec("CALL COUNT_ALL_RECORDS_BY_TABLE"))
     {
-        query.next();
-        uint result = query.value(0).toUInt();
+        QIO::cerr << tr("Unable to call stored procedure `CALL COUNT_ALL_RECORDS_BY_TABLE' "
+                        "in order to get count of total records of database:")
+                     << endl;
+        QIO::cerr << prepareData.lastError().text() << endl;
+        return 0;
+    }
+    QSqlQuery getData;
+    if( getData.exec("SELECT SUM(RECORD_COUNT) AS TOTAL_DATABASE_RECORD_CT FROM TCOUNTS"))
+    {
+        getData.next();
+        uint result = getData.value(0).toUInt();
         return result;
     }
     return 0;
@@ -199,6 +391,124 @@ uint Database::getNumberOfTableColumns(const QString &tableName)
     selectFieldCount.next();
     uint fieldCount = selectFieldCount.value(0).toUInt();
     return fieldCount;
+}
+
+void Database::getTableFiledTypes(const QString &tableName, QVector<FieldType> &types)
+{
+    QSqlQuery selectFieldType;
+    selectFieldType.prepare(QString("describe %1").arg(tableName));
+    if(!selectFieldType.exec())
+    {
+        QIO::cerr << tr("Unable to get types of fields for table `%1'").arg(tableName) << endl;
+        QIO::cerr << selectFieldType.lastError().text() << endl;
+        return;
+    }
+    types.clear();
+    int index = selectFieldType.record().indexOf("Type");
+    qDebug() << "Types of table: " << tableName;
+    while(selectFieldType.next())
+    {
+        QString typeDescription = selectFieldType.value(index).toString();
+        qDebug() << typeDescription;
+        QRegExp typeExpression;
+        typeExpression.setCaseSensitivity(Qt::CaseInsensitive);
+        typeExpression.setPattern("BIT(\\(1\\))?|TINYINT\\(1\\)\\s*(unsigned)?|BOOL|BOOLEAN");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_BOOL;
+            qDebug() << "Type_BOOL";
+            continue;
+        }
+        typeExpression.setPattern("TINYINT(\\(\\d\\))?");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_I8;
+            qDebug() << "Type_I8";
+            continue;
+        }
+        typeExpression.setPattern("TINYINT(\\(\\d\\))?\\s*(unsigned)");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_UI8;
+            qDebug() << "Type_UI8";
+            continue;
+        }
+
+        typeExpression.setPattern("SMALLINT(\\(\\d\\))?");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_I16;
+            qDebug() << "Type_I16";
+            continue;
+        }
+        typeExpression.setPattern("SMALLINT(\\(\\d\\))?\\s*(unsigned)|YEAR\\(2|4\\)");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_UI16;
+            qDebug() << "Type_UI16";
+            continue;
+        }
+
+        typeExpression.setPattern("(MEDIUMINT|INTEGER|INT)(\\(\\d\\))?");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_I32;
+            qDebug() << "Type_I32";
+            continue;
+        }
+        typeExpression.setPattern("(MEDIUMINT|INTEGER|INT)(\\(\\d\\))?\\s*(unsigned)");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_UI32;
+            qDebug() << "Type_UI32";
+            continue;
+        }
+
+        typeExpression.setPattern("BIGINT(\\(\\d\\))?");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_I64;
+            qDebug() << "Type_I64";
+            continue;
+        }
+        typeExpression.setPattern("BIGINT(\\(\\d\\))?\\s*(unsigned)");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_UI64;
+            qDebug() << "Type_UI64";
+            continue;
+        }
+        // Text data
+        typeExpression.setPattern("(CHAR|VARCHAR|BINARY|VARBINARY|BLOB|TEXT|TINYTEXT|MEDIUMTEXT|LONGTEXT|ENUM|SET).*");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_TEXT;
+            qDebug() << "Type_TEXT";
+            continue;
+        }
+        // Temporal data
+        typeExpression.setPattern("DATE");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_DATE;
+            qDebug() << "Type_DATE";
+            continue;
+        }
+        typeExpression.setPattern("DATETIME|TIMESTAMP");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_DATE_TIME;
+            qDebug() << "Type_DATE_TIME";
+            continue;
+        }
+        typeExpression.setPattern("TIME");
+        if(typeExpression.exactMatch(typeDescription))
+        {
+            types << Type_TIME;
+            qDebug() << "Type_TIME";
+            continue;
+        }
+    }
 }
 
 void Database::getTables(QQueue<TableNode *> &tables)
