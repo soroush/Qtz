@@ -34,4 +34,5 @@ OTHER_FILES += resources/mysql_fk_fetch.sql \
     resources/mysql_fetch_tables.sql \
     resources/backup-grammer.txt \
     resources/mysql_fetch_field_count.sql \
-    resources/mysql_fetch_all_row_count.sql
+    resources/mysql_fetch_all_row_count.sql \
+    resources/mysql_fetch_all_rows_procedure.sql
