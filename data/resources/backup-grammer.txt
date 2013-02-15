@@ -1,4 +1,4 @@
-<database name><number of tables=n>
+<backup type><database name><number of tables=n><number of total rows=x>
 {
     <name of table><record count=m>
     {

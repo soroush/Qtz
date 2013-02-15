@@ -131,6 +131,7 @@ void Database::backupByVariant(const QString &filename)
         QDataStream out(&backupFile);
 
         emit backupStageChanged(tr("Writing database information..."));
+        out << static_cast<quint8>(BinaryByVariantStrategy);
         out << Database::getInstance()->database()->databaseName(); // Stored as QString
         out << quint32(orderedQueue.size());
         out << quint32(totalRows);
@@ -199,6 +200,7 @@ void Database::backupByRuntimeCheck(const QString &filename)
         QDataStream out(&backupFile);
 
         emit backupStageChanged(tr("Writing database information..."));
+        out << static_cast<quint8>(BinaryRuntimeCheckStrategy);
         out << Database::getInstance()->database()->databaseName(); // Stored as QString
         out << quint32(orderedQueue.size());
         out << quint32(totalRows);
@@ -237,25 +239,25 @@ void Database::backupByRuntimeCheck(const QString &filename)
                                 out << static_cast<qint8>(selectQuery.value(f).toInt());
                                 break;
                             case Type_UI8:
-                                out << static_cast<quint8>(selectQuery.value(f).toInt());
+                                out << static_cast<quint8>(selectQuery.value(f).toUInt());
                                 break;
                             case Type_I16:
                                 out << static_cast<qint16>(selectQuery.value(f).toInt());
                                 break;
                             case Type_UI16:
-                                out << static_cast<quint16>(selectQuery.value(f).toInt());
+                                out << static_cast<quint16>(selectQuery.value(f).toUInt());
                                 break;
                             case Type_I32:
                                 out << static_cast<qint32>(selectQuery.value(f).toInt());
                                 break;
                             case Type_UI32:
-                                out << static_cast<quint32>(selectQuery.value(f).toInt());
+                                out << static_cast<quint32>(selectQuery.value(f).toUInt());
                                 break;
                             case Type_I64:
                                 out << static_cast<qint64>(selectQuery.value(f).toInt());
                                 break;
                             case Type_UI64:
-                                out << static_cast<quint64>(selectQuery.value(f).toInt());
+                                out << static_cast<quint64>(selectQuery.value(f).toUInt());
                                 break;
                             case Type_BOOL:
                                 out << selectQuery.value(f).toBool();
@@ -306,10 +308,15 @@ void Database::restore(const QString &filename)
     {
         QDataStream in(&backupFile);
         QString schemaName;
-        quint32 tableCount, totalRows;
+        quint32 tableCount, totalRows, restoredRecords = 0;
+        quint8 rawBackupType;
+        in >> rawBackupType;
+        BackupStrategy backupType = static_cast<BackupStrategy>(rawBackupType);
         in >> schemaName;
         in >> tableCount >> totalRows;
+#ifdef DEBUG
         qDebug() << schemaName << tableCount << totalRows;
+#endif
         if(schemaName != database()->databaseName())
         {
             QIO::cerr << tr("Database names mismatch") << endl;
@@ -317,19 +324,17 @@ void Database::restore(const QString &filename)
         }
         for(quint32 t=0; t<tableCount; ++t)
         {
-            QString tableName;
-            quint32 rowCount;
-            in >> tableName >> rowCount;
-            qDebug() << tableName << rowCount;
-            quint32 columnsCount = getNumberOfTableColumns(tableName);
-            for(quint32 r=0; r<rowCount; ++r)
+            switch(backupType)
             {
-                for(uint c=0; c<columnsCount; ++c)
-                {
-                    QVariant value;
-                    in >> value;
-                }
-//                qDebug() << "value";
+            case BinaryByVariantStrategy:
+                restoreByVariant(in,totalRows, restoredRecords);
+                break;
+            case BinaryRuntimeCheckStrategy:
+                break;
+            case BinaryCompileCheckStrategy:
+                break;
+            case TextBasedStrategy:
+                break;
             }
         }
     }
@@ -347,7 +352,7 @@ uint Database::getNumberOfDBRows()
     {
         QIO::cerr << tr("Unable to call stored procedure `CALL COUNT_ALL_RECORDS_BY_TABLE' "
                         "in order to get count of total records of database:")
-                     << endl;
+                  << endl;
         QIO::cerr << prepareData.lastError().text() << endl;
         return 0;
     }
@@ -405,32 +410,42 @@ void Database::getTableFiledTypes(const QString &tableName, QVector<FieldType> &
     }
     types.clear();
     int index = selectFieldType.record().indexOf("Type");
+#ifdef DEBUG
     qDebug() << "Types of table: " << tableName;
+#endif
     while(selectFieldType.next())
     {
         QString typeDescription = selectFieldType.value(index).toString();
+#ifdef DEBUG
         qDebug() << typeDescription;
+#endif
         QRegExp typeExpression;
         typeExpression.setCaseSensitivity(Qt::CaseInsensitive);
         typeExpression.setPattern("BIT(\\(1\\))?|TINYINT\\(1\\)\\s*(unsigned)?|BOOL|BOOLEAN");
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_BOOL;
+#ifdef DEBUG
             qDebug() << "Type_BOOL";
+#endif
             continue;
         }
         typeExpression.setPattern("TINYINT(\\(\\d\\))?");
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_I8;
+#ifdef DEBUG
             qDebug() << "Type_I8";
+#endif
             continue;
         }
         typeExpression.setPattern("TINYINT(\\(\\d\\))?\\s*(unsigned)");
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_UI8;
+#ifdef DEBUG
             qDebug() << "Type_UI8";
+#endif
             continue;
         }
 
@@ -438,14 +453,18 @@ void Database::getTableFiledTypes(const QString &tableName, QVector<FieldType> &
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_I16;
+#ifdef DEBUG
             qDebug() << "Type_I16";
+#endif
             continue;
         }
         typeExpression.setPattern("SMALLINT(\\(\\d\\))?\\s*(unsigned)|YEAR\\(2|4\\)");
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_UI16;
+#ifdef DEBUG
             qDebug() << "Type_UI16";
+#endif
             continue;
         }
 
@@ -453,14 +472,18 @@ void Database::getTableFiledTypes(const QString &tableName, QVector<FieldType> &
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_I32;
+#ifdef DEBUG
             qDebug() << "Type_I32";
+#endif
             continue;
         }
         typeExpression.setPattern("(MEDIUMINT|INTEGER|INT)(\\(\\d\\))?\\s*(unsigned)");
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_UI32;
+#ifdef DEBUG
             qDebug() << "Type_UI32";
+#endif
             continue;
         }
 
@@ -468,14 +491,18 @@ void Database::getTableFiledTypes(const QString &tableName, QVector<FieldType> &
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_I64;
+#ifdef DEBUG
             qDebug() << "Type_I64";
+#endif
             continue;
         }
         typeExpression.setPattern("BIGINT(\\(\\d\\))?\\s*(unsigned)");
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_UI64;
+#ifdef DEBUG
             qDebug() << "Type_UI64";
+#endif
             continue;
         }
         // Text data
@@ -483,7 +510,9 @@ void Database::getTableFiledTypes(const QString &tableName, QVector<FieldType> &
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_TEXT;
+#ifdef DEBUG
             qDebug() << "Type_TEXT";
+#endif
             continue;
         }
         // Temporal data
@@ -491,21 +520,27 @@ void Database::getTableFiledTypes(const QString &tableName, QVector<FieldType> &
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_DATE;
+#ifdef DEBUG
             qDebug() << "Type_DATE";
+#endif
             continue;
         }
         typeExpression.setPattern("DATETIME|TIMESTAMP");
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_DATE_TIME;
+#ifdef DEBUG
             qDebug() << "Type_DATE_TIME";
+#endif
             continue;
         }
         typeExpression.setPattern("TIME");
         if(typeExpression.exactMatch(typeDescription))
         {
             types << Type_TIME;
+#ifdef DEBUG
             qDebug() << "Type_TIME";
+#endif
             continue;
         }
     }
@@ -594,4 +629,21 @@ void Database::sortTables(QQueue<TableNode *> &input, QQueue<TableNode *> &outpu
         }
     }
 
+}
+
+void Database::restoreByVariant(QDataStream& in, const quint32& totalRows, quint32& restoredRecords)
+{
+    QString tableName;
+    quint32 rowCount;
+    in >> tableName >> rowCount;
+    quint32 columnsCount = getNumberOfTableColumns(tableName);
+    for(quint32 r=0; r<rowCount; ++r)
+    {
+        for(uint c=0; c<columnsCount; ++c)
+        {
+            QVariant value;
+            in >> value;
+            // TODO: add restoring mechanism
+        }
+    }
 }

@@ -9,5 +9,8 @@
 #  define AGTSHARED_EXPORT
 #endif
 
+#ifndef DEBUG
+#define DEBUG
+#endif
 
 #endif // AGT_GLOBAL_H

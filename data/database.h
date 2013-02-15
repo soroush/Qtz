@@ -79,6 +79,7 @@ private:
     void getTables(QQueue<TableNode *> &outputList);
     void getParents(const QQueue<TableNode*>& input);
     void sortTables(QQueue<TableNode *> &input, QQueue<TableNode*>& output);
+    void restoreByVariant(QDataStream &in, const quint32 &totalRows, quint32 &restoredRecords);
 };
 
 #endif // DATABASE_H
