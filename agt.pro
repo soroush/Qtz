@@ -7,10 +7,10 @@ HEADERS += global.h
 headers.files = $$HEADERS
 
 SUBDIRS += \
+    core \
     vision \
     ui \
     data \
-    core
 
 VERSION = 0.1.0
 
@@ -21,4 +21,5 @@ RESOURCES +=
 unix {
     headers.path = /usr/include/agt
 }
+
 INSTALLS += headers
