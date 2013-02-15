@@ -34,3 +34,9 @@ SOURCES += \
     acl.cpp \
     auth-provider.cpp \
     qio.cpp
+
+win32 {
+INCLUDEPATH += C:/mingw/include
+}
+
+LIBS += -lcryptopp5
