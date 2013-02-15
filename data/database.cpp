@@ -9,6 +9,7 @@
 #include <QDate>
 #include <QDateTime>
 #include <QTime>
+#include <QDataStream>
 #include <QRegExp>
 #include <string>
 
