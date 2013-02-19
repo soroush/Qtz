@@ -5,19 +5,21 @@
 #include <QSettings>
 #include <agt/global.h>
 
-class AGTSHARED_EXPORT Settings : public QObject
+class AGTSHARED_EXPORT Settings : public QSettings
 {
     Q_OBJECT
 private:
     Settings(QObject* parent=NULL):
-        QObject(parent){}
+        QSettings(parent){}
     Settings(const Settings& other):
-        QObject(other.parent()){}
-    static QSettings *instance;
+        QSettings(other.parent()){}
+    static Settings *instance;
     static bool set;
 public:
     static void initialize(const QString& organization, const QString& program);
-    static QSettings* getInstance();
+    static Settings* getInstance();
+    bool isFirstRun();
+    void setFirstRun(const bool& value);
 signals:
     
 public slots:

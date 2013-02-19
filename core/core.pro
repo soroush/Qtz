@@ -4,7 +4,6 @@ QT       += sql
 TEMPLATE = lib
 
 TARGET = agt_core
-headers.files = $$HEADERS
 
 DEPENDPATH += .
 INCLUDEPATH += .
@@ -16,12 +15,14 @@ INCLUDEPATH += ../../
 }
 
 unix {
-
     target.path = /usr/lib
     headers.path = /usr/include/agt/core
+    LIBS += -lcrypto++
+}
+win32 {
+    LIBS += -lcryptopp5
 }
 
-INSTALLS += target headers
 
 HEADERS += \
     settings.h \
@@ -39,4 +40,5 @@ win32 {
 INCLUDEPATH += C:/mingw/include
 }
 
-LIBS += -lcryptopp5
+headers.files = $$HEADERS
+INSTALLS += target headers

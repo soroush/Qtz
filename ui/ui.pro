@@ -12,7 +12,9 @@ SOURCES += \
     editable-label.cpp \
     text-query.cpp \
     choose-file.cpp \
-    wizard-backup-database.cpp
+    wizard-backup-database.cpp \
+    dialog-database-config.cpp
+
 
 HEADERS += \
     data-navigator.h \
@@ -22,7 +24,8 @@ HEADERS += \
     editable-label.h \
     text-query.h \
     choose-file.h \
-    wizard-backup-database.h
+    wizard-backup-database.h \
+    dialog-database-config.h
 
 FORMS += \
     data-navigator.ui \
@@ -32,7 +35,8 @@ FORMS += \
     editable-label.ui \
     text-query.ui \
     choose-file.ui \
-    wizard-backup-database.ui
+    wizard-backup-database.ui \
+    dialog-database-config.ui
 
 TARGET = agt_ui
 headers.files = $$HEADERS

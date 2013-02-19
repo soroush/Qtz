@@ -1,17 +1,19 @@
 #include "database.h"
 #include <agt/core/settings.h>
 #include <agt/core/auth-provider.h>
-#include <agt/core/qio.h>
 #include <QFile>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlError>
+#include <QSqlTableModel>
 #include <QDate>
 #include <QDateTime>
 #include <QTime>
 #include <QDataStream>
 #include <QRegExp>
+#include <QStringList>
 #include <string>
+#include <iostream>
 
 #include "table-node.h"
 
@@ -21,6 +23,7 @@ using namespace std;
 
 Database Database::instance;
 bool Database::set = false;
+QSet<Database::DatabaseType> Database::supportedSystems;
 
 void Database::setInstance(const QSqlDatabase &database, bool destroy)
 {
@@ -34,6 +37,7 @@ void Database::setInstance(const QSqlDatabase &database, bool destroy)
         instance.m_database = database;
     }
     set = true;
+    generateSupportedSystems();
     getInstance()->setBlockSize(100);
 }
 
@@ -143,7 +147,7 @@ void Database::backupByVariant(const QString &filename)
             uint fieldCount = getNumberOfTableColumns(table->name);
             uint rowCount = getNumberOfTableRows(table->name);
             out << table->name;
-            out << (rowCount);
+            out << quint32(rowCount);
             uint blockCount = rowCount/blockSize();
             if(rowCount%blockSize() != 0)
                 ++blockCount;
@@ -165,7 +169,7 @@ void Database::backupByVariant(const QString &filename)
                         }
                         ++writtenRows;
                     }
-                    emit completed(100.0*static_cast<double>(writtenRows)/static_cast<double>(totalRows));
+                    emit backupCompleted(100.0*static_cast<double>(writtenRows)/static_cast<double>(totalRows));
                 }
                 else
                 {
@@ -174,11 +178,11 @@ void Database::backupByVariant(const QString &filename)
         } // end of foreach (table)
         backupFile.close();
         emit backupStageChanged(tr("Done."));
-        emit completed();
+        emit backupCompleted();
     }
     else
     {
-        QIO::cerr << tr("Unable to open backup file for writing.") << endl;
+        wcerr << tr("Unable to open backup file for writing.").toStdWString() << endl;
     }
 }
 
@@ -285,7 +289,7 @@ void Database::backupByRuntimeCheck(const QString &filename)
                         }
                         ++writtenRows;
                     }
-                    emit completed(100.0*static_cast<double>(writtenRows)/static_cast<double>(totalRows));
+                    emit backupCompleted(100.0*static_cast<double>(writtenRows)/static_cast<double>(totalRows));
                 }
                 else
                 {
@@ -294,11 +298,11 @@ void Database::backupByRuntimeCheck(const QString &filename)
         } // end of foreach (table)
         backupFile.close();
         emit backupStageChanged(tr("Done."));
-        emit completed();
+        emit backupCompleted();
     }
     else
     {
-        QIO::cerr << tr("Unable to open backup file for writing.") << endl;
+        wcerr << tr("Unable to open backup file for writing.").toStdWString() << endl;
     }
 }
 
@@ -308,6 +312,7 @@ void Database::restore(const QString &filename)
     if(backupFile.open(QIODevice::ReadOnly))
     {
         QDataStream in(&backupFile);
+        qDebug() << in.status();
         QString schemaName;
         quint32 tableCount, totalRows, restoredRecords = 0;
         quint8 rawBackupType;
@@ -315,12 +320,13 @@ void Database::restore(const QString &filename)
         BackupStrategy backupType = static_cast<BackupStrategy>(rawBackupType);
         in >> schemaName;
         in >> tableCount >> totalRows;
+        qDebug() << in.status();
 #ifdef DEBUG
         qDebug() << schemaName << tableCount << totalRows;
 #endif
         if(schemaName != database()->databaseName())
         {
-            QIO::cerr << tr("Database names mismatch") << endl;
+            wcerr << tr("Database names mismatch").toStdWString() << endl;
             return;
         }
         for(quint32 t=0; t<tableCount; ++t)
@@ -341,8 +347,14 @@ void Database::restore(const QString &filename)
     }
     else
     {
-        QIO::cerr << tr("Unable to open backup file for reading.") << endl;
+        wcerr << tr("Unable to open backup file for reading.").toStdWString() << endl;
     }
+}
+
+QSet<Database::DatabaseType> Database::getSupportedSystems()
+{
+    generateSupportedSystems();
+    return supportedSystems;
 }
 
 
@@ -351,10 +363,10 @@ uint Database::getNumberOfDBRows()
     QSqlQuery prepareData;
     if(!prepareData.exec("CALL COUNT_ALL_RECORDS_BY_TABLE"))
     {
-        QIO::cerr << tr("Unable to call stored procedure `CALL COUNT_ALL_RECORDS_BY_TABLE' "
-                        "in order to get count of total records of database:")
-                  << endl;
-        QIO::cerr << prepareData.lastError().text() << endl;
+        wcerr << tr("Unable to call stored procedure `CALL COUNT_ALL_RECORDS_BY_TABLE' "
+                    "in order to get count of total records of database:").toStdWString()
+              << endl;
+        wcerr << prepareData.lastError().text().toStdWString() << endl;
         return 0;
     }
     QSqlQuery getData;
@@ -380,7 +392,7 @@ uint Database::getNumberOfTableRows(const QString &tableName)
     }
     else
     {
-        QIO::cerr << tr("Unable to fetch number of records in table `%1'").arg(tableName) << endl;
+        wcerr << tr("Unable to fetch number of records in table `%1'").arg(tableName).toStdWString() << endl;
     }
     return 0;
 }
@@ -405,8 +417,8 @@ void Database::getTableFiledTypes(const QString &tableName, QVector<FieldType> &
     selectFieldType.prepare(QString("describe %1").arg(tableName));
     if(!selectFieldType.exec())
     {
-        QIO::cerr << tr("Unable to get types of fields for table `%1'").arg(tableName) << endl;
-        QIO::cerr << selectFieldType.lastError().text() << endl;
+        wcerr << tr("Unable to get types of fields for table `%1'").arg(tableName).toStdWString() << endl;
+        wcerr << selectFieldType.lastError().text().toStdWString() << endl;
         return;
     }
     types.clear();
@@ -567,7 +579,7 @@ void Database::getParents(const QQueue<TableNode *> &inputList)
     QFile queryFile(":/data/resources/mysql_fk_fetch.sql");
     if(!queryFile.open(QFile::ReadOnly | QFile::Text))
     {
-        QIO::cerr << tr("Unable to open SQL query file") << endl;
+        wcerr << tr("Unable to open SQL query file").toStdWString() << endl;
         return;
     }
     QString genericQueryText = QString::fromUtf8(queryFile.readAll());
@@ -591,8 +603,8 @@ void Database::getParents(const QQueue<TableNode *> &inputList)
         }
         else
         {
-            QIO::cerr << tr("Unable to execute statement") << endl;
-            QIO::cerr << getParents.lastError().text() << endl;
+            wcerr << tr("Unable to execute statement").toStdWString() << endl;
+            wcerr << getParents.lastError().text().toStdWString() << endl;
             // TODO: throw new exception
         }
     }
@@ -632,19 +644,122 @@ void Database::sortTables(QQueue<TableNode *> &input, QQueue<TableNode *> &outpu
 
 }
 
-void Database::restoreByVariant(QDataStream& in, const quint32& totalRows, quint32& restoredRecords)
+void Database::restoreByVariant(QDataStream &in, const quint32 &totalRows,
+                                quint32 &restoredRecords)
+{
+    switch(executeMode)
+    {
+    case Database::REM_Normal:
+        restoreVN(in,totalRows,restoredRecords);
+        break;
+    case Database::REM_Batch:
+        restoreVB(in,totalRows,restoredRecords);
+        break;
+    }
+}
+
+void Database::restoreVN(QDataStream& in, const quint32& totalRows, quint32& restoredRecords)
 {
     QString tableName;
-    quint32 rowCount;
-    in >> tableName >> rowCount;
+    int rowCount;
+    in >> tableName;
+    in >> rowCount;
     quint32 columnsCount = getNumberOfTableColumns(tableName);
+    QSqlQuery insert;
+    QString insertRecord = QString("INSERT INTO %1 VALUES (%2)").arg(tableName,"%1");
     for(quint32 r=0; r<rowCount; ++r)
     {
+        QStringList valueList;
+        valueList.clear();
         for(uint c=0; c<columnsCount; ++c)
         {
             QVariant value;
             in >> value;
-            // TODO: add restoring mechanism
+            switch(value.type())
+            {
+            case QVariant::Date:
+                valueList << QString("\"%1\"").arg(value.toDate().toString(Qt::ISODate));
+                break;
+            case QVariant::DateTime:
+                valueList << QString("\"%1\"").arg(value.toDateTime().toString(Qt::ISODate));
+                break;
+            default:
+                valueList << QString("\"%1\"").arg(value.toString());
+                break;
+            }
+        }
+        if(!insert.prepare(insertRecord.arg(valueList.join(","))))
+        {
+            wcerr << tr("Unable to prepare SQL statement for data restore.").toStdWString() << endl;
+            wcerr << insert.lastError().text().toStdWString() << endl;
+            return;
+        }
+        if(!insert.exec())
+        {
+            wcerr << tr("Unable to execure SQL statement to restore data.").toStdWString() << endl;
+            wcerr << insert.lastError().text().toStdWString() << endl;
+            return;
+        }
+        ++restoredRecords;
+        emit restoreCompleted(static_cast<double>(restoredRecords)/static_cast<double>(totalRows));
+    }
+}
+
+void Database::restoreVB(QDataStream& in, const quint32& totalRows, quint32& restoredRecords)
+{
+    QString tableName;
+    int rowCount;
+    in >> tableName;
+    in >> rowCount;
+    quint32 columnsCount = getNumberOfTableColumns(tableName);
+
+    quint32 blockCount = rowCount/m_blockSize;
+    quint32 remaining = rowCount%m_blockSize;
+    QVector<QVariantList> data;
+    data.resize(columnsCount);
+    for(quint32 b=0; b<blockCount; ++b)
+    {
+        foreach(QVariantList list, data)
+            list.clear();
+        QString insertRecord = QString("INSERT INTO %1 VALUES (%2)").arg(tableName,"%1");
+        for(quint32 i=0; i<columnsCount-1; ++i)
+        {
+            insertRecord = insertRecord.arg("?,%1");
+        }
+        insertRecord = insertRecord.arg("?");
+        QSqlQuery insert;
+        insert.prepare(insertRecord);
+        for(quint32 r=0; r<rowCount; ++r)
+        {
+            for(uint c=0; c<columnsCount; ++c)
+            {
+                in >> data[c];
+            }
+        }
+        insert.execBatch();
+    }
+    //    Remaining part of data:
+    QSqlQuery insert;
+    QString insertRecord = QString("INSERT INTO %1 VALUES (%2);\n").arg(tableName,"%1");
+    for(quint32 r=0; r<remaining; ++r)
+    {
+        QStringList valueList;
+        valueList.clear();
+        for(uint c=0; c<columnsCount; ++c)
+        {
+            QVariant value;
+            in >> value;
         }
     }
+}
+
+void Database::generateSupportedSystems()
+{
+    supportedSystems.clear();
+    supportedSystems << SQLServer2005;
+    supportedSystems << SQLServer2008;
+    supportedSystems << SQLServer2010;
+    supportedSystems << SQLServer2012;
+    supportedSystems << MySQL5;
+    supportedSystems << SQLite;
 }
