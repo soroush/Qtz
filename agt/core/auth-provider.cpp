@@ -5,16 +5,17 @@
 #include <crypto++/hex.h>
 #include <crypto++/sha.h>
 #include <string>
+#include <iostream>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QFile>
-
-#include "qio.h"
+#include <QDebug>
 
 using namespace std;
 using namespace CryptoPP;
 
-AuthProvider* AuthProvider::m_instance;
+AuthProvider* AuthProvider::m_instance = NULL;
+bool AuthProvider::set = false;
 
 QString AuthProvider::decryptPassword(const QString &password)
 {
@@ -80,14 +81,14 @@ bool AuthProvider::checkLogin(const QString &username, const QString &password)
         }
         else
         {
-            QIO::cerr << QObject::tr("Unable to authenticate with provided credentials.") << endl;
+            wcerr << QObject::tr("Unable to authenticate with provided credentials.").toStdWString() << endl;
             return false;
         }
     }
     else
     {
-        QIO::cerr << QObject::tr("Unable to execute database query. Reason:") << endl;
-        QIO::cerr << loginQuery.lastError().text();
+        wcerr << QObject::tr("Unable to execute database query. Reason:").toStdWString() << endl;
+        wcerr << loginQuery.lastError().text().toStdWString();
         return false;
     }
 }
@@ -99,10 +100,16 @@ void AuthProvider::initialize(const QString &_authTableName,
     authTableName = _authTableName;
     authIDFiled = _authIDFiled;
     authPassField = _authPassField;
+    set = true;
 }
 
 AuthProvider *AuthProvider::instance()
 {
+    if(!set)
+    {
+        m_instance = new AuthProvider();
+        m_instance->initialize("users","username","password");
+    }
     return m_instance;
 }
 

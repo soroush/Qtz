@@ -18,8 +18,8 @@ private:
         QObject(parent){}
     Database(const Database& other):
         QObject(other.parent()){}
-public:
 
+public:
     enum BackupStrategy {
         TextBasedStrategy,
         BinaryByVariantStrategy,

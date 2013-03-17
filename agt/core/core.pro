@@ -28,13 +28,15 @@ HEADERS += \
     settings.h \
     acl.h \
     auth-provider.h \
-    qio.h
+    qio.h \
+    person.h
 
 SOURCES += \
     settings.cpp \
     acl.cpp \
     auth-provider.cpp \
-    qio.cpp
+    qio.cpp \
+    person.cpp
 
 win32 {
 INCLUDEPATH += C:/mingw/include

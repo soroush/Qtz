@@ -196,114 +196,112 @@ void Database::backupByRuntimeCheck(const QString &filename)
 
     // Starting task
     QFile backupFile(filename);
-    if(backupFile.open(QIODevice::WriteOnly | QIODevice::Truncate))
-    {
-        emit backupStageChanged(tr("Analyzing database information..."));
-        uint totalRows = getNumberOfDBRows();
-        uint writtenRows = 0;
-
-        QDataStream out(&backupFile);
-
-        emit backupStageChanged(tr("Writing database information..."));
-        out << static_cast<quint8>(BinaryRuntimeCheckStrategy);
-        out << Database::getInstance()->database()->databaseName(); // Stored as QString
-        out << quint32(orderedQueue.size());
-        out << quint32(totalRows);
-
-        emit backupStageChanged(tr("Writing data..."));
-        foreach(TableNode* table, orderedQueue)
-        {
-            uint fieldCount = getNumberOfTableColumns(table->name);
-            uint rowCount = getNumberOfTableRows(table->name);
-
-            QVector<FieldType> types;
-            getTableFiledTypes(table->name,types);
-
-            out << table->name;
-            out << (rowCount);
-            uint blockCount = rowCount/blockSize();
-            if(rowCount%blockSize() != 0)
-                ++blockCount;
-            QString selectQueryText =  QString("SELECT * FROM %1 LIMIT %2,%3")
-                    .arg(table->name,"%1",QString::number(blockSize()));
-            QSqlQuery selectQuery;
-            for (uint i = 0; i < blockCount; ++i)
-            {
-                QString selectQueryText2 = selectQueryText.arg(i*blockSize());
-                selectQuery.prepare(selectQueryText2);
-                if(selectQuery.exec())
-                {
-                    while(selectQuery.next())
-                    {
-                        // Second strategy:
-                        // Store all data in native binary representation, check types at runtime
-                        for (uint f = 0; f < fieldCount; ++f) {
-                            switch(types[f])
-                            {
-                            case Type_I8:
-                                out << static_cast<qint8>(selectQuery.value(f).toInt());
-                                break;
-                            case Type_UI8:
-                                out << static_cast<quint8>(selectQuery.value(f).toUInt());
-                                break;
-                            case Type_I16:
-                                out << static_cast<qint16>(selectQuery.value(f).toInt());
-                                break;
-                            case Type_UI16:
-                                out << static_cast<quint16>(selectQuery.value(f).toUInt());
-                                break;
-                            case Type_I32:
-                                out << static_cast<qint32>(selectQuery.value(f).toInt());
-                                break;
-                            case Type_UI32:
-                                out << static_cast<quint32>(selectQuery.value(f).toUInt());
-                                break;
-                            case Type_I64:
-                                out << static_cast<qint64>(selectQuery.value(f).toInt());
-                                break;
-                            case Type_UI64:
-                                out << static_cast<quint64>(selectQuery.value(f).toUInt());
-                                break;
-                            case Type_BOOL:
-                                out << selectQuery.value(f).toBool();
-                                break;
-                            case Type_TEXT:
-                                out << QString::fromUtf8(selectQuery.value(f).toByteArray());
-                                break;
-                            case Type_FLOAT:
-                                out << selectQuery.value(f).toFloat();
-                                break;
-                            case Type_DOUBLE:
-                                out << selectQuery.value(f).toDouble();
-                                break;
-                            case Type_DATE_TIME:
-                                out << selectQuery.value(f).toDateTime();
-                                break;
-                            case Type_DATE:
-                                out << selectQuery.value(f).toDate();
-                                break;
-                            case Type_TIME:
-                                out << selectQuery.value(f).toTime();
-                                break;
-                            }
-                        }
-                        ++writtenRows;
-                    }
-                    emit backupCompleted(100.0*static_cast<double>(writtenRows)/static_cast<double>(totalRows));
-                }
-                else
-                {
-                }
-            }
-        } // end of foreach (table)
-        backupFile.close();
-        emit backupStageChanged(tr("Done."));
-        emit backupCompleted();
-    }
-    else
+    if(! backupFile.open(QIODevice::WriteOnly | QIODevice::Truncate))
     {
         wcerr << tr("Unable to open backup file for writing.").toStdWString() << endl;
+        return;
     }
+    emit backupStageChanged(tr("Analyzing database information..."));
+    uint totalRows = getNumberOfDBRows();
+    uint writtenRows = 0;
+
+    QDataStream out(&backupFile);
+
+    emit backupStageChanged(tr("Writing database information..."));
+    out << static_cast<quint8>(BinaryRuntimeCheckStrategy);
+    out << Database::getInstance()->database()->databaseName(); // Stored as QString
+    out << quint32(orderedQueue.size());
+    out << quint32(totalRows);
+
+    emit backupStageChanged(tr("Writing data..."));
+    foreach(TableNode* table, orderedQueue)
+    {
+        uint fieldCount = getNumberOfTableColumns(table->name);
+        uint rowCount = getNumberOfTableRows(table->name);
+
+        QVector<FieldType> types;
+        getTableFiledTypes(table->name,types);
+
+        out << table->name;
+        out << (rowCount);
+        uint blockCount = rowCount/blockSize();
+        if(rowCount%blockSize() != 0)
+            ++blockCount;
+        QString selectQueryText =  QString("SELECT * FROM %1 LIMIT %2,%3")
+                .arg(table->name,"%1",QString::number(blockSize()));
+        QSqlQuery selectQuery;
+        for (uint i = 0; i < blockCount; ++i)
+        {
+            QString selectQueryText2 = selectQueryText.arg(i*blockSize());
+            selectQuery.prepare(selectQueryText2);
+            if(selectQuery.exec())
+            {
+                while(selectQuery.next())
+                {
+                    // Second strategy:
+                    // Store all data in native binary representation, check types at runtime
+                    for (uint f = 0; f < fieldCount; ++f) {
+                        switch(types[f])
+                        {
+                        case Type_I8:
+                            out << static_cast<qint8>(selectQuery.value(f).toInt());
+                            break;
+                        case Type_UI8:
+                            out << static_cast<quint8>(selectQuery.value(f).toUInt());
+                            break;
+                        case Type_I16:
+                            out << static_cast<qint16>(selectQuery.value(f).toInt());
+                            break;
+                        case Type_UI16:
+                            out << static_cast<quint16>(selectQuery.value(f).toUInt());
+                            break;
+                        case Type_I32:
+                            out << static_cast<qint32>(selectQuery.value(f).toInt());
+                            break;
+                        case Type_UI32:
+                            out << static_cast<quint32>(selectQuery.value(f).toUInt());
+                            break;
+                        case Type_I64:
+                            out << static_cast<qint64>(selectQuery.value(f).toInt());
+                            break;
+                        case Type_UI64:
+                            out << static_cast<quint64>(selectQuery.value(f).toUInt());
+                            break;
+                        case Type_BOOL:
+                            out << selectQuery.value(f).toBool();
+                            break;
+                        case Type_TEXT:
+                            out << QString::fromUtf8(selectQuery.value(f).toByteArray());
+                            break;
+                        case Type_FLOAT:
+                            out << selectQuery.value(f).toFloat();
+                            break;
+                        case Type_DOUBLE:
+                            out << selectQuery.value(f).toDouble();
+                            break;
+                        case Type_DATE_TIME:
+                            out << selectQuery.value(f).toDateTime();
+                            break;
+                        case Type_DATE:
+                            out << selectQuery.value(f).toDate();
+                            break;
+                        case Type_TIME:
+                            out << selectQuery.value(f).toTime();
+                            break;
+                        }
+                    }
+                    ++writtenRows;
+                }
+                emit backupCompleted(100.0*static_cast<double>(writtenRows)/static_cast<double>(totalRows));
+            }
+            else
+            {
+            }
+        }
+    } // end of foreach (table)
+    backupFile.close();
+    emit backupStageChanged(tr("Done."));
+    emit backupCompleted();
 }
 
 void Database::restore(const QString &filename)
@@ -755,6 +753,7 @@ void Database::restoreVB(QDataStream& in, const quint32& totalRows, quint32& res
 
 void Database::generateSupportedSystems()
 {
+    // TODO : add sanity !
     supportedSystems.clear();
     supportedSystems << SQLServer2005;
     supportedSystems << SQLServer2008;

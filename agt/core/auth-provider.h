@@ -10,11 +10,15 @@ class AGTSHARED_EXPORT AuthProvider : public QObject
     Q_OBJECT
 private:
     AuthProvider(QObject* parent=NULL):
-        QObject(parent){}
+        QObject(parent)
+    {}
     AuthProvider(const AuthProvider& other):
-        QObject(other.parent()){}
+        QObject(other.parent())
+    {}
 
     static AuthProvider* m_instance;
+    static bool set;
+
     QString passwordFileName;
     QString authTableName;
     QString authIDFiled;

@@ -6,6 +6,8 @@ WizardBackupDatabase::WizardBackupDatabase(QWidget *parent) :
     ui(new Ui::WizardBackupDatabase)
 {
     ui->setupUi(this);
+    QPixmap logo = QPixmap(":/images/database-backup.png");
+    this->setPixmap(LogoPixmap,logo);
 }
 
 WizardBackupDatabase::~WizardBackupDatabase()
