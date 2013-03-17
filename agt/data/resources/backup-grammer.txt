@@ -1,0 +1,8 @@
+<backup type><database name><number of tables=n><number of total rows=x>
+{
+    <name of table><record count=m>
+    {
+        <record data 1>....<record data n>
+    }*m
+...
+}*n

@@ -1,1 +1,0 @@
-SELECT name FROM sys.Tables

@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/data">
-        <file>resources/mysql_fk_fetch.sql</file>
-        <file>resources/mysql_fetch_tables.sql</file>
-    </qresource>
-</RCC>

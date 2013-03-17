@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/system-lock-screen.png</file>
+        <file>images/preferences-desktop-cryptography.png</file>
+        <file alias="images/database-backup.png">images/Misc-Download-Database-icon.png</file>
+        <file>images/list-add.png</file>
+        <file>images/list-remove.png</file>
+        <file>images/story-editor.png</file>
+        <file>images/edit-undo.png</file>
+        <file>images/view-refresh.png</file>
+        <file>images/document-save.png</file>
+        <file>images/table_16x16.png</file>
+    </qresource>
+</RCC>
