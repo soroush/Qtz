@@ -3,15 +3,29 @@ QT       += sql
 
 TEMPLATE = lib
 
-TARGET = agt_core
+VERSION = 0.1.0
+
+CONFIG(release, debug|release){
+    DESTDIR = ./release
+    OBJECTS_DIR = release/.obj
+    MOC_DIR = release/.moc
+    RCC_DIR = release/.rcc
+    UI_DIR = release/.ui
+}
+
+CONFIG(debug, debug|release){
+    DESTDIR = ./debug
+    OBJECTS_DIR = debug/.obj
+    MOC_DIR = debug/.moc
+    RCC_DIR = debug/.rcc
+    UI_DIR = debug/.ui
+}
 
 DEPENDPATH += .
 INCLUDEPATH += .
 
-CONFIG += local
-
 CONFIG(local){
-INCLUDEPATH += ../../
+    INCLUDEPATH += ../../
 }
 
 unix {
@@ -19,10 +33,11 @@ unix {
     headers.path = /usr/include/agt/core
     LIBS += -lcrypto++
 }
+
 win32 {
     LIBS += -lcryptopp5
+    INCLUDEPATH += C:/mingw/include
 }
-
 
 HEADERS += \
     settings.h \
@@ -38,9 +53,7 @@ SOURCES += \
     qio.cpp \
     person.cpp
 
-win32 {
-INCLUDEPATH += C:/mingw/include
-}
-
+TARGET = agt_core
 headers.files = $$HEADERS
+
 INSTALLS += target headers

@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
-CONFIG += local ordered
+CONFIG += ordered
 
 HEADERS += global.h
 
@@ -9,8 +9,8 @@ headers.files = $$HEADERS
 SUBDIRS += \
     core \
     vision \
-    ui \
     data \
+    ui
 
 VERSION = 0.1.0
 
