@@ -2,7 +2,9 @@
 #define EDITTABLEWIDGET_H
 
 #include <QWidget>
+#include <QSqlTableModel>
 #include "dialog-insert-item.h"
+#include "dialog-edit-item.h"
 
 namespace Ui {
 class EditTableWidget;
@@ -22,15 +24,17 @@ protected:
 private:
     Ui::EditTableWidget *ui;
     DialogInsertItem* insertDialog;
-    QDialog* editDialog;
+    DialogEditItem* editDialog;
+
+    QSqlTableModel* model;
 
 private slots:
-    void genericInsert();
-    void genericRemove();
-    void genericEdit();
-    void genericRefresh();
-    void genericRevert();
-    void genericSave();
+    void insert();
+    void remove();
+    void edit();
+    void refresh();
+    void revert();
+    void save();
 };
 
 #endif // EDITTABLEWIDGET_H

@@ -44,14 +44,16 @@ HEADERS += \
     acl.h \
     auth-provider.h \
     qio.h \
-    person.h
+    person.h \
+    user.h
 
 SOURCES += \
     settings.cpp \
     acl.cpp \
     auth-provider.cpp \
     qio.cpp \
-    person.cpp
+    person.cpp \
+    user.cpp
 
 TARGET = agt_core
 headers.files = $$HEADERS

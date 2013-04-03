@@ -21,10 +21,10 @@ private:
 
 public:
     enum BackupStrategy {
-        TextBasedStrategy,
-        BinaryByVariantStrategy,
-        BinaryRuntimeCheckStrategy,
-        BinaryCompileCheckStrategy
+        TextBasedStrategy           =01,
+        BinaryByVariantStrategy     =02,
+        BinaryRuntimeCheckStrategy  =03,
+        BinaryCompileCheckStrategy  =04
     };
 
     enum FieldType {

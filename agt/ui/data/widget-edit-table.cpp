@@ -24,3 +24,29 @@ void WidgetEditTable::changeEvent(QEvent *e)
         break;
     }
 }
+
+void WidgetEditTable::insert()
+{
+    insertDialog->exec();
+}
+
+void WidgetEditTable::remove()
+{
+
+}
+
+void WidgetEditTable::edit()
+{
+}
+
+void WidgetEditTable::refresh()
+{
+}
+
+void WidgetEditTable::revert()
+{
+}
+
+void WidgetEditTable::save()
+{
+}

@@ -144,8 +144,8 @@ void Database::backupByVariant(const QString &filename)
         emit backupStageChanged(tr("Writing data..."));
         foreach(TableNode* table, orderedQueue)
         {
-            uint fieldCount = getNumberOfTableColumns(table->name);
-            uint rowCount = getNumberOfTableRows(table->name);
+            quint32 fieldCount = getNumberOfTableColumns(table->name);
+            quint32 rowCount = getNumberOfTableRows(table->name);
             out << table->name;
             out << quint32(rowCount);
             uint blockCount = rowCount/blockSize();

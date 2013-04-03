@@ -2,6 +2,8 @@ CONFIG      += designer plugin debug_and_release
 TARGET      = $$qtLibraryTarget(agtplugin)
 TEMPLATE    = lib
 
+QT += sql
+
 DEFINES += AGT_LIBRARY
 
 VERSION = 0.1.0
@@ -11,20 +13,22 @@ INCLUDEPATH += ../agt-release/
 
 HEADERS     =   \
     agt.h global.h \
-    data/date-query_plugin.h \
-    data/numeric-query_plugin.h \
-    data/text-query_plugin.h \
-    editors/editable-label_plugin.h \
-    editors/text-editor-window_plugin.h \
-    misc/choose-file_plugin.h
+    date-query_plugin.h \
+    numeric-query_plugin.h \
+    text-query_plugin.h \
+    table-edit_plugin.h \
+    editable-label_plugin.h \
+    text-editor-window_plugin.h \
+    choose-file_plugin.h
 SOURCES     =   \
     agt.cpp \
-    data/date-query_plugin.cpp \
-    data/numeric-query_plugin.cpp \
-    data/text-query_plugin.cpp \
-    editors/editable-label_plugin.cpp \
-    editors/text-editor-window_plugin.cpp \
-    misc/choose-file_plugin.cpp
+    date-query_plugin.cpp \
+    numeric-query_plugin.cpp \
+    text-query_plugin.cpp \
+    table-edit_plugin.cpp \
+    editable-label_plugin.cpp \
+    text-editor-window_plugin.cpp \
+    choose-file_plugin.cpp
 
 RESOURCES   = icons.qrc
 

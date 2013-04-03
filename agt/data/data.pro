@@ -11,6 +11,9 @@ CONFIG(release, debug|release){
     MOC_DIR = release/.moc
     RCC_DIR = release/.rcc
     UI_DIR = release/.ui
+    BUILD = "release"
+    BUILD_SUFFIX = ""
+    TARGET = agt_data
 }
 
 CONFIG(debug, debug|release){
@@ -19,28 +22,30 @@ CONFIG(debug, debug|release){
     MOC_DIR = debug/.moc
     RCC_DIR = debug/.rcc
     UI_DIR = debug/.ui
+    BUILD = "debug"
+    BUILD_SUFFIX = "_d"
+    TARGET = agt_data_d
 }
 
 DEPENDPATH += .
 INCLUDEPATH += .
 
-CONFIG(local){
-    INCLUDEPATH += ../../
-    CONFIG(debug){
-        LIBS += -L../core/debug -lagt_core
-    }
-    CONFIG(release){
-        LIBS += -L"../core/release" -lagt_core
-    }
-}
-
 unix {
     target.path = /usr/lib
     headers.path = /usr/include/agt/data
+    LINK_MAJ = ""
 }
 win32 {
     target.path = C:/mingw/lib
     headers.path = C:/mingw/include/agt/data
+    LINK_MAJ = "0"
+}
+
+CONFIG(local){
+    INCLUDEPATH += ../../
+    LIBS += -L"../core/$$BUILD" -lagt_core$${BUILD_SUFFIX}$${LINK_MAJ}
+} else {
+    LIBS += -lagt_core$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
 HEADERS += database.h \
@@ -58,7 +63,6 @@ OTHER_FILES += resources/mysql_fk_fetch.sql \
     resources/mysql_fetch_all_row_count.sql \
     resources/mysql_fetch_all_rows_procedure.sql
 
-TARGET = agt_data
 headers.files = $$HEADERS
 
 INSTALLS += target headers

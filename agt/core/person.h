@@ -7,14 +7,16 @@
 class AGTSHARED_EXPORT Person : public QObject
 {
     Q_OBJECT
+
 public:
     explicit Person(QObject *parent = 0);
 
-    void name(const QString&);
-    void last(const QString&);
-
     QString name() const;
     QString last() const;
+
+public slots:
+    void name(const QString&);
+    void last(const QString&);
 
 private:
     QString name_;

@@ -10,5 +10,6 @@
         <file>images/view-refresh.png</file>
         <file>images/document-save.png</file>
         <file>images/table_16x16.png</file>
+        <file>images/list-add-all.png</file>
     </qresource>
 </RCC>
