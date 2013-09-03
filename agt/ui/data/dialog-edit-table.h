@@ -2,32 +2,38 @@
 #define DIALOGEDITTABLE_H
 
 #include <QDialog>
+#include <QModelIndex>
+#include <QModelIndexList>
 
-namespace Ui {
-class DialogEditTable;
-}
+class QVBoxLayout;
+class WidgetEditTable;
+class QSqlRelationalTableModel;
+class DialogInsertItem;
 
 class DialogEditTable : public QDialog
 {
     Q_OBJECT
-    
 public:
     explicit DialogEditTable(QWidget *parent = 0);
-    ~DialogEditTable();
-    
-protected:
-    void changeEvent(QEvent *e);
-
+    virtual ~DialogEditTable();
+    virtual void setModel(QSqlRelationalTableModel* model_);
+    virtual void setAdderDialog(DialogInsertItem* dialog_);
+    DialogInsertItem* adderDialog();
 protected slots:
-    virtual void insert()=0;
-    virtual void remove()=0;
-    virtual void edit()=0;
-    virtual void refresh()=0;
-    virtual void revert()=0;
-    virtual void save()=0;
-    
+    virtual void add();
+    virtual void remove(QModelIndexList);
+    virtual void edit(QModelIndex);
+    virtual void refresh();
+    virtual void revert();
+    virtual void save();
 private:
-    Ui::DialogEditTable *ui;
+    // UI
+    QVBoxLayout* verticalLayout;
+    WidgetEditTable* editTable;
+    // Dialogs
+    DialogInsertItem* insertDialog;
+    // Data
+    QSqlRelationalTableModel* model;
 };
 
 #endif // DIALOGEDITTABLE_H

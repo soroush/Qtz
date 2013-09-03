@@ -13,11 +13,10 @@ struct TableNode;
 
 class AGTSHARED_EXPORT Database : public QObject {
     Q_OBJECT
+
 private:
-    Database(QObject* parent=NULL):
-        QObject(parent){}
-    Database(const Database& other):
-        QObject(other.parent()){}
+    Database(QObject* parent=NULL);
+    Database(const Database& other);
 
 public:
     enum BackupStrategy {
@@ -45,12 +44,12 @@ public:
         Type_TIME
     };
 
-    enum RestoreExecuteMode{
+    enum RestoreExecuteMode {
         REM_Normal,
         REM_Batch
     };
 
-    enum DatabaseType{
+    enum DatabaseType {
         SQLServer2005=0x01,
         SQLServer2008=0x02,
         SQLServer2010=0x03,

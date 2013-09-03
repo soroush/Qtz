@@ -2,7 +2,7 @@
 #define EDITTABLEWIDGET_H
 
 #include <QWidget>
-#include <QSqlTableModel>
+#include <QSqlRelationalTableModel>
 #include "dialog-insert-item.h"
 #include "dialog-edit-item.h"
 
@@ -18,23 +18,26 @@ public:
     explicit WidgetEditTable(QWidget *parent = 0);
     ~WidgetEditTable();
 
-protected:
-    void changeEvent(QEvent *e);
-    
-private:
-    Ui::EditTableWidget *ui;
-    DialogInsertItem* insertDialog;
-    DialogEditItem* editDialog;
+    void setModel(QSqlRelationalTableModel* model);
 
-    QSqlTableModel* model;
-
-private slots:
-    void insert();
-    void remove();
-    void edit();
+signals:
+    void add();
+    void remove(QModelIndexList);
+    void edit(QModelIndex);
     void refresh();
     void revert();
     void save();
+
+protected:
+    void changeEvent(QEvent *e);
+    
+protected slots:
+    void emitRemove();
+    void emitEdit();
+
+private:
+    Ui::EditTableWidget *ui;
+
 };
 
 #endif // EDITTABLEWIDGET_H

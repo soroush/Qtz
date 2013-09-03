@@ -1,9 +1,7 @@
 QT       -= gui
 QT       += sql core
-
+CONFIG   += C++11
 TEMPLATE = lib
-
-VERSION = 0.1.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -65,6 +63,5 @@ OTHER_FILES += resources/mysql_fk_fetch.sql \
 
 headers.files = $$HEADERS
 
-INSTALLS += target headers
-
-
+INSTALLS += target
+DISTFILES += headers

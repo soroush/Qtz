@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>526</width>
-    <height>356</height>
+    <width>559</width>
+    <height>402</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,8 +27,8 @@
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QToolButton" name="toolButtonAdd">
-         <property name="text">
-          <string/>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Add new items (Ctrl + I)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;You can add a new item using an intercative dialog by clicking on this button. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="icon">
           <iconset resource="../resources.qrc">
@@ -40,12 +40,15 @@
            <height>22</height>
           </size>
          </property>
+         <property name="shortcut">
+          <string>Ctrl+I</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QToolButton" name="toolButtonAddMultiple">
-         <property name="text">
-          <string/>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Add Multiple Items (Ctrl + Shift + I)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Adds multiple items using an interactive dialog. All new items will be inserted into database at one interaction. This operation is undoable.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="icon">
           <iconset resource="../resources.qrc">
@@ -57,12 +60,15 @@
            <height>22</height>
           </size>
          </property>
+         <property name="shortcut">
+          <string>Ctrl+Shift+I</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QToolButton" name="toolButtonRemove">
-         <property name="text">
-          <string/>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Remove Items (Ctrl + R, Del)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Removes selected items from table. If editing mode is set to non-default, you'll need to click on the &lt;span style=&quot; font-weight:600;&quot;&gt;save&lt;/span&gt; button to apply changes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="icon">
           <iconset resource="../resources.qrc">
@@ -74,13 +80,13 @@
            <height>22</height>
           </size>
          </property>
+         <property name="shortcut">
+          <string>Del</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QToolButton" name="toolButtonEdit">
-         <property name="text">
-          <string/>
-         </property>
          <property name="icon">
           <iconset resource="../resources.qrc">
            <normaloff>:/images/images/story-editor.png</normaloff>:/images/images/story-editor.png</iconset>
@@ -91,13 +97,13 @@
            <height>22</height>
           </size>
          </property>
+         <property name="shortcut">
+          <string>Ctrl+E</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QToolButton" name="toolButtonRefresh">
-         <property name="text">
-          <string/>
-         </property>
          <property name="icon">
           <iconset resource="../resources.qrc">
            <normaloff>:/images/images/view-refresh.png</normaloff>:/images/images/view-refresh.png</iconset>
@@ -108,13 +114,13 @@
            <height>22</height>
           </size>
          </property>
+         <property name="shortcut">
+          <string>F5</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QToolButton" name="toolButtonRevert">
-         <property name="text">
-          <string/>
-         </property>
          <property name="icon">
           <iconset resource="../resources.qrc">
            <normaloff>:/images/images/edit-undo.png</normaloff>:/images/images/edit-undo.png</iconset>
@@ -124,6 +130,9 @@
            <width>22</width>
            <height>22</height>
           </size>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+Z</string>
          </property>
         </widget>
        </item>
@@ -141,6 +150,9 @@
            <width>22</width>
            <height>22</height>
           </size>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+S</string>
          </property>
         </widget>
        </item>

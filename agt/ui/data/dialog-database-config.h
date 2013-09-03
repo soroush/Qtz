@@ -15,7 +15,6 @@ class DialogDatabaseConfig : public QDialog
 public:
     explicit DialogDatabaseConfig(QWidget *parent = 0);
     ~DialogDatabaseConfig();
-
     
 protected:
     void changeEvent(QEvent *e);
@@ -23,10 +22,13 @@ protected:
 private:
     Ui::DialogDatabaseConfig *ui;
     void createConnections();
-    Database::DatabaseType currentType;
     bool testConnection();
-    bool establishActualConnection();
+    void establishActualConnection();
+    void readConnectionInfo();
+    void writeConnectionInfo();
+    void clearConnectionInfo();
 
+    Database::DatabaseType currentType;
     bool tested;
     bool connected;
 
@@ -36,6 +38,8 @@ public slots:
 private slots:
     void updateDatabaseType(int);
     void test();
+    void updateLocalHostStatus();
+    void updateDefaultPortStatus();
 };
 
 #endif // DIALOGDATABASECONFIG_H

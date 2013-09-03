@@ -58,4 +58,7 @@ SOURCES += \
 TARGET = agt_core
 headers.files = $$HEADERS
 
-INSTALLS += target headers
+INSTALLS += target
+DISTFILES += headers
+
+QMAKE_CXXFLAGS += -std=c++0x

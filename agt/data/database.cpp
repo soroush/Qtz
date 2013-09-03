@@ -25,6 +25,16 @@ Database Database::instance;
 bool Database::set = false;
 QSet<Database::DatabaseType> Database::supportedSystems;
 
+
+Database::Database(QObject *parent):
+    QObject(parent) {
+}
+
+Database::Database(const Database &other):
+    QObject(other.parent()) {
+}
+
+
 void Database::setInstance(const QSqlDatabase &database, bool destroy)
 {
     if(!set)
@@ -62,7 +72,7 @@ void Database::setType(const DatabaseType &newType)
 
 void Database::readConnectionInfo()
 {
-    QString driverName = Settings::getInstance()->value("type").toString();
+    QString driverName = Settings::getInstance()->value("db:type").toString();
     if(driverName==tr("MySQL"))
     {
         instance.m_database = QSqlDatabase::addDatabase("QMYSQL");
@@ -71,23 +81,23 @@ void Database::readConnectionInfo()
     {
         instance.m_database = QSqlDatabase::addDatabase("QSQLITE");
     }
-    instance.m_database.setHostName(Settings::getInstance()->value("host").toString());
-    instance.m_database.setPort(Settings::getInstance()->value("port").toInt());
-    instance.m_database.setDatabaseName(Settings::getInstance()->value("database").toString());
-    instance.m_database.setUserName(Settings::getInstance()->value("user").toString());
+    instance.m_database.setHostName(Settings::getInstance()->value("db:host").toString());
+    instance.m_database.setPort(Settings::getInstance()->value("db:port").toInt());
+    instance.m_database.setDatabaseName(Settings::getInstance()->value("db:database").toString());
+    instance.m_database.setUserName(Settings::getInstance()->value("db:user").toString());
     instance.m_database.setPassword(
-                AuthProvider::instance()->decryptPassword(Settings::getInstance()->value("password").toString()));
+                AuthProvider::instance()->decryptPassword(Settings::getInstance()->value("db:password").toString()));
 }
 
 void Database::writeConnectionInfo()
 {
     // Save setting in a normal manner (registery in Windows, Setting file in Linux and Mac OSX)
-    Settings::getInstance()->setValue("host",instance.m_database.hostName());
-    Settings::getInstance()->setValue("port",instance.m_database.port());
-    Settings::getInstance()->setValue("database",instance.m_database.databaseName());
-    Settings::getInstance()->setValue("user",instance.m_database.userName());
+    Settings::getInstance()->setValue("db:host",instance.m_database.hostName());
+    Settings::getInstance()->setValue("db:port",instance.m_database.port());
+    Settings::getInstance()->setValue("db:database",instance.m_database.databaseName());
+    Settings::getInstance()->setValue("db:user",instance.m_database.userName());
     Settings::getInstance()->setValue(
-                "password",AuthProvider::instance()->encryptPassword(instance.m_database.password()));
+                "db:password",AuthProvider::instance()->encryptPassword(instance.m_database.password()));
 }
 
 void Database::setBlockSize(const unsigned int &size)
@@ -565,6 +575,7 @@ void Database::getTables(QQueue<TableNode *> &tables)
     {
         while(fetchTables.next())
         {
+            //FIXME: Unsafe code:
             TableNode* item = new TableNode(fetchTables.value(0).toString(),-1);
             tables << item;
         }

@@ -14,7 +14,7 @@
    <string>Login</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset resource="../resources.qrc">
     <normaloff>:/images/images/preferences-desktop-cryptography.png</normaloff>:/images/images/preferences-desktop-cryptography.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -177,7 +177,7 @@
         <string>&amp;Login</string>
        </property>
        <property name="icon">
-        <iconset resource="resources.qrc">
+        <iconset resource="../resources.qrc">
          <normaloff>:/images/images/system-lock-screen.png</normaloff>:/images/images/system-lock-screen.png</iconset>
        </property>
        <property name="default">
@@ -190,7 +190,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources.qrc"/>
  </resources>
  <connections>
   <connection>

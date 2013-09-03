@@ -2,28 +2,22 @@
 #define SETTING_H
 
 #include <QObject>
-#include <QSettings>
 #include <agt/global.h>
+#include <QSettings>
 
-class AGTSHARED_EXPORT Settings : public QSettings
+class AGTSHARED_EXPORT Settings
 {
-    Q_OBJECT
 private:
-    Settings(QObject* parent=NULL):
-        QSettings(parent){}
-    Settings(const Settings& other):
-        QSettings(other.parent()){}
-    static Settings *instance;
+    Settings();
+    Settings(const Settings& other);
+    static QSettings *instance;
     static bool set;
 public:
+    void release();
     static void initialize(const QString& organization, const QString& program);
-    static Settings* getInstance();
+    static QSettings* getInstance();
     bool isFirstRun();
     void setFirstRun(const bool& value);
-signals:
-    
-public slots:
-    
 };
 
 #endif // SETTING_H

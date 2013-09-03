@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
-CONFIG += ordered
+CONFIG += ordered C++11
 
 HEADERS += global.h
 
@@ -16,10 +16,8 @@ VERSION = 0.1.0
 
 DEFINES += AGT_LIBRARY
 
-RESOURCES +=
-
 unix {
     headers.path = /usr/include/agt
 }
 
-INSTALLS += headers
+DISTFILES += headers

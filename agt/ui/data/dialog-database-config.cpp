@@ -5,6 +5,7 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QMessageBox>
+#include <agt/core/settings.h>
 
 DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
     QDialog(parent),
@@ -12,7 +13,10 @@ DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
     tested(false),connected(false)
 {
     ui->setupUi(this);
-    QSet <Database::DatabaseType> supportedSystems = Database::getSupportedSystems();
+    // Remove maximize and minimize buttons
+    setWindowFlags( Qt::Dialog | Qt::WindowCloseButtonHint );
+    // Initialize Database systems:
+    QSet<Database::DatabaseType> supportedSystems = Database::getSupportedSystems();
     foreach(Database::DatabaseType type, supportedSystems)
     {
         switch(type)
@@ -48,6 +52,23 @@ DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
         }
     }
     createConnections();
+
+    // TODO: Implement
+//    int firstRun = Settings::getInstance()->value("first-run",-1).toInt();
+//    if(firstRun == -1) {
+//        //TODO: prompt for create database
+//        QMessageBox::critical(this,
+//                              tr("First Run!"),
+//                              tr("This is first time you are running this application! "
+//                                 "Would you like to create a database using wizard?"));
+//    }
+//    else {
+//    }
+
+    // TODO: Remove
+    bool shouldRemember = Settings::getInstance()->value("ui:data:dbconfig:remember").toBool();
+    if(shouldRemember)
+        readConnectionInfo();
 }
 
 DialogDatabaseConfig::~DialogDatabaseConfig()
@@ -71,6 +92,10 @@ void DialogDatabaseConfig::createConnections()
 {
     connect(ui->comboBoxDatabaseType, SIGNAL(currentIndexChanged(int)),this,SLOT(updateDatabaseType(int)));
     connect(ui->pushButtonTest, SIGNAL(clicked()),this,SLOT(test()));
+    connect(ui->checkBoxLocal,SIGNAL(toggled(bool)), ui->lineEditHost, SLOT(setDisabled(bool)));
+    connect(ui->checkBoxLocal,SIGNAL(clicked()), this , SLOT(updateLocalHostStatus()));
+    connect(ui->checkBoxDefaultPort,SIGNAL(toggled(bool)), ui->spinBoxPort, SLOT(setDisabled(bool)));
+    connect(ui->checkBoxDefaultPort,SIGNAL(clicked()), this , SLOT(updateDefaultPortStatus()));
 }
 
 bool DialogDatabaseConfig::testConnection()
@@ -97,13 +122,19 @@ bool DialogDatabaseConfig::testConnection()
         if(db.open())
         {
             db.close();
-            ui->plainTextEditResult->setPlainText(tr("Successfuly connected to database.\n"));
+            QMessageBox::information(this,
+                                     tr("No problem occured."),
+                                     tr("Successfuly connected to database."));
             return true;
         }
         else
         {
-            ui->plainTextEditResult->setPlainText(tr("ERROR: Unable connected to database."));
-            ui->plainTextEditResult->appendPlainText(QSqlDatabase::database().lastError().text());
+            QMessageBox::critical(this,
+                                  tr("Unable connected to database."),
+                                  tr("Could not establish connection with database management system provider.\n"
+                                     "System has reported following error:\n%1")
+                                  .arg(db.lastError().text())
+                                  );
             return false;
         }
         break;
@@ -115,7 +146,7 @@ bool DialogDatabaseConfig::testConnection()
     return false;
 }
 
-bool DialogDatabaseConfig::establishActualConnection()
+void DialogDatabaseConfig::establishActualConnection()
 {
     switch(currentType)
     {
@@ -143,6 +174,38 @@ bool DialogDatabaseConfig::establishActualConnection()
     }
 }
 
+void DialogDatabaseConfig::readConnectionInfo()
+{
+    ui->lineEditHost->setText(Settings::getInstance()->value("ui:data:dbconfig:host").toString());
+    QString type = Settings::getInstance()->value("ui:data:dbconfig:type").toString();
+    int index = ui->comboBoxDatabaseType->findText(type);
+    ui->comboBoxDatabaseType->setCurrentIndex(index);
+    ui->checkBoxLocal->setChecked(Settings::getInstance()->value("ui:data:dbconfig:local").toBool());
+    ui->checkBoxDefaultPort->setChecked(Settings::getInstance()->value("ui:data:dbconfig:defaultPort").toBool());
+    ui->spinBoxPort->setValue(Settings::getInstance()->value("ui:data:dbconfig:port").toInt());
+    ui->lineEditDatabase->setText(Settings::getInstance()->value("ui:data:dbconfig:database").toString());
+    ui->lineEditUser->setText(Settings::getInstance()->value("ui:data:dbconfig:user").toString());
+}
+
+void DialogDatabaseConfig::writeConnectionInfo()
+{
+    Settings::getInstance()->setValue("ui:data:dbconfig:host",ui->lineEditHost->text());
+    Settings::getInstance()->setValue("ui:data:dbconfig:type",ui->comboBoxDatabaseType->currentText());
+    Settings::getInstance()->setValue("ui:data:dbconfig:local",ui->checkBoxLocal->isChecked());
+    Settings::getInstance()->setValue("ui:data:dbconfig:port",ui->spinBoxPort->value());
+    Settings::getInstance()->setValue("ui:data:dbconfig:defaultPort",ui->checkBoxDefaultPort->isChecked());
+    Settings::getInstance()->setValue("ui:data:dbconfig:database",ui->lineEditDatabase->text());
+    Settings::getInstance()->setValue("ui:data:dbconfig:user",ui->lineEditUser->text());
+    // Obviously! :
+    Settings::getInstance()->setValue("ui:data:dbconfig:remember",ui->checkBoxRemember->isChecked());
+    // TODO : Encrypt and save password in a binary file
+}
+
+void DialogDatabaseConfig::clearConnectionInfo()
+{
+    Settings::getInstance()->setValue("ui:data:dbconfig:remember",false);
+}
+
 void DialogDatabaseConfig::accept()
 {
     if(tested)
@@ -166,6 +229,11 @@ void DialogDatabaseConfig::accept()
                 QDialog::accept();
             }
         }
+        if(ui->checkBoxRemember->isChecked())
+            writeConnectionInfo();
+        else
+            clearConnectionInfo();
+
     }
     else
     {
@@ -181,6 +249,35 @@ void DialogDatabaseConfig::accept()
 void DialogDatabaseConfig::test()
 {
     connected = testConnection();
+}
+
+void DialogDatabaseConfig::updateLocalHostStatus()
+{
+    static QString lastCustomHost;
+    if(ui->checkBoxLocal->isChecked()){
+        lastCustomHost = ui->lineEditHost->text();
+        ui->lineEditHost->setText("127.0.0.1");
+    }
+    else{
+        ui->lineEditHost->setText(lastCustomHost);
+    }
+}
+
+void DialogDatabaseConfig::updateDefaultPortStatus()
+{
+    static int lastCustomPort;
+    if(ui->checkBoxDefaultPort->isChecked()){
+        lastCustomPort = ui->spinBoxPort->value();
+        switch(this->currentType) {
+        // TODO: complete list
+        case Database::MySQL5:
+            ui->spinBoxPort->setValue(3306);
+            break;
+        }
+    }
+    else {
+        ui->spinBoxPort->setValue(lastCustomPort);
+    }
 }
 
 void DialogDatabaseConfig::updateDatabaseType(int i)

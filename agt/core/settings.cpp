@@ -1,23 +1,33 @@
-#include <QSettings>
-#include "settings.h"
-#include "qio.h"
+#include <QObject>
 #include <cstdlib>
 #include <iostream>
+#include "settings.h"
+#include "qio.h"
 
-Settings* Settings::instance;
-bool Settings::set;
+QSettings* Settings::instance = NULL;
+bool Settings::set = false;
+
+Settings::Settings()
+{
+    // Foo ctor
+}
+
+void Settings::release() {
+    if(instance != NULL)
+        delete instance;
+}
 
 void Settings::initialize(const QString &organization, const QString &program)
 {
-    instance = (Settings*)(new QSettings(organization,program));
+    instance = new QSettings(organization,program);
     set = true;
 }
 
-Settings *Settings::getInstance()
+QSettings *Settings::getInstance()
 {
     if(!set)
     {
-        std::wcerr << tr("Request for non-existing instance. Returning null.").toStdWString() << std::endl;
+        std::wcerr << QObject::tr("Request for non-existing instance. Returning null.").toStdWString() << std::endl;
         return NULL;
     }
     return instance;
@@ -40,3 +50,4 @@ void Settings::setFirstRun(const bool &value)
     }
     instance->setValue("first-run",QVariant(value));
 }
+
