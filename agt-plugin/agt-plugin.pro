@@ -1,4 +1,6 @@
-CONFIG      += designer plugin debug_and_release
+CONFIG      += plugin debug_and_release
+greaterThan(QT_MAJOR_VERSION, 4): QT += designer
+lessThan(QT_MAJOR_VERSION, 5): CONFIG += designer
 TARGET      = $$qtLibraryTarget(agtplugin)
 TEMPLATE    = lib
 
@@ -20,6 +22,7 @@ HEADERS     =   \
     editable-label_plugin.h \
     text-editor-window_plugin.h \
     choose-file_plugin.h
+
 SOURCES     =   \
     agt.cpp \
     date-query_plugin.cpp \
@@ -35,5 +38,8 @@ RESOURCES   = icons.qrc
 target.path = $$[QT_INSTALL_PLUGINS]/designer
 INSTALLS    += target
 
-LIBS += -lagt_ui -lagt_vision
+LIBS += -lagt_ui0
+
+OTHER_FILES += \
+    agt_plugin.json
 

@@ -11,6 +11,7 @@
 #include <QFile>
 #include <QDebug>
 
+QT_USE_NAMESPACE
 using namespace std;
 using namespace CryptoPP;
 

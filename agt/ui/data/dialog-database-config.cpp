@@ -14,7 +14,8 @@ DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
 {
     ui->setupUi(this);
     // Remove maximize and minimize buttons
-    setWindowFlags( Qt::Dialog | Qt::WindowCloseButtonHint );
+//    this->setWindowFlags( Qt::Dialog | Qt::WindowCloseButtonHint );
+    this->setWindowFlags(Qt::Dialog | Qt::WindowContextHelpButtonHint | Qt::WindowCloseButtonHint);
     // Initialize Database systems:
     QSet<Database::DatabaseType> supportedSystems = Database::getSupportedSystems();
     foreach(Database::DatabaseType type, supportedSystems)

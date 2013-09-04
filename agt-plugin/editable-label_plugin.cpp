@@ -7,6 +7,7 @@ EditableLabelPlugin::EditableLabelPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
+    Q_PLUGIN_METADATA(IID "org.fema.agt.editableLabelPlugin")
 }
 
 void EditableLabelPlugin::initialize(QDesignerFormEditorInterface * /* core */)
@@ -66,6 +67,6 @@ QString EditableLabelPlugin::domXml() const
 
 QString EditableLabelPlugin::includeFile() const
 {
-    return QLatin1String("agt/ui/editable-label.h");
+    return QLatin1String("agt/ui/editors/editable-label.h");
 }
 

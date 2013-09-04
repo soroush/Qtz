@@ -6,6 +6,7 @@
 
 #include "qio.h"
 
+QT_USE_NAMESPACE
 using namespace std;
 
 ACL* ACL::m_Instance = 0;

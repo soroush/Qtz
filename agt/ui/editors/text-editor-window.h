@@ -4,12 +4,15 @@
 #include <QMainWindow>
 #include <agt/global.h>
 
+
+QT_BEGIN_NAMESPACE
 class QFontComboBox;
 class QTextCharFormat;
 
 namespace Ui {
 class textEditorWindow;
 }
+QT_END_NAMESPACE
 
 class AGTSHARED_EXPORT TextEditorWindow : public QMainWindow
 {
@@ -33,7 +36,7 @@ protected:
     void changeEvent(QEvent *e);
     
 private:
-    Ui::textEditorWindow *ui;
+    QT_NAMESPACE::Ui::textEditorWindow *ui;
     void loadIcons();
     void setupToolbars();
     QFontComboBox *fontCombo;

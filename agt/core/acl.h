@@ -7,7 +7,6 @@
 #include "auth-provider.h"
 
 class AGTSHARED_EXPORT ACL {
-
 private:
     ACL();
     ACL(const ACL&);

@@ -5,9 +5,11 @@
 #include <QModelIndex>
 #include <QModelIndexList>
 
+QT_BEGIN_NAMESPACE
 class QVBoxLayout;
-class WidgetEditTable;
 class QSqlRelationalTableModel;
+QT_END_NAMESPACE
+class WidgetEditTable;
 class DialogInsertItem;
 
 class DialogEditTable : public QDialog

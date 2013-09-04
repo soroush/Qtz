@@ -4,9 +4,11 @@
 #include <QWidget>
 #include <agt/global.h>
 
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class NumericQuery;
 }
+QT_END_NAMESPACE
 
 class AGTSHARED_EXPORT NumericQuery : public QWidget
 {

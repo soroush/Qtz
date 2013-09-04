@@ -4,10 +4,11 @@
 #include <QWidget>
 #include <agt/global.h>
 
-
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class TextQuery;
 }
+QT_END_NAMESPACE
 
 class TextQuery : public QWidget
 {

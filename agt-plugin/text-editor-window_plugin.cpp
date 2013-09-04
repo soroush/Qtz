@@ -7,6 +7,7 @@ TextEditorWindowPlugin::TextEditorWindowPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
+    Q_PLUGIN_METADATA(IID "org.fema.agt.textEditorWindowPlugin")
 }
 
 void TextEditorWindowPlugin::initialize(QDesignerFormEditorInterface * /* core */)
@@ -66,6 +67,6 @@ QString TextEditorWindowPlugin::domXml() const
 
 QString TextEditorWindowPlugin::includeFile() const
 {
-    return QLatin1String("agt/ui/text-editor-window.h");
+    return QLatin1String("agt/ui/editors/text-editor-window.h");
 }
 

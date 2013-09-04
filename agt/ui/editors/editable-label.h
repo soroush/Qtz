@@ -5,11 +5,14 @@
 #include <QLabel>
 #include <agt/global.h>
 
+
+QT_BEGIN_NAMESPACE
 class QVBoxLayout;
 
 namespace Ui {
 class EditableLabel;
 }
+QT_END_NAMESPACE
 
 class TextEditorWindow;
 

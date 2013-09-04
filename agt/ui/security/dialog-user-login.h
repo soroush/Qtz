@@ -3,9 +3,11 @@
 
 #include <QDialog>
 
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class DialogUserLogin;
 }
+QT_END_NAMESPACE
 
 class DialogUserLogin : public QDialog
 {

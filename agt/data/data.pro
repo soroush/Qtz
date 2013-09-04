@@ -1,7 +1,10 @@
 QT       -= gui
 QT       += sql core
 CONFIG   += C++11
+
 TEMPLATE = lib
+
+VERSION = 0.1.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -34,8 +37,8 @@ unix {
     LINK_MAJ = ""
 }
 win32 {
-    target.path = C:/mingw/lib
-    headers.path = C:/mingw/include/agt/data
+    target.path = $$INSTALL_ROOT/lib
+    headers.path = $$INSTALL_ROOT/include/agt/data
     LINK_MAJ = "0"
 }
 
@@ -47,9 +50,11 @@ CONFIG(local){
 }
 
 HEADERS += database.h \
-    table-node.h
+    table-node.h \
+    data-provider-information.h
 
-SOURCES += database.cpp
+SOURCES += database.cpp \
+    data-provider-information.cpp
 
 RESOURCES += \
     resources.qrc
@@ -64,4 +69,4 @@ OTHER_FILES += resources/mysql_fk_fetch.sql \
 headers.files = $$HEADERS
 
 INSTALLS += target
-DISTFILES += headers
+INSTALLS += headers

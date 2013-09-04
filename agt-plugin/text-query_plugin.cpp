@@ -7,6 +7,7 @@ TextQueryPlugin::TextQueryPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
+    Q_PLUGIN_METADATA(IID "org.fema.agt.textQueryPlugin")
 }
 
 void TextQueryPlugin::initialize(QDesignerFormEditorInterface * /* core */)
@@ -66,6 +67,6 @@ QString TextQueryPlugin::domXml() const
 
 QString TextQueryPlugin::includeFile() const
 {
-    return QLatin1String("agt/ui/text-query.h");
+    return QLatin1String("agt/ui/data/text-query.h");
 }
 

@@ -3,9 +3,11 @@
 
 #include <QWizard>
 
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class WizardBackupDatabase;
 }
+QT_END_NAMESPACE
 
 class WizardBackupDatabase : public QWizard
 {

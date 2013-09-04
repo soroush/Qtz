@@ -1,6 +1,7 @@
 TEMPLATE = subdirs
 
-CONFIG += ordered C++11
+CONFIG += ordered
+CONFIG += C++11
 
 HEADERS += global.h
 
@@ -8,7 +9,7 @@ headers.files = $$HEADERS
 
 SUBDIRS += \
     core \
-    vision \
+#    vision \
     data \
     ui
 
@@ -19,5 +20,8 @@ DEFINES += AGT_LIBRARY
 unix {
     headers.path = /usr/include/agt
 }
+win32 {
+    headers.path = $$INSTALL_ROOT/include/agt/
+}
 
-DISTFILES += headers
+INSTALLS += headers

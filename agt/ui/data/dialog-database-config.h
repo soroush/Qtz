@@ -4,9 +4,11 @@
 #include <QDialog>
 #include <agt/data/database.h>
 
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class DialogDatabaseConfig;
 }
+QT_END_NAMESPACE
 
 class DialogDatabaseConfig : public QDialog
 {

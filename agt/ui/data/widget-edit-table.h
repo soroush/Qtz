@@ -6,9 +6,11 @@
 #include "dialog-insert-item.h"
 #include "dialog-edit-item.h"
 
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class EditTableWidget;
 }
+QT_END_NAMESPACE
 
 class WidgetEditTable : public QWidget
 {

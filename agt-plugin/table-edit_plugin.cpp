@@ -7,6 +7,7 @@ TableEditPlugin::TableEditPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
+    Q_PLUGIN_METADATA(IID "org.fema.agt.tableEditPlugin")
 }
 
 void TableEditPlugin::initialize(QDesignerFormEditorInterface * /* core */)
@@ -66,6 +67,6 @@ QString TableEditPlugin::domXml() const
 
 QString TableEditPlugin::includeFile() const
 {
-    return QLatin1String("agt/ui/table-edit_plugin.h");
+    return QLatin1String("agt/ui/editors/table-edit_plugin.h");
 }
 

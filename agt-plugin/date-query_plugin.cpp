@@ -7,6 +7,7 @@ DateQueryPlugin::DateQueryPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
+    Q_PLUGIN_METADATA(IID "org.fema.agt.dateQueryPlugin")
 }
 
 void DateQueryPlugin::initialize(QDesignerFormEditorInterface * /* core */)
@@ -66,6 +67,6 @@ QString DateQueryPlugin::domXml() const
 
 QString DateQueryPlugin::includeFile() const
 {
-    return QLatin1String("agt/ui/date-query.h");
+    return QLatin1String("agt/ui/data/date-query.h");
 }
 

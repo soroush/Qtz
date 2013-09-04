@@ -4,6 +4,8 @@
 #include <QFontComboBox>
 #include <QLabel>
 
+QT_USE_NAMESPACE
+
 TextEditorWindow::TextEditorWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::textEditorWindow)

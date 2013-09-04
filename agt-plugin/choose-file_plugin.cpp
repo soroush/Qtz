@@ -7,6 +7,7 @@ ChooseFilePlugin::ChooseFilePlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
+    Q_PLUGIN_METADATA(IID "org.fema.agt.chooseFilePlugin")
 }
 
 void ChooseFilePlugin::initialize(QDesignerFormEditorInterface * /* core */)
@@ -66,6 +67,6 @@ QString ChooseFilePlugin::domXml() const
 
 QString ChooseFilePlugin::includeFile() const
 {
-    return QLatin1String("agt/ui/choose-file.h");
+    return QLatin1String("agt/ui/misc/choose-file.h");
 }
 

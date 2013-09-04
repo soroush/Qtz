@@ -3,7 +3,9 @@
 
 #include <QDialog>
 
+QT_BEGIN_NAMESPACE
 class QSqlRelationalTableModel;
+QT_END_NAMESPACE
 
 class DialogInsertItem : public QDialog
 {

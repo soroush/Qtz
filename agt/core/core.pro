@@ -1,5 +1,6 @@
 QT       -= gui
 QT       += sql
+CONFIG   += C++11
 
 TEMPLATE = lib
 
@@ -11,6 +12,9 @@ CONFIG(release, debug|release){
     MOC_DIR = release/.moc
     RCC_DIR = release/.rcc
     UI_DIR = release/.ui
+    BUILD = "release"
+    BUILD_SUFFIX = ""
+    TARGET = agt_core
 }
 
 CONFIG(debug, debug|release){
@@ -19,24 +23,30 @@ CONFIG(debug, debug|release){
     MOC_DIR = debug/.moc
     RCC_DIR = debug/.rcc
     UI_DIR = debug/.ui
+    BUILD = "debug"
+    BUILD_SUFFIX = "_d"
+    TARGET = agt_core_d
 }
 
 DEPENDPATH += .
 INCLUDEPATH += .
 
-CONFIG(local){
-    INCLUDEPATH += ../../
-}
-
 unix {
     target.path = /usr/lib
     headers.path = /usr/include/agt/core
     LIBS += -lcrypto++
+    LINK_MAJ = ""
 }
 
 win32 {
-    LIBS += -lcryptopp5
-    INCLUDEPATH += C:/mingw/include
+    LIBS += -lcryptopp562
+    target.path = $$INSTALL_ROOT/lib
+    headers.path = $$INSTALL_ROOT/include/agt/core
+    LINK_MAJ = "0"
+}
+
+CONFIG(local){
+    INCLUDEPATH += ../../
 }
 
 HEADERS += \
@@ -59,6 +69,6 @@ TARGET = agt_core
 headers.files = $$HEADERS
 
 INSTALLS += target
-DISTFILES += headers
+INSTALLS += headers
 
 QMAKE_CXXFLAGS += -std=c++0x

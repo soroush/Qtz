@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    agt-test \
+#    agt-test \
     agt\
     agt-plugin

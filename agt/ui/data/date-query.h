@@ -4,10 +4,11 @@
 #include <QWidget>
 #include <agt/global.h>
 
-
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class DateQuery;
 }
+QT_END_NAMESPACE
 
 class AGTSHARED_EXPORT DateQuery : public QWidget
 {

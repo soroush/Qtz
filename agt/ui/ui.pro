@@ -11,6 +11,9 @@ CONFIG(release, debug|release){
     MOC_DIR = release/.moc
     RCC_DIR = release/.rcc
     UI_DIR = release/.ui
+    BUILD = "release"
+    BUILD_SUFFIX = ""
+    TARGET = agt_ui
 }
 
 CONFIG(debug, debug|release){
@@ -19,21 +22,13 @@ CONFIG(debug, debug|release){
     MOC_DIR = debug/.moc
     RCC_DIR = debug/.rcc
     UI_DIR = debug/.ui
+    BUILD = "debug"
+    BUILD_SUFFIX = "_d"
+    TARGET = agt_ui_d
 }
 
 DEPENDPATH += .
 INCLUDEPATH += .
-
-CONFIG(local){
-    INCLUDEPATH += ../../
-
-    CONFIG(debug){
-        LIBS += -L../data/debug -lagt_data
-    }
-    CONFIG(release){
-        LIBS += -L"../data/release" -lagt_data
-    }
-}
 
 unix {
     target.path = /usr/lib
@@ -41,13 +36,20 @@ unix {
     headers_editors.path = /usr/include/agt/ui/editors
     headers_misc.path = /usr/include/agt/ui/misc
     headers_security.path = /usr/include/agt/ui/security
+    LINK_MAJ = ""
 }
 win32 {
-    target.path = C:/mingw/lib
-    headers_data.path = C:/mingw/include/agt/ui/data
-    headers_editors.path = C:/mingw/include/agt/ui/editors
-    headers_misc.path = C:/mingw/include/agt/ui/misc
-    headers_security.path = C:/mingw/include/agt/ui/security
+    target.path = $$INSTALL_ROOT/lib
+    headers_data.path = $$INSTALL_ROOT/include/agt/ui/data
+    headers_editors.path = $$INSTALL_ROOT/include/agt/ui/editors
+    headers_misc.path = $$INSTALL_ROOT/include/agt/ui/misc
+    headers_security.path = $$INSTALL_ROOT/include/agt/ui/security
+    LINK_MAJ = "0"
+}
+
+CONFIG(local){
+    INCLUDEPATH += ../../
+    LIBS += -L"../data/$$BUILD" -lagt_data$${BUILD_SUFFIX}$${LINK_MAJ} -L"../core/$$BUILD" -lagt_core$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
 SOURCES += \
@@ -67,7 +69,6 @@ SOURCES += \
     data/dialog-edit-table.cpp \
     data/wizard-create-database.cpp
 
-
 DATA_HEADERS += \
     data/data-navigator.h \
     data/date-query.h \
@@ -79,17 +80,18 @@ DATA_HEADERS += \
     data/widget-edit-table.h \
     data/dialog-edit-table.h \
     data/dialog-insert-item.h \
-    data/dialog-edit-item.h
+    data/dialog-edit-item.h \
+    data/wizard-create-database.h
 EDITORS_HEADERS += \
     editors/text-editor-window.h \
     editors/editable-label.h
 MISC_HEADERS += \
     misc/choose-file.h
+
 SECURITY_HEADERS += \
     security/dialog-user-login.h
 
-HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS \
-    data/wizard-create-database.h
+HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS
 
 FORMS += \
     data/data-navigator.ui \
@@ -106,14 +108,13 @@ FORMS += \
     data/widget-edit-table.ui \
     data/wizard-create-database.ui
 
-TARGET = agt_ui
 headers_data.files = $$DATA_HEADERS
 headers_editors.files = $$EDITORS_HEADERS
 headers_misc.files = $$MISC_HEADERS
 headers_security.files = $$SECURITY_HEADERS
 
 INSTALLS += target
-DISTFILES += headers_data headers_editors headers_misc headers_security
+INSTALLS += headers_data headers_editors headers_misc headers_security
 
 RESOURCES += \
     resources.qrc

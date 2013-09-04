@@ -7,6 +7,7 @@ NumericQueryPlugin::NumericQueryPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
+    Q_PLUGIN_METADATA(IID "org.fema.agt.numericQueryPlugin")
 }
 
 void NumericQueryPlugin::initialize(QDesignerFormEditorInterface * /* core */)
@@ -66,6 +67,6 @@ QString NumericQueryPlugin::domXml() const
 
 QString NumericQueryPlugin::includeFile() const
 {
-    return QLatin1String("agt/ui/numeric-query.h");
+    return QLatin1String("agt/ui/data/numeric-query.h");
 }
 

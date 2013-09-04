@@ -4,9 +4,11 @@
 #include <QWidget>
 #include <QLineEdit>
 
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class ChooseFile;
 }
+QT_END_NAMESPACE
 
 class ChooseFile : public QWidget
 {

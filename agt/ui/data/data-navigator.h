@@ -4,10 +4,11 @@
 #include <QWidget>
 #include <QSqlTableModel>
 
-
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class DataNavigator;
 }
+QT_END_NAMESPACE
 
 class DataNavigator : public QWidget
 {

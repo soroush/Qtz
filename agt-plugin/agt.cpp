@@ -15,8 +15,8 @@ AGT::AGT(QObject *parent)
     m_widgets.append(new DateQueryPlugin(this));    
     m_widgets.append(new TextEditorWindowPlugin(this));
     m_widgets.append(new EditableLabelPlugin(this));
-//    m_widgets.append(new ChooseFilePlugin(this));
-//    m_widgets.append(new TableEditPlugin(this));
+    m_widgets.append(new ChooseFilePlugin(this));
+    m_widgets.append(new TableEditPlugin(this));
 }
 
 QList<QDesignerCustomWidgetInterface*> AGT::customWidgets() const
@@ -24,4 +24,6 @@ QList<QDesignerCustomWidgetInterface*> AGT::customWidgets() const
     return m_widgets;
 }
 
-Q_EXPORT_PLUGIN2(agtplugin, AGT)
+#if QT_VERSION < 0x050000
+Q_PLUGIN_METADATA (AGT)
+#endif
