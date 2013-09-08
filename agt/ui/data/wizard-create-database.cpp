@@ -1,4 +1,4 @@
-#include "data/wizard-create-database.h"
+﻿#include "data/wizard-create-database.h"
 #include "ui_wizard-create-database.h"
 
 WizardCreateDatabase::WizardCreateDatabase(QWidget *parent) :
@@ -39,10 +39,18 @@ void WizardCreateDatabase::changeEvent(QEvent *e)
 int WizardCreateDatabase::nextId() const
 {
     switch (this->currentId()) {
-    case 0:
-
+    case (int)Page::Intro:
+        return (int)Page::Configure;
+    case (int)Page::Configure:
+        if(configurationCheck()) return (int)Page::Confirm;
+        else return (int)Page::Configure;
         break;
     default:
         break;
     }
+}
+
+bool WizardCreateDatabase::configurationCheck() const
+{
+
 }

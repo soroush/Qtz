@@ -123,9 +123,12 @@ bool DialogDatabaseConfig::testConnection()
         if(db.open())
         {
             db.close();
-            QMessageBox::information(this,
-                                     tr("No problem occured."),
-                                     tr("Successfuly connected to database."));
+            QMessageBox information(QMessageBox::Information,
+                                    tr("No problem occured."),
+                                    tr("Successfuly connected to database."),
+                                    QMessageBox::Ok,
+                                    this);
+            information.exec();
             return true;
         }
         else

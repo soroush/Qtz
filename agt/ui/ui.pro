@@ -2,7 +2,7 @@ QT += core gui sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TEMPLATE = lib
-
+CONFIG   += C++11
 VERSION = 0.1.0
 
 CONFIG(release, debug|release){

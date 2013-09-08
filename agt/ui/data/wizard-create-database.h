@@ -1,4 +1,4 @@
-#ifndef WIZARDCREATEDATABASE_H
+﻿#ifndef WIZARDCREATEDATABASE_H
 #define WIZARDCREATEDATABASE_H
 
 #include <QWizard>
@@ -14,7 +14,11 @@ class WizardCreateDatabase : public QWizard
     Q_OBJECT
     
 public:
-    enum class Page {intro, };
+    enum class Page {Intro     = 0,
+                     Configure = 1,
+                     Confirm   = 3,
+                     Operation = 4,
+                     Closing   = 5};
     explicit WizardCreateDatabase(QWidget *parent = 0);
     ~WizardCreateDatabase();
     bool SqlVisibility();
@@ -27,6 +31,7 @@ protected:
     
 private:
     int nextId() const;
+    bool configurationCheck() const;
     Ui::WizardCreateDatabase *ui;
     bool m_sqlVisibility;
 };
