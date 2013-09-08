@@ -6,6 +6,7 @@
 #include <QSqlRecord>
 #include <QSqlError>
 #include <QSqlTableModel>
+#include <QSqlDriver>
 #include <QDate>
 #include <QDateTime>
 #include <QTime>
@@ -73,14 +74,7 @@ void Database::setType(const DatabaseType &newType)
 void Database::readConnectionInfo()
 {
     QString driverName = Settings::getInstance()->value("db:type").toString();
-    if(driverName==tr("MySQL"))
-    {
-        instance.m_database = QSqlDatabase::addDatabase("QMYSQL");
-    }
-    else if(driverName==tr("SQLite 3"))
-    {
-        instance.m_database = QSqlDatabase::addDatabase("QSQLITE");
-    }
+    instance.m_database = QSqlDatabase::addDatabase(driverName);
     instance.m_database.setHostName(Settings::getInstance()->value("db:host").toString());
     instance.m_database.setPort(Settings::getInstance()->value("db:port").toInt());
     instance.m_database.setDatabaseName(Settings::getInstance()->value("db:database").toString());
@@ -91,7 +85,7 @@ void Database::readConnectionInfo()
 
 void Database::writeConnectionInfo()
 {
-    // Save setting in a normal manner (registery in Windows, Setting file in Linux and Mac OSX)
+    Settings::getInstance()->setValue("db:type",instance.m_database.driverName());
     Settings::getInstance()->setValue("db:host",instance.m_database.hostName());
     Settings::getInstance()->setValue("db:port",instance.m_database.port());
     Settings::getInstance()->setValue("db:database",instance.m_database.databaseName());

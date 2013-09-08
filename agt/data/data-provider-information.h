@@ -2,10 +2,7 @@
 #define DATAPROVIDERINFORMATION_H
 
 #include <QtGlobal>
-
-QT_BEGIN_NAMESPACE
-class QString;
-QT_END_NAMESPACE
+#include <QString>
 
 class DataProviderInformation
 {

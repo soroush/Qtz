@@ -14,7 +14,7 @@ DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
 {
     ui->setupUi(this);
     // Remove maximize and minimize buttons
-//    this->setWindowFlags( Qt::Dialog | Qt::WindowCloseButtonHint );
+    //    this->setWindowFlags( Qt::Dialog | Qt::WindowCloseButtonHint );
     this->setWindowFlags(Qt::Dialog | Qt::WindowContextHelpButtonHint | Qt::WindowCloseButtonHint);
     // Initialize Database systems:
     QSet<Database::DatabaseType> supportedSystems = Database::getSupportedSystems();
@@ -55,16 +55,16 @@ DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
     createConnections();
 
     // TODO: Implement
-//    int firstRun = Settings::getInstance()->value("first-run",-1).toInt();
-//    if(firstRun == -1) {
-//        //TODO: prompt for create database
-//        QMessageBox::critical(this,
-//                              tr("First Run!"),
-//                              tr("This is first time you are running this application! "
-//                                 "Would you like to create a database using wizard?"));
-//    }
-//    else {
-//    }
+    //    int firstRun = Settings::getInstance()->value("first-run",-1).toInt();
+    //    if(firstRun == -1) {
+    //        //TODO: prompt for create database
+    //        QMessageBox::critical(this,
+    //                              tr("First Run!"),
+    //                              tr("This is first time you are running this application! "
+    //                                 "Would you like to create a database using wizard?"));
+    //    }
+    //    else {
+    //    }
 
     // TODO: Remove
     bool shouldRemember = Settings::getInstance()->value("ui:data:dbconfig:remember").toBool();
@@ -177,19 +177,23 @@ void DialogDatabaseConfig::establishActualConnection()
 
 void DialogDatabaseConfig::readConnectionInfo()
 {
-    ui->lineEditHost->setText(Settings::getInstance()->value("ui:data:dbconfig:host").toString());
-    QString type = Settings::getInstance()->value("ui:data:dbconfig:type").toString();
-    int index = ui->comboBoxDatabaseType->findText(type);
-    ui->comboBoxDatabaseType->setCurrentIndex(index);
-    ui->checkBoxLocal->setChecked(Settings::getInstance()->value("ui:data:dbconfig:local").toBool());
-    ui->checkBoxDefaultPort->setChecked(Settings::getInstance()->value("ui:data:dbconfig:defaultPort").toBool());
-    ui->spinBoxPort->setValue(Settings::getInstance()->value("ui:data:dbconfig:port").toInt());
-    ui->lineEditDatabase->setText(Settings::getInstance()->value("ui:data:dbconfig:database").toString());
-    ui->lineEditUser->setText(Settings::getInstance()->value("ui:data:dbconfig:user").toString());
+    if(Database::getInstance()!=NULL) {
+        Database::getInstance()->readConnectionInfo();
+        ui->lineEditHost->setText(Database::getInstance()->database()->hostName());
+        QString type = Settings::getInstance()->value("db:type").toString();
+        int index = ui->comboBoxDatabaseType->findText(type);
+        ui->comboBoxDatabaseType->setCurrentIndex(index);
+        ui->checkBoxLocal->setChecked(Settings::getInstance()->value("ui:data:dbconfig:local").toBool());
+        ui->checkBoxDefaultPort->setChecked(Settings::getInstance()->value("ui:data:dbconfig:defaultPort").toBool());
+        ui->spinBoxPort->setValue(Database::getInstance()->database()->port());
+        ui->lineEditDatabase->setText(Database::getInstance()->database()->databaseName());
+        ui->lineEditUser->setText(Database::getInstance()->database()->userName());
+    }
 }
 
 void DialogDatabaseConfig::writeConnectionInfo()
 {
+    Database::getInstance()->writeConnectionInfo();
     Settings::getInstance()->setValue("ui:data:dbconfig:host",ui->lineEditHost->text());
     Settings::getInstance()->setValue("ui:data:dbconfig:type",ui->comboBoxDatabaseType->currentText());
     Settings::getInstance()->setValue("ui:data:dbconfig:local",ui->checkBoxLocal->isChecked());

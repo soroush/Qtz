@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../resources.qrc">
-    <normaloff>:/images/images/application-vnd.oasis.opendocument.database_22x22.png</normaloff>:/images/images/application-vnd.oasis.opendocument.database_22x22.png</iconset>
+    <normaloff>:/images/images/application-vnd.oasis.opendocument.database-64x64.png</normaloff>:/images/images/application-vnd.oasis.opendocument.database-64x64.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="_2">
    <item>

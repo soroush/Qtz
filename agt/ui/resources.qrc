@@ -11,11 +11,11 @@
         <file>images/document-save.png</file>
         <file>images/table_16x16.png</file>
         <file>images/list-add-all.png</file>
-        <file>images/application-vnd.oasis.opendocument.database_22x22.png</file>
         <file>images/network-connect_48x48.png</file>
         <file>images/network-disconnect_48x48.png</file>
         <file>images/database-add-192x192.png</file>
         <file>images/mail-mark-task_128x131.png</file>
         <file>images/encrypted_128x128.png</file>
+        <file>images/application-vnd.oasis.opendocument.database-64x64.png</file>
     </qresource>
 </RCC>

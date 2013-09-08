@@ -1,12 +1,5 @@
 #include "data-provider-information.h"
 
-
-
-DataProviderInformation *DataProviderInformation::mySQL()
-{
-    return this->m_mysql;
-}
-
 QString DataProviderInformation::defaultHost()
 {
     return this->m_defaultHost;
