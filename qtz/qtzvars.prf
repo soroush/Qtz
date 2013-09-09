@@ -1,0 +1,11 @@
+QTZ_MODULES = core data ui
+QTZ_INSTALL_PREFIX = /usr
+QTZ_INSTALL_LIBS = /usr/lib
+QTZ_INSTALL_BINS = /usr/bin
+QTZ_INSTALL_HEADERS = /usr/include
+QTZ_INSTALL_FEATURES = /usr/share/qt4/mkspecs/features
+QTZ_INSTALL_DOCS = /usr/doc
+QTZ_VERSION_MAJ = 0
+QTZ_VERSION_MIN = 1
+QTZ_VERSION_PATCH = 0
+ 
