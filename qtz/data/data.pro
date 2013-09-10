@@ -40,6 +40,7 @@ win32 {
     target.path = $$INSTALL_ROOT/lib
     headers.path = $$INSTALL_ROOT/include/qtz/data
     LINK_MAJ = "0"
+    RC_FILE = QtzData.rc
 }
 
 CONFIG(local){

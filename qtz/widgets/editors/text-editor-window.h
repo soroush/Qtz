@@ -1,4 +1,4 @@
-#ifndef TEXTEDITORWINDOW_H
+﻿#ifndef TEXTEDITORWINDOW_H
 #define TEXTEDITORWINDOW_H
 
 #include <QMainWindow>
@@ -8,7 +8,6 @@
 QT_BEGIN_NAMESPACE
 class QFontComboBox;
 class QTextCharFormat;
-QT_END_NAMESPACE
 
 namespace Ui {
 class textEditorWindow;

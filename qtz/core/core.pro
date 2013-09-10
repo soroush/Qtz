@@ -43,6 +43,7 @@ win32 {
     target.path = $$INSTALL_ROOT/lib
     headers.path = $$INSTALL_ROOT/include/qtz/core
     LINK_MAJ = "0"
+    RC_FILE = QtzCore.rc
 }
 
 CONFIG(local){
