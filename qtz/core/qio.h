@@ -4,8 +4,7 @@
 #include <QObject>
 #include <QTextStream>
 
-class QIO : public QObject
-{
+class QIO : public QObject {
     Q_OBJECT
 public:
     explicit QIO(QObject *parent = 0);
@@ -13,7 +12,7 @@ public:
     static QTextStream cin;
     static QTextStream cerr;
 signals:
-    
+
 public slots:
 
 

@@ -7,18 +7,15 @@ DialogEditTable::DialogEditTable(QWidget *parent) :
     ui->setupUi(this);
 }
 
-DialogEditTable::~DialogEditTable()
-{
+DialogEditTable::~DialogEditTable() {
     delete ui;
 }
 
-void DialogEditTable::setModel(QSqlRelationalTableModel * model)
-{    
+void DialogEditTable::setModel(QSqlRelationalTableModel *model) {
     ui->tableView->setModel(model);
 }
 
-void DialogEditTable::changeEvent(QEvent *e)
-{
+void DialogEditTable::changeEvent(QEvent *e) {
     QDialog::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
@@ -29,12 +26,10 @@ void DialogEditTable::changeEvent(QEvent *e)
     }
 }
 
-void DialogEditTable::insert()
-{
+void DialogEditTable::insert() {
     int result = this->insertDialog->exec();
     // TODO: complete this code
-    switch(result)
-    {
+    switch(result) {
     case QDialog::Accepted:
         break;
     case QDialog::Rejected:
@@ -44,14 +39,12 @@ void DialogEditTable::insert()
     }
 }
 
-void DialogEditTable::remove()
-{
+void DialogEditTable::remove() {
     // TODO: Ask before remove
     QModelIndexList selection = ui->tableView->selectionModel()->selectedIndexes();
-    while(! selection.isEmpty())
-    {
+    while(! selection.isEmpty()) {
         QModelIndex i = selection.last();
-        this->ui->tableView->model()->removeRow(i.row(),i.parent());
+        this->ui->tableView->model()->removeRow(i.row(), i.parent());
         selection.removeLast();
     }
 }

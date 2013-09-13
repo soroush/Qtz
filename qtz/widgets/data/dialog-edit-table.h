@@ -12,15 +12,14 @@ QT_END_NAMESPACE
 class WidgetEditTable;
 class DialogInsertItem;
 
-class DialogEditTable : public QDialog
-{
+class DialogEditTable : public QDialog {
     Q_OBJECT
 public:
     explicit DialogEditTable(QWidget *parent = 0);
     virtual ~DialogEditTable();
-    virtual void setModel(QSqlRelationalTableModel* model_);
-    virtual void setAdderDialog(DialogInsertItem* dialog_);
-    DialogInsertItem* adderDialog();
+    virtual void setModel(QSqlRelationalTableModel *model_);
+    virtual void setAdderDialog(DialogInsertItem *dialog_);
+    DialogInsertItem *adderDialog();
 protected slots:
     virtual void add();
     virtual void remove(QModelIndexList);
@@ -30,12 +29,12 @@ protected slots:
     virtual void save();
 private:
     // UI
-    QVBoxLayout* verticalLayout;
-    WidgetEditTable* editTable;
+    QVBoxLayout *verticalLayout;
+    WidgetEditTable *editTable;
     // Dialogs
-    DialogInsertItem* insertDialog;
+    DialogInsertItem *insertDialog;
     // Data
-    QSqlRelationalTableModel* model;
+    QSqlRelationalTableModel *model;
 };
 
 #endif // DIALOGEDITTABLE_H

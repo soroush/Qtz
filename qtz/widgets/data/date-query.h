@@ -10,10 +10,9 @@ class DateQuery;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT DateQuery : public QWidget
-{
+class QTZ_SHARED_EXPORT DateQuery : public QWidget {
     Q_OBJECT
-    
+
 public:
     explicit DateQuery(QWidget *parent = 0);
     ~DateQuery();
@@ -27,7 +26,7 @@ signals:
 
 protected:
     void changeEvent(QEvent *e);
-    
+
 private:
     Ui::DateQuery *ui;
     QString fieldName;

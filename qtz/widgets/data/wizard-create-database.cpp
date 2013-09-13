@@ -4,28 +4,23 @@
 WizardCreateDatabase::WizardCreateDatabase(QWidget *parent) :
     QWizard(parent),
     ui(new Ui::WizardCreateDatabase),
-    m_sqlVisibility(false)
-{
+    m_sqlVisibility(false) {
     ui->setupUi(this);
 }
 
-WizardCreateDatabase::~WizardCreateDatabase()
-{
+WizardCreateDatabase::~WizardCreateDatabase() {
     delete ui;
 }
 
-bool WizardCreateDatabase::SqlVisibility()
-{
+bool WizardCreateDatabase::SqlVisibility() {
     return this->m_sqlVisibility;
 }
 
-void WizardCreateDatabase::setSqlVisibility(bool visibility)
-{
+void WizardCreateDatabase::setSqlVisibility(bool visibility) {
     this->m_sqlVisibility = visibility;
 }
 
-void WizardCreateDatabase::changeEvent(QEvent *e)
-{
+void WizardCreateDatabase::changeEvent(QEvent *e) {
     QWizard::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
@@ -36,21 +31,22 @@ void WizardCreateDatabase::changeEvent(QEvent *e)
     }
 }
 
-int WizardCreateDatabase::nextId() const
-{
+int WizardCreateDatabase::nextId() const {
     switch (this->currentId()) {
     case (int)Page::Intro:
         return (int)Page::Configure;
     case (int)Page::Configure:
-        if(configurationCheck()) return (int)Page::Confirm;
-        else return (int)Page::Configure;
+        if(configurationCheck()) {
+            return (int)Page::Confirm;
+        }
+        else {
+            return (int)Page::Configure;
+        }
         break;
     default:
         break;
     }
 }
 
-bool WizardCreateDatabase::configurationCheck() const
-{
-
+bool WizardCreateDatabase::configurationCheck() const {
 }

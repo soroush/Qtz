@@ -10,8 +10,7 @@ class NumericQuery;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT NumericQuery : public QWidget
-{
+class QTZ_SHARED_EXPORT NumericQuery : public QWidget {
     Q_OBJECT
     Q_PROPERTY(double minimum READ min WRITE setMin USER true)
     Q_PROPERTY(double maximum READ max WRITE setMax USER true)
@@ -38,7 +37,7 @@ signals:
 
 protected:
     void changeEvent(QEvent *e);
-    
+
 private:
     Ui::NumericQuery *ui;
     QString fieldName;

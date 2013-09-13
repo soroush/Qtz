@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 
 CONFIG += ordered
 CONFIG += C++11
+lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
 
 HEADERS += global.h
 
@@ -25,3 +26,5 @@ win32 {
 }
 
 INSTALLS += headers
+
+OTHER_FILES += cxx.astyle

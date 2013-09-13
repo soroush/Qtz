@@ -9,20 +9,19 @@ class DialogUserLogin;
 }
 QT_END_NAMESPACE
 
-class DialogUserLogin : public QDialog
-{
+class DialogUserLogin : public QDialog {
     Q_OBJECT
 
 private:
     void createConnections();
-    
+
 public:
     explicit DialogUserLogin(QWidget *parent = 0);
     ~DialogUserLogin();
-    
+
 protected:
     void changeEvent(QEvent *e);
-    
+
 private:
     Ui::DialogUserLogin *ui;
     quint8 tries;

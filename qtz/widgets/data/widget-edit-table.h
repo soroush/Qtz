@@ -12,15 +12,14 @@ class EditTableWidget;
 }
 QT_END_NAMESPACE
 
-class WidgetEditTable : public QWidget
-{
+class WidgetEditTable : public QWidget {
     Q_OBJECT
-    
+
 public:
     explicit WidgetEditTable(QWidget *parent = 0);
     ~WidgetEditTable();
 
-    void setModel(QSqlRelationalTableModel* model);
+    void setModel(QSqlRelationalTableModel *model);
 
 signals:
     void add();
@@ -32,7 +31,7 @@ signals:
 
 protected:
     void changeEvent(QEvent *e);
-    
+
 protected slots:
     void emitRemove();
     void emitEdit();

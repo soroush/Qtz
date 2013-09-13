@@ -1,6 +1,7 @@
 QT       -= gui
 QT       += sql
 CONFIG   += C++11
+lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
 
 TEMPLATE = lib
 

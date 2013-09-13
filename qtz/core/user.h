@@ -3,8 +3,7 @@
 
 #include "person.h"
 
-class User : public Person
-{
+class User : public Person {
     Q_OBJECT
 public:
     explicit User(QObject *parent = 0);
@@ -13,10 +12,10 @@ public:
     QString password();
 
 signals:
-    
+
 public slots:
-    void username(const QString&);
-    void password(const QString&);
+    void username(const QString &);
+    void password(const QString &);
 
 private:
     quint64 id_;

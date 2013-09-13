@@ -8,19 +8,16 @@
 DialogUserLogin::DialogUserLogin(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogUserLogin),
-    tries(0)
-{
+    tries(0) {
     ui->setupUi(this);
     createConnections();
 }
 
-DialogUserLogin::~DialogUserLogin()
-{
+DialogUserLogin::~DialogUserLogin() {
     delete ui;
 }
 
-void DialogUserLogin::changeEvent(QEvent *e)
-{
+void DialogUserLogin::changeEvent(QEvent *e) {
     QDialog::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
@@ -31,37 +28,34 @@ void DialogUserLogin::changeEvent(QEvent *e)
     }
 }
 
-void DialogUserLogin::synchChecks()
-{
-    if(! (ui->checkBoxRememberPassword->isChecked() && ui->checkBoxRememberUsername->isChecked()))
+void DialogUserLogin::synchChecks() {
+    if(! (ui->checkBoxRememberPassword->isChecked()
+            && ui->checkBoxRememberUsername->isChecked())) {
         ui->checkBoxDontShow->setChecked(false);
+    }
 }
 
-void DialogUserLogin::login()
-{
+void DialogUserLogin::login() {
     ++tries;
-    if(tries < 5)
-    {
+    if(tries < 5) {
         qDebug() << 4;
         if(AuthProvider::instance()->checkLogin(ui->lineEditUsername->text(),
-                                                ui->lineEditPassword->text()))
-        {
+                                                ui->lineEditPassword->text())) {
             // TODO: generate role
             accept();
         }
-        else
-        {
+        else {
             ui->labelStatus->setText(tr("Error: Incorrect username and/or password!\n"
                                         "You have %1 %2 left. "
                                         "If you forgot your password, please contact your data administrator.")
-                                     .arg(5-tries).arg((tries==1?"try":"tries")));
+                                     .arg(5 - tries).arg((tries == 1 ? "try" : "tries")));
         }
     }
-    else
-    {
-        ui->labelStatus->setText(tr("You have reachem maximux number of allowed trie. For security reasons"
-                                    "access through this program is denied.\n"
-                                    "For more information contact your data administrator."));
+    else {
+        ui->labelStatus->setText(
+            tr("You have reachem maximux number of allowed trie. For security reasons"
+               "access through this program is denied.\n"
+               "For more information contact your data administrator."));
         ui->labelUsername->setEnabled(false);
         ui->labelPassword->setEnabled(false);
         ui->lineEditUsername->setEnabled(false);
@@ -73,8 +67,7 @@ void DialogUserLogin::login()
     }
 }
 
-void DialogUserLogin::createConnections()
-{
-    connect(ui->pushButtonLogin,SIGNAL(clicked()),this,SLOT(login()));
+void DialogUserLogin::createConnections() {
+    connect(ui->pushButtonLogin, SIGNAL(clicked()), this, SLOT(login()));
 }
 

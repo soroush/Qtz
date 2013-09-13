@@ -4,8 +4,7 @@
 #include <QObject>
 #include <qtz/global.h>
 
-class QTZ_SHARED_EXPORT Person : public QObject
-{
+class QTZ_SHARED_EXPORT Person : public QObject {
     Q_OBJECT
 
 public:
@@ -15,8 +14,8 @@ public:
     QString last() const;
 
 public slots:
-    void name(const QString&);
-    void last(const QString&);
+    void name(const QString &);
+    void last(const QString &);
 
 private:
     QString name_;
