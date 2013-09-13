@@ -18,7 +18,6 @@ contains(QTZ, core) {
         BUILD_SUFFIX = "d"
     }
     LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
-    QTZ += core
     QT  += sql
 }
 
@@ -32,9 +31,8 @@ contains(QTZ, data) {
     CONFIG(debug, debug|release){
         BUILD_SUFFIX = "d"
     }
-    LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
-    QTZ += data
-    QT  += sql
+    LIBS += -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
+    QTZ += core
 }
 
 contains(QTZ, widgets) {
@@ -48,9 +46,8 @@ contains(QTZ, widgets) {
         BUILD_SUFFIX = "d"
     }
     
-    LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
-    QTZ += widgets
-    QT  += sql
+    LIBS += -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
+    QTZ += core data
 }
 
  
