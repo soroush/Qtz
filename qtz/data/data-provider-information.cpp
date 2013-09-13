@@ -1,5 +1,6 @@
 ﻿#include "data-provider-information.h"
 #include <QObject>
+#include <QStringList>
 #include <QFile>
 #include <QXmlStreamReader>
 #include <iostream>
@@ -13,15 +14,16 @@ DataProviderInformation *DataProviderInformation::m_instance = nullptr;
 
 DataProviderInformation::DataProviderInformation():
     initialized(false) {
+    Q_INIT_RESOURCE(resources);
 }
 
 void DataProviderInformation::initialize() {
-//    databases.clear();
-    QList<Database::Type> supportedTypes =
-        Database::getInstance()->getSupportedSystems();
-    QFile providersFile("://resources/database-providers.xml");
-    if(! providersFile.open(QFile::ReadOnly | QFile::Text)) {
-        //qDebug() << "Error Opening file: " << providersFile.errorString();
+    supportedSystems.clear();
+    QList<Database::Type> availableSystems =getAvailableSystems();
+    qDebug() << "size of availableSystems: " << availableSystems.size();
+    QFile providersFile(":/en/resources/database-providers.xml");
+    if(! providersFile.open(QFile::ReadOnly)) {
+        qDebug() << "Error Opening file: " << providersFile.errorString() << providersFile.fileName();
         return;
     }
     QXmlStreamReader xml(&providersFile);
@@ -36,30 +38,33 @@ void DataProviderInformation::initialize() {
             quint8 code = xml.readElementText().toUInt();
             if(code != 0) {
                 Database::Type type = static_cast<Database::Type>(code);
-                if(supportedTypes.contains(type)) {
+                if(availableSystems.contains(type)) {
                     valid = true;
                     DataProviderInformation info;
                     info.m_type = type;
-                    this->databases << info;
+                    this->supportedSystems << info;
+                    qDebug() << "added";
                 }
             }
         }
         else if(xml.name() == "Name" && valid) {
-            databases.last().m_providerName = xml.readElementText();
+            supportedSystems.last().m_providerName = xml.readElementText();
         }
         else if(xml.name() == "DefaultHost" && valid) {
-            databases.last().m_defaultHost = xml.readElementText();
+            supportedSystems.last().m_defaultHost = xml.readElementText();
         }
         else if(xml.name() == "DefaultPort" && valid) {
-            databases.last().m_defaultPort = xml.readElementText().toUInt();
+            supportedSystems.last().m_defaultPort = xml.readElementText().toUInt();
         }
     }
+    qDebug() << "size of supportedSystems: " << supportedSystems.size();
+
     initialized = true;
 }
 
 const DataProviderInformation &DataProviderInformation::getProviderInfo(
     const Database::Type &type) const {
-    foreach (DataProviderInformation db, this->databases) {
+    foreach (DataProviderInformation db, this->supportedSystems) {
         if(db.m_type == type) {
             return db;
         }
@@ -92,8 +97,8 @@ quint8 DataProviderInformation::providerCode() {
 }
 
 QVector<DataProviderInformation>
-DataProviderInformation::getAvailableDatabases() {
-    return this->databases;
+DataProviderInformation::getSupportedProviders() {
+    return this->supportedSystems;
 }
 
 DataProviderInformation *DataProviderInformation::getInstance() {
@@ -102,4 +107,68 @@ DataProviderInformation *DataProviderInformation::getInstance() {
         m_instance->initialize();
     }
     return m_instance;
+}
+
+QList<Database::Type> DataProviderInformation::getAvailableSystems() {
+    generateAvailableSystems();
+    return availableSystems;
+}
+
+
+void DataProviderInformation::generateAvailableSystems() {
+    availableSystems.clear();
+    QStringList drivers = QSqlDatabase::drivers();
+    qDebug() << drivers;
+    foreach (QString driver, drivers) {
+        if(driver=="QMYSQL" || driver == "QMYSQL3") {
+            m_instance->availableSystems.push_back(Database::Type::MySQL5);
+        }
+        else if(driver=="QIBASE") {
+            //TODO: implement
+        }
+        else if(driver=="QOCI") {
+            //TODO: implement
+        }
+        else if(driver=="QODBC"|| driver == "QODBC3") {
+            this->availableSystems.push_back(Database::Type::SQLServer);
+            this->availableSystems << Database::Type::SQLServer2005;
+            this->availableSystems << Database::Type::SQLServer2008;
+            this->availableSystems << Database::Type::SQLServer2010;
+            this->availableSystems << Database::Type::SQLServer2012;
+        }
+        else if(driver=="QPSQL") {
+            // TODO: implement
+        }
+        else if(driver=="QSQLITE2") {
+            // TODO: implement
+        }
+        else if(driver=="QSQLITE") {
+            this->availableSystems.append(Database::Type::SQLite);
+        }
+#if QT_VERSION <= 0x040700
+        else if(driver=="QTDS") {
+            // TODO: implement
+        }
+#endif
+    }
+}
+
+QString DataProviderInformation::getDriverName(const Database::Type &type) {
+    switch (type) {
+    case Database::Type::MySQL5:
+        return "QMYSQL";
+        break;
+    case Database::Type::SQLServer:
+    case Database::Type::SQLServer2005:
+    case Database::Type::SQLServer2008:
+    case Database::Type::SQLServer2010:
+    case Database::Type::SQLServer2012:
+        return "QODBC";
+        break;
+    case Database::Type::SQLite:
+        return "QSQLITE";
+        break;
+    default:
+        break;
+    }
 }

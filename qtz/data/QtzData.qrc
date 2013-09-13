@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/en" lang="en">
         <file>resources/backup-grammer.txt</file>
         <file>resources/mysql_fetch_all_row_count.sql</file>
         <file>resources/mysql_fetch_all_rows_procedure.sql</file>
