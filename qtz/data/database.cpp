@@ -1,6 +1,7 @@
 ﻿#include "database.h"
 #include <qtz/core/settings.h>
 #include <qtz/core/auth-provider.h>
+#include <qtz/data/data-provider-information.h>
 #include <QFile>
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -43,7 +44,6 @@ void Database::setInstance(const QSqlDatabase &database, bool destroy) {
         instance.m_database = database;
     }
     set = true;
-    getInstance()->generateSupportedSystems();
     getInstance()->setBlockSize(100);
 }
 
@@ -69,7 +69,7 @@ Database::Type Database::type() {
 void Database::readConnectionInfo() {
     Type driver = static_cast<Type>
                   (Settings::getInstance()->value("db:type").toUInt());
-    QString driverName = getDriverName(driver);
+    QString driverName = DataProviderInformation::getInstance()->getDriverName(driver);
     instance.m_database = QSqlDatabase::addDatabase(driverName);
     instance.m_database.setHostName(
         Settings::getInstance()->value("db:host").toString());
@@ -322,12 +322,6 @@ void Database::restore(const QString &filename) {
         wcerr << tr("Unable to open backup file for reading.").toStdWString() << endl;
     }
 }
-
-QList<Database::Type> Database::getSupportedSystems() {
-    generateSupportedSystems();
-    return supportedSystems;
-}
-
 
 uint Database::getNumberOfDBRows() {
     QSqlQuery prepareData;
@@ -672,62 +666,5 @@ void Database::restoreVB(QDataStream &in, const quint32 &totalRows,
             QVariant value;
             in >> value;
         }
-    }
-}
-
-void Database::generateSupportedSystems() {
-    //supportedSystems.clear();
-    QStringList drivers = QSqlDatabase::drivers();
-    foreach (QString driver, drivers) {
-        if(driver=="QMYSQL" || driver == "QMYSQL3") {
-            this->supportedSystems.push_back(Type::MySQL5);
-        }
-        else if(driver=="QIBASE") {
-            //TODO: implement
-        }
-        else if(driver=="QOCI") {
-            //TODO: implement
-        }
-        else if(driver=="QODBC"|| driver == "QODBC3") {
-            this->supportedSystems.push_back(Type::SQLServer);
-//            supportedSystems << Type::SQLServer2005;
-//            supportedSystems << Type::SQLServer2008;
-//            supportedSystems << Type::SQLServer2010;
-//            supportedSystems << Type::SQLServer2012;
-        }
-        else if(driver=="QPSQL") {
-            // TODO: implement
-        }
-        else if(driver=="QSQLITE2") {
-            // TODO: implement
-        }
-        else if(driver=="QSQLITE") {
-            this->supportedSystems.append(Type::SQLite);
-        }
-#if QT_VERSION <= 0x040700
-        else if(driver=="QTDS") {
-            // TODO: implement
-        }
-#endif
-    }
-}
-
-QString Database::getDriverName(const Database::Type &type) {
-    switch (type) {
-    case Type::MySQL5:
-        return "QMYSQL";
-        break;
-    case Type::SQLServer:
-    case Type::SQLServer2005:
-    case Type::SQLServer2008:
-    case Type::SQLServer2010:
-    case Type::SQLServer2012:
-        return "QODBC";
-        break;
-    case Type::SQLite:
-        return "QSQLITE";
-        break;
-    default:
-        break;
     }
 }

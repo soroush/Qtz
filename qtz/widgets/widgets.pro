@@ -118,4 +118,4 @@ INSTALLS += target
 INSTALLS += headers_data headers_editors headers_misc headers_security
 
 RESOURCES += \
-    resources.qrc
+    QtWidgets.qrc

@@ -44,7 +44,8 @@ void DialogDatabaseConfig::changeEvent(QEvent *e) {
 
 void DialogDatabaseConfig::initializeDatabaseSystems() {
     QVector<DataProviderInformation> systems =
-        DataProviderInformation::getInstance()->getAvailableDatabases();
+        DataProviderInformation::getInstance()->getSupportedProviders();
+    qDebug() << systems.size();
     foreach (DataProviderInformation pi, systems) {
         ui->comboBoxDatabaseType->addItem(pi.providerName(),pi.providerCode());
     }

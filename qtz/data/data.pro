@@ -60,7 +60,7 @@ SOURCES += database.cpp \
     data-provider-information.cpp
 
 RESOURCES += \
-    resources.qrc
+    QtzData.qrc
 
 OTHER_FILES += resources/mysql_fk_fetch.sql \
     resources/mysql_fetch_tables.sql \

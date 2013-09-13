@@ -104,11 +104,6 @@ private:
                    quint32 &restoredRecords);
     void restoreVB(QDataStream &in, const quint32 &totalRows,
                    quint32 &restoredRecords);
-
-    QList<Type> supportedSystems;
-    void generateSupportedSystems();
-    QString getDriverName(const Type &);
-
 };
 
 #endif // DATABASE_H

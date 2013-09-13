@@ -17,7 +17,7 @@ private:
     QString m_providerName;
     Database::Type m_type;
     void initialize();
-    QVector<DataProviderInformation> databases;
+    QVector<DataProviderInformation> supportedSystems;
     bool initialized;
 
 public:
@@ -28,9 +28,13 @@ public:
     QString defaultDatabase() const;
     QString providerName() const;
     quint8 providerCode();
-    QVector<DataProviderInformation> getAvailableDatabases();
     static DataProviderInformation *getInstance();
     static DataProviderInformation *m_instance;
+    QList<Database::Type> availableSystems;
+    QVector<DataProviderInformation> getSupportedProviders();
+    QList<Database::Type> getAvailableSystems();
+    void generateAvailableSystems();
+    QString getDriverName(const Database::Type &);
 };
 
 #endif // DATAPROVIDERINFORMATION_H
