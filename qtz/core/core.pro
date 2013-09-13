@@ -1,6 +1,7 @@
 QT       -= gui
 QT       += sql
 CONFIG   += C++11
+lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
 
 TEMPLATE = lib
 
@@ -43,6 +44,7 @@ win32 {
     target.path = $$INSTALL_ROOT/lib
     headers.path = $$INSTALL_ROOT/include/qtz/core
     LINK_MAJ = "0"
+    RC_FILE = QtzCore.rc
 }
 
 CONFIG(local){

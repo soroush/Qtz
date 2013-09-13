@@ -46,6 +46,7 @@ win32 {
     headers_misc.path = $$INSTALL_ROOT/include/qtz/widgets/misc
     headers_security.path = $$INSTALL_ROOT/include/qtz/widgets/security
     LINK_MAJ = "0"
+    RC_FILE = QtzWidgets.rc
 }
 
 CONFIG(local){

@@ -10,8 +10,7 @@ class TextQuery;
 }
 QT_END_NAMESPACE
 
-class TextQuery : public QWidget
-{
+class TextQuery : public QWidget {
     Q_OBJECT
     Q_PROPERTY(QString inputMask READ inputMask WRITE setInputMask USER true)
 
@@ -23,10 +22,10 @@ public:
     QString inputMask();
 
 public slots:
-     void setFieldName(QString);
-     void setInputMask(QString);
-     void makeStatement();
-     void pressReturn();
+    void setFieldName(QString);
+    void setInputMask(QString);
+    void makeStatement();
+    void pressReturn();
 
 signals:
     void fieldNameChanged(QString);
@@ -36,7 +35,7 @@ signals:
 
 protected:
     void changeEvent(QEvent *e);
-    
+
 private:
     Ui::TextQuery *ui;
     QString fieldName;

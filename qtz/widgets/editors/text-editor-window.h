@@ -1,4 +1,4 @@
-#ifndef TEXTEDITORWINDOW_H
+﻿#ifndef TEXTEDITORWINDOW_H
 #define TEXTEDITORWINDOW_H
 
 #include <QMainWindow>
@@ -8,22 +8,20 @@
 QT_BEGIN_NAMESPACE
 class QFontComboBox;
 class QTextCharFormat;
-QT_END_NAMESPACE
 
 namespace Ui {
 class textEditorWindow;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT TextEditorWindow : public QMainWindow
-{
+class QTZ_SHARED_EXPORT TextEditorWindow : public QMainWindow {
     Q_OBJECT
     Q_PROPERTY(QString text READ toHtml WRITE setText NOTIFY textChanged USER true)
-    
+
 public:
     explicit TextEditorWindow(QWidget *parent = 0);
     ~TextEditorWindow();
-    
+
     QString toPlainText() const;
     QString toHtml() const;
 
@@ -35,7 +33,7 @@ signals:
 
 protected:
     void changeEvent(QEvent *e);
-    
+
 private:
     Ui::textEditorWindow *ui;
     void loadIcons();
@@ -43,9 +41,9 @@ private:
     QFontComboBox *fontCombo;
 
 private slots:
-//    void delete_();
-//    void find();
-//    void replace();
+    //    void delete_();
+    //    void find();
+    //    void replace();
     void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
     void bold(bool);
     void italic(bool);

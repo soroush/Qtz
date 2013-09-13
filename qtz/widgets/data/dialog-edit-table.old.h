@@ -9,30 +9,29 @@ namespace Ui {
 class DialogEditTable;
 }
 
-class DialogEditTable : public QDialog
-{
+class DialogEditTable : public QDialog {
     Q_OBJECT
-    
+
 public:
     explicit DialogEditTable(QWidget *parent = 0);
     ~DialogEditTable();
 
-    void setModel(QSqlRelationalTableModel*);
-    
+    void setModel(QSqlRelationalTableModel *);
+
 protected:
     void changeEvent(QEvent *e);
 
 protected slots:
     virtual void insert();
     virtual void remove();
-    virtual void edit(){};
-    virtual void refresh(){};
-    virtual void revert(){};
-    virtual void save(){};
-    
+    virtual void edit() {};
+    virtual void refresh() {};
+    virtual void revert() {};
+    virtual void save() {};
+
 private:
     Ui::DialogEditTable *ui;
-    DialogInsertItem* insertDialog;
+    DialogInsertItem *insertDialog;
 
 };
 

@@ -1,4 +1,4 @@
-#ifndef DIALOGDATABASECONFIG_H
+﻿#ifndef DIALOGDATABASECONFIG_H
 #define DIALOGDATABASECONFIG_H
 
 #include <QDialog>
@@ -10,19 +10,19 @@ class DialogDatabaseConfig;
 }
 QT_END_NAMESPACE
 
-class DialogDatabaseConfig : public QDialog
-{
+class DialogDatabaseConfig : public QDialog {
     Q_OBJECT
-    
+
 public:
     explicit DialogDatabaseConfig(QWidget *parent = 0);
     ~DialogDatabaseConfig();
-    
+
 protected:
     void changeEvent(QEvent *e);
-    
+
 private:
     Ui::DialogDatabaseConfig *ui;
+    void initializeDatabaseSystems();
     void createConnections();
     bool testConnection();
     void establishActualConnection();
@@ -30,7 +30,7 @@ private:
     void writeConnectionInfo();
     void clearConnectionInfo();
 
-    Database::DatabaseType currentType;
+    Database::Type currentType;
     bool tested;
     bool connected;
 

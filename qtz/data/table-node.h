@@ -3,13 +3,13 @@
 
 #include <QList>
 
-struct TableNode{
+struct TableNode {
 public:
-    TableNode(const QString& _name, const int& _freedom):
-        name(_name), degreeOfFreedom(_freedom)
-    {}
+    TableNode(const QString &_name, const int &_freedom):
+        name(_name), degreeOfFreedom(_freedom) {
+    }
 
-    QList<TableNode*> referencedTables;
+    QList<TableNode *> referencedTables;
     QString name;
     int degreeOfFreedom;
 };

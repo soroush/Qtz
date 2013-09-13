@@ -1,26 +1,21 @@
 #include "user.h"
 
 User::User(QObject *parent) :
-    Person(parent)
-{
+    Person(parent) {
 }
 
-QString User::username()
-{
+QString User::username() {
     return this->username_;
 }
 
-QString User::password()
-{
+QString User::password() {
     return this->password_;
 }
 
-void User::username(const QString &newUsername)
-{
+void User::username(const QString &newUsername) {
     this->username_ = newUsername;
 }
 
-void User::password(const QString &newPassword)
-{
+void User::password(const QString &newPassword) {
     this->password_ = newPassword;
 }
