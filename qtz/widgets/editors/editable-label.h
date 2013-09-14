@@ -16,7 +16,7 @@ QT_END_NAMESPACE
 
 class TextEditorWindow;
 
-class EditableLabel : public QWidget {
+class QTZ_SHARED_EXPORT EditableLabel : public QWidget {
     Q_OBJECT
 
 public:

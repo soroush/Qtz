@@ -125,7 +125,7 @@ void DialogDatabaseConfig::establishActualConnection() {
     case Database::Type::SQLServer2012:
         break;
     case Database::Type::MySQL5:
-        Database::setInstance(QSqlDatabase::addDatabase("QMYSQL"));
+        Database::setInstance(QSqlDatabase::addDatabase("QMYSQL"), true);
         Database::getInstance()->database()->setHostName(ui->lineEditHost->text());
         Database::getInstance()->database()->setPort(ui->spinBoxPort->value());
         Database::getInstance()->database()->setDatabaseName(
@@ -139,6 +139,7 @@ void DialogDatabaseConfig::establishActualConnection() {
     case Database::Type::SQLServer:
         break;
     }
+    Database::getInstance()->setType(currentType);
 }
 
 void DialogDatabaseConfig::readConnectionInfo() {
@@ -157,6 +158,7 @@ void DialogDatabaseConfig::readConnectionInfo() {
             Database::getInstance()->database()->databaseName());
         ui->lineEditUser->setText(Database::getInstance()->database()->userName());
         ui->lineEditPassword->setText(Database::getInstance()->database()->password());
+        currentType = Database::getInstance()->type();
     }
 }
 
@@ -217,8 +219,10 @@ void DialogDatabaseConfig::updateLocalHostStatus(bool checked) {
     if(checked) {
         qDebug() << (uint)currentType;
         this->lastCustomHost = ui->lineEditHost->text();
+        if((quint8)currentType!=0){
         ui->lineEditHost->setText(DataProviderInformation::getInstance()->getProviderInfo(
                                       currentType).defaultHost());
+        }
     }
     else {
         ui->lineEditHost->setText(lastCustomHost);
@@ -228,9 +232,11 @@ void DialogDatabaseConfig::updateLocalHostStatus(bool checked) {
 void DialogDatabaseConfig::updateDefaultPortStatus(bool checked) {
     if(checked) {
         this->lastCustomPort = ui->spinBoxPort->value();
+        if((quint8)currentType!=0){
         quint32 port = DataProviderInformation::getInstance()->getProviderInfo(
                            currentType).defaultPort();
         ui->spinBoxPort->setValue(port);
+        }
     }
     else {
         ui->spinBoxPort->setValue(lastCustomPort);
