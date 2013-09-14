@@ -7,7 +7,7 @@ ChooseFilePlugin::ChooseFilePlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
-#if QT_VERSION > 0x050000
+#if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.fema.qtz.chooseFilePlugin")
 #endif
 }
@@ -72,3 +72,6 @@ QString ChooseFilePlugin::includeFile() const
     return QLatin1String("qtz/widgets/misc/choose-file.h");
 }
 
+//#if QT_VERSION < 0x050000
+//Q_EXPORT_PLUGIN2(qtz, ChooseFilePlugin)
+//#endif

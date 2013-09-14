@@ -7,7 +7,7 @@ NumericQueryPlugin::NumericQueryPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
-#if QT_VERSION > 0x050000
+#if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.fema.qtz.numericQueryPlugin")
 #endif
 }
@@ -72,3 +72,6 @@ QString NumericQueryPlugin::includeFile() const
     return QLatin1String("qtz/widgets/data/numeric-query.h");
 }
 
+//#if QT_VERSION <= 0x050000
+//Q_EXPORT_PLUGIN2(qtz, NumericQueryPlugin)
+//#endif

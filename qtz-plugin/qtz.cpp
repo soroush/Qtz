@@ -27,3 +27,7 @@ QList<QDesignerCustomWidgetInterface*> Qtz::customWidgets() const
 #if QT_VERSION >= 0x050000
 Q_PLUGIN_METADATA (Qtz)
 #endif
+
+#if QT_VERSION < 0x050000
+Q_EXPORT_PLUGIN2(qtz, Qtz)
+#endif

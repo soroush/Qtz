@@ -7,7 +7,7 @@ TextEditorWindowPlugin::TextEditorWindowPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
-#if QT_VERSION > 0x050000
+#if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.fema.qtz.textEditorWindowPlugin")
 #endif
 }
@@ -72,3 +72,6 @@ QString TextEditorWindowPlugin::includeFile() const
     return QLatin1String("qtz/widgets/editors/text-editor-window.h");
 }
 
+//#if QT_VERSION < 0x050000
+//Q_EXPORT_PLUGIN2(qtz, TextEditorWindowPlugin)
+//#endif

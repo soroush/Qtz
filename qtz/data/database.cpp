@@ -71,6 +71,7 @@ void Database::readConnectionInfo() {
                   (Settings::getInstance()->value("db:type").toUInt());
     QString driverName = DataProviderInformation::getInstance()->getDriverName(driver);
     instance.m_database = QSqlDatabase::addDatabase(driverName);
+    instance.m_type = driver;
     instance.m_database.setHostName(
         Settings::getInstance()->value("db:host").toString());
     instance.m_database.setPort(Settings::getInstance()->value("db:port").toInt());

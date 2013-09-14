@@ -7,7 +7,7 @@ DateQueryPlugin::DateQueryPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
-#if QT_VERSION > 0x050000
+#if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.fema.qtz.dateQueryPlugin")
 #endif
 }
@@ -72,3 +72,6 @@ QString DateQueryPlugin::includeFile() const
     return QLatin1String("qtz/widgets/data/date-query.h");
 }
 
+//#if QT_VERSION < 0x050000
+//Q_EXPORT_PLUGIN2(qtz, DateQueryPlugin)
+//#endif

@@ -7,7 +7,7 @@ EditableLabelPlugin::EditableLabelPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
-#if QT_VERSION > 0x050000
+#if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.fema.qtz.editableLabelPlugin")
 #endif
 }
@@ -72,3 +72,6 @@ QString EditableLabelPlugin::includeFile() const
     return QLatin1String("qtz/widgets/editors/editable-label.h");
 }
 
+//#if QT_VERSION < 0x050000
+//Q_EXPORT_PLUGIN2(qtz, EditableLabelPlugin)
+//#endif

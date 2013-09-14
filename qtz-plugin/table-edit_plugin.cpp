@@ -7,7 +7,7 @@ TableEditPlugin::TableEditPlugin(QObject *parent)
     : QObject(parent)
 {
     m_initialized = false;
-#if QT_VERSION > 0x050000
+#if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.fema.qtz.tableEditPlugin")
 #endif
 }
@@ -72,3 +72,6 @@ QString TableEditPlugin::includeFile() const
     return QLatin1String("qtz/widgets/editors/table-edit_plugin.h");
 }
 
+//#if QT_VERSION < 0x050000
+//Q_EXPORT_PLUGIN2(qtz, TableEditPlugin)
+//#endif
