@@ -4,34 +4,21 @@
 #include <QtGlobal>
 #include <QString>
 #include <QVector>
-#include "database.h"
+#include "data-provider.h"
 
 class DataProviderInformation {
-    friend class QVector<DataProviderInformation>;
+    friend class QVector<DataProvider>;
 private:
     DataProviderInformation();
-    QString m_defaultHost;
-    quint32 m_defaultPort;
-    QString m_defaultUsername;
-    QString m_defaultDatabase;
-    QString m_providerName;
-    Database::Type m_type;
     void initialize();
-    QVector<DataProviderInformation> supportedSystems;
-    bool initialized;
+    QVector<DataProvider> supportedSystems;
 
 public:
-    const DataProviderInformation &getProviderInfo(const Database::Type &) const;
-    QString defaultHost() const;
-    quint32 defaultPort() const;
-    QString defaultUsername() const;
-    QString defaultDatabase() const;
-    QString providerName() const;
-    quint8 providerCode();
+    const DataProvider getProviderInfo(const Database::Type &) const;
     static DataProviderInformation *getInstance();
     static DataProviderInformation *m_instance;
     QList<Database::Type> availableSystems;
-    QVector<DataProviderInformation> getSupportedProviders();
+    QVector<DataProvider> getSupportedProviders();
     QList<Database::Type> getAvailableSystems();
     void generateAvailableSystems();
     QString getDriverName(const Database::Type &);

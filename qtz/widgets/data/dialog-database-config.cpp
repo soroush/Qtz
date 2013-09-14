@@ -25,6 +25,9 @@ DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
     if(shouldRemember) {
         readConnectionInfo();
     }
+    else{
+        updateDatabaseType(0);
+    }
 }
 
 DialogDatabaseConfig::~DialogDatabaseConfig() {
@@ -43,11 +46,10 @@ void DialogDatabaseConfig::changeEvent(QEvent *e) {
 }
 
 void DialogDatabaseConfig::initializeDatabaseSystems() {
-    QVector<DataProviderInformation> systems =
+    QVector<DataProvider> systems =
         DataProviderInformation::getInstance()->getSupportedProviders();
-    qDebug() << systems.size();
-    foreach (DataProviderInformation pi, systems) {
-        ui->comboBoxDatabaseType->addItem(pi.providerName(),pi.providerCode());
+    foreach (DataProvider p, systems) {
+        ui->comboBoxDatabaseType->addItem(p.providerName(),p.providerCode());
     }
 }
 
@@ -57,12 +59,12 @@ void DialogDatabaseConfig::createConnections() {
     connect(ui->pushButtonTest, SIGNAL(clicked()), this, SLOT(test()));
     connect(ui->checkBoxLocal, SIGNAL(toggled(bool)), ui->lineEditHost,
             SLOT(setDisabled(bool)));
-    connect(ui->checkBoxLocal, SIGNAL(clicked()), this ,
-            SLOT(updateLocalHostStatus()));
+    connect(ui->checkBoxLocal, SIGNAL(toggled(bool)), this ,
+            SLOT(updateLocalHostStatus(bool)));
     connect(ui->checkBoxDefaultPort, SIGNAL(toggled(bool)), ui->spinBoxPort,
             SLOT(setDisabled(bool)));
-    connect(ui->checkBoxDefaultPort, SIGNAL(clicked()), this ,
-            SLOT(updateDefaultPortStatus()));
+    connect(ui->checkBoxDefaultPort, SIGNAL(toggled(bool)), this ,
+            SLOT(updateDefaultPortStatus(bool)));
 }
 
 bool DialogDatabaseConfig::testConnection() {
@@ -160,21 +162,10 @@ void DialogDatabaseConfig::readConnectionInfo() {
 
 void DialogDatabaseConfig::writeConnectionInfo() {
     Database::getInstance()->writeConnectionInfo();
-//    Settings::getInstance()->setValue("ui:data:dbconfig:host",
-//                                      ui->lineEditHost->text());
-//    Settings::getInstance()->setValue("ui:data:dbconfig:type",
-//                                      ui->comboBoxDatabaseType->currentText());
     Settings::getInstance()->setValue("ui:data:dbconfig:local",
                                       ui->checkBoxLocal->isChecked());
-//    Settings::getInstance()->setValue("ui:data:dbconfig:port",
-//                                      ui->spinBoxPort->value());
     Settings::getInstance()->setValue("ui:data:dbconfig:defaultPort",
                                       ui->checkBoxDefaultPort->isChecked());
-//    Settings::getInstance()->setValue("ui:data:dbconfig:database",
-//                                      ui->lineEditDatabase->text());
-//    Settings::getInstance()->setValue("ui:data:dbconfig:user",
-//                                      ui->lineEditUser->text());
-    // Obviously! :
     Settings::getInstance()->setValue("ui:data:dbconfig:remember",
                                       ui->checkBoxRemember->isChecked());
 }
@@ -222,23 +213,21 @@ void DialogDatabaseConfig::test() {
     connected = testConnection();
 }
 
-void DialogDatabaseConfig::updateLocalHostStatus() {
-    static QString lastCustomHost;
-    if(ui->checkBoxLocal->isChecked()) {
-        lastCustomHost = ui->lineEditHost->text();
-        QString host = DataProviderInformation::getInstance()->getProviderInfo(
-                           currentType).defaultHost();
-        ui->lineEditHost->setText(host);
+void DialogDatabaseConfig::updateLocalHostStatus(bool checked) {
+    if(checked) {
+        qDebug() << (uint)currentType;
+        this->lastCustomHost = ui->lineEditHost->text();
+        ui->lineEditHost->setText(DataProviderInformation::getInstance()->getProviderInfo(
+                                      currentType).defaultHost());
     }
     else {
         ui->lineEditHost->setText(lastCustomHost);
     }
 }
 
-void DialogDatabaseConfig::updateDefaultPortStatus() {
-    static int lastCustomPort;
-    if(ui->checkBoxDefaultPort->isChecked()) {
-        lastCustomPort = ui->spinBoxPort->value();
+void DialogDatabaseConfig::updateDefaultPortStatus(bool checked) {
+    if(checked) {
+        this->lastCustomPort = ui->spinBoxPort->value();
         quint32 port = DataProviderInformation::getInstance()->getProviderInfo(
                            currentType).defaultPort();
         ui->spinBoxPort->setValue(port);
@@ -249,26 +238,23 @@ void DialogDatabaseConfig::updateDefaultPortStatus() {
 }
 
 void DialogDatabaseConfig::updateDatabaseType(int i) {
-    currentType = static_cast<Database::Type>(ui->comboBoxDatabaseType->itemData(
-                      i).toUInt());
+    currentType = static_cast<Database::Type>(ui->comboBoxDatabaseType->itemData(i).toUInt());
     switch(currentType) {
     case Database::Type::SQLServer2005:
-        break;
     case Database::Type::SQLServer2008:
-        break;
     case Database::Type::SQLServer2010:
-        break;
     case Database::Type::SQLServer2012:
-        break;
+    case Database::Type::SQLServer:
     case Database::Type::MySQL5:
         ui->stackedWidgetDatabases->setCurrentIndex(0);
         break;
     case Database::Type::SQLite:
         ui->stackedWidgetDatabases->setCurrentIndex(1);
         break;
-    case Database::Type::SQLServer:
+    default:
+        // TODO: Handle error
         break;
     }
-    updateLocalHostStatus();
-    updateDefaultPortStatus();
+    updateLocalHostStatus(ui->checkBoxLocal->isChecked());
+    updateDefaultPortStatus(ui->checkBoxDefaultPort->isChecked());
 }

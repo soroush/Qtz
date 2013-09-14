@@ -54,10 +54,12 @@ CONFIG(local){
 
 HEADERS += database.h \
     table-node.h \
-    data-provider-information.h
+    data-provider-information.h \
+    data-provider.h
 
 SOURCES += database.cpp \
-    data-provider-information.cpp
+    data-provider-information.cpp \
+    data-provider.cpp
 
 RESOURCES += \
     QtzData.qrc

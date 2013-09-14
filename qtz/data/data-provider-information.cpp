@@ -6,29 +6,23 @@
 #include <iostream>
 #include <stdexcept>
 
-#include <QDebug>
-
 using namespace std;
 
 DataProviderInformation *DataProviderInformation::m_instance = nullptr;
 
-DataProviderInformation::DataProviderInformation():
-    initialized(false) {
-    Q_INIT_RESOURCE(resources);
+DataProviderInformation::DataProviderInformation() {
 }
 
 void DataProviderInformation::initialize() {
     supportedSystems.clear();
-    QList<Database::Type> availableSystems =getAvailableSystems();
-    qDebug() << "size of availableSystems: " << availableSystems.size();
+    QList<Database::Type> availableSystems = getAvailableSystems();
     QFile providersFile(":/en/resources/database-providers.xml");
     if(! providersFile.open(QFile::ReadOnly)) {
-        qDebug() << "Error Opening file: " << providersFile.errorString() << providersFile.fileName();
         return;
     }
     QXmlStreamReader xml(&providersFile);
+    bool valid;
     while (!xml.atEnd() && !xml.hasError()) {
-        bool valid;
         xml.readNext();
         if(xml.name() == "Provider") {
             valid = false;
@@ -40,10 +34,9 @@ void DataProviderInformation::initialize() {
                 Database::Type type = static_cast<Database::Type>(code);
                 if(availableSystems.contains(type)) {
                     valid = true;
-                    DataProviderInformation info;
-                    info.m_type = type;
-                    this->supportedSystems << info;
-                    qDebug() << "added";
+                    DataProvider provider;
+                    provider.m_type = type;
+                    this->supportedSystems << provider;
                 }
             }
         }
@@ -57,47 +50,19 @@ void DataProviderInformation::initialize() {
             supportedSystems.last().m_defaultPort = xml.readElementText().toUInt();
         }
     }
-    qDebug() << "size of supportedSystems: " << supportedSystems.size();
-
-    initialized = true;
 }
 
-const DataProviderInformation &DataProviderInformation::getProviderInfo(
-    const Database::Type &type) const {
-    foreach (DataProviderInformation db, this->supportedSystems) {
+const DataProvider DataProviderInformation::getProviderInfo(
+        const Database::Type &type) const {
+    foreach (DataProvider db, this->supportedSystems) {
         if(db.m_type == type) {
             return db;
         }
     }
-    return *this;
+    // TODO: Handle error
 }
 
-QString DataProviderInformation::defaultHost() const {
-    return this->m_defaultHost;
-}
-
-quint32 DataProviderInformation::defaultPort() const {
-    return this->m_defaultPort;
-}
-
-QString DataProviderInformation::defaultUsername() const {
-    return this->m_defaultUsername;
-}
-
-QString DataProviderInformation::defaultDatabase() const {
-    return this->m_defaultDatabase;
-}
-
-QString DataProviderInformation::providerName() const {
-    return this->m_providerName;
-}
-
-quint8 DataProviderInformation::providerCode() {
-    return static_cast<quint8>(this->m_type);
-}
-
-QVector<DataProviderInformation>
-DataProviderInformation::getSupportedProviders() {
+QVector<DataProvider> DataProviderInformation::getSupportedProviders() {
     return this->supportedSystems;
 }
 
@@ -118,7 +83,6 @@ QList<Database::Type> DataProviderInformation::getAvailableSystems() {
 void DataProviderInformation::generateAvailableSystems() {
     availableSystems.clear();
     QStringList drivers = QSqlDatabase::drivers();
-    qDebug() << drivers;
     foreach (QString driver, drivers) {
         if(driver=="QMYSQL" || driver == "QMYSQL3") {
             m_instance->availableSystems.push_back(Database::Type::MySQL5);

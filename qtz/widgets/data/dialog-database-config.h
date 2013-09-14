@@ -33,6 +33,8 @@ private:
     Database::Type currentType;
     bool tested;
     bool connected;
+    QString lastCustomHost;
+    quint32 lastCustomPort;
 
 public slots:
     void accept();
@@ -40,8 +42,8 @@ public slots:
 private slots:
     void updateDatabaseType(int);
     void test();
-    void updateLocalHostStatus();
-    void updateDefaultPortStatus();
+    void updateLocalHostStatus(bool);
+    void updateDefaultPortStatus(bool);
 };
 
 #endif // DIALOGDATABASECONFIG_H
