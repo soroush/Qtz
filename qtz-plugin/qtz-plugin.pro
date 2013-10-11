@@ -15,16 +15,17 @@ CONFIG(debug, debug|release){
 }
 
 CONFIG(local){
-    INCLUDEPATH += ../../
-    LIBS += -L"../qtz/core/$$BUILD" -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
-    LIBS += -L"../qtz/data/$$BUILD" -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
-    LIBS += -L"../qtz/widgets/$$BUILD" -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
+    INCLUDEPATH += ../
+    LIBS    += -L"../qtz/core/$$BUILD" -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS    += -L"../qtz/data/$$BUILD" -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS    += -L"../qtz/widgets/$$BUILD" -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
+    QT      += sql gui
+    greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 } else {
-    LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
+    CONFIG  += QTZ
+    QTZ     += widgets
+    LIBS    += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
 }
-
-CONFIG      += QTZ
-QTZ         += widgets
 
 DEFINES += QTZ_LIBRARY
 
