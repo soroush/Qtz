@@ -4,10 +4,23 @@ lessThan(QT_MAJOR_VERSION, 5): CONFIG += designer
 TARGET      = $$qtLibraryTarget(qtzplugin)
 TEMPLATE    = lib
 
+CONFIG(release, debug|release){
+    BUILD = "release"
+    BUILD_SUFFIX = ""
+}
+
+CONFIG(debug, debug|release){
+    BUILD = "debug"
+    BUILD_SUFFIX = "d"
+}
+
 CONFIG(local){
-    INCLUDEPATH += ../
-    LIBS += -L"../qtz-release/core/release" -lQtzCore -L"../qtz-release/data/release" -lQtzData -L"../qtz-release/widgets/release" -lQtzWidgets
-    QT += sql
+    INCLUDEPATH += ../../
+    LIBS += -L"../qtz/core/$$BUILD" -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS += -L"../qtz/data/$$BUILD" -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS += -L"../qtz/widgets/$$BUILD" -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
+} else {
+    LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
 CONFIG      += QTZ
