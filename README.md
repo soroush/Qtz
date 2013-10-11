@@ -1,4 +1,4 @@
-# Qtz Framework
+# Qtz Framework [![Build Status](https://travis-ci.org/soroush/qtz.png?branch=master)](https://travis-ci.org/soroush/qtz)
 
 Qtz is a Qt-based Rapid Application Development Framework. Currently Qtz
 consists of following libraries:
@@ -32,6 +32,7 @@ To compile Qtz on *nix like environments type:
     make
 
 In Windows environment:
+
     mingw32-make
 
 To speed up build process you may want to use `make -j<N>` where `<N>` is number
