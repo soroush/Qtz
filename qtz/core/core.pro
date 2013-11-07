@@ -44,6 +44,7 @@ unix {
     QMAKE_PKGCONFIG_LIBDIR = $$target.path
     QMAKE_PKGCONFIG_INCDIR = $$headers.path
     QMAKE_PKGCONFIG_VERSION = $$VERSION
+    QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 }
 
 win32 {
