@@ -217,7 +217,6 @@ void DialogDatabaseConfig::test() {
 
 void DialogDatabaseConfig::updateLocalHostStatus(bool checked) {
     if(checked) {
-        qDebug() << (uint)currentType;
         this->lastCustomHost = ui->lineEditHost->text();
         if((quint8)currentType!=0){
         ui->lineEditHost->setText(DataProviderInformation::getInstance()->getProviderInfo(

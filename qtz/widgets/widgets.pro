@@ -69,7 +69,11 @@ SOURCES += \
     data/dialog-insert-item.cpp \
     data/dialog-edit-item.cpp \
     data/dialog-edit-table.cpp \
-    data/wizard-create-database.cpp
+    data/wizard-create-database.cpp \
+    data/wizard-page-create-database-intro.cpp \
+    data/wizard-page-create-database-configure.cpp \
+    data/wizard-page-create-database-confirm.cpp \
+    data/wizard-page-create-database-operation.cpp
 
 DATA_HEADERS += \
     data/data-navigator.h \
@@ -92,7 +96,11 @@ MISC_HEADERS += \
 SECURITY_HEADERS += \
     security/dialog-user-login.h
 
-HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS
+HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS \
+    data/wizard-page-create-database-intro.h \
+    data/wizard-page-create-database-configure.h \
+    data/wizard-page-create-database-confirm.h \
+    data/wizard-page-create-database-operation.h
 
 FORMS += \
     data/data-navigator.ui \
@@ -107,7 +115,10 @@ FORMS += \
     misc/choose-file.ui \
     security/dialog-user-login.ui \
     data/widget-edit-table.ui \
-    data/wizard-create-database.ui
+    data/wizard-page-create-database-intro.ui \
+    data/wizard-page-create-database-configure.ui \
+    data/wizard-page-create-database-confirm.ui \
+    data/wizard-page-create-database-operation.ui
 
 headers_data.files = $$DATA_HEADERS
 headers_editors.files = $$EDITORS_HEADERS
@@ -118,4 +129,4 @@ INSTALLS += target
 INSTALLS += headers_data headers_editors headers_misc headers_security
 
 RESOURCES += \
-    QtWidgets.qrc
+    QtzWidgets.qrc
