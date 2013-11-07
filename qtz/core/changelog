@@ -1,0 +1,4 @@
+2013-11-07  Soroush Rabiei  <soroush.rabiei@gmail.com>
+
+    * core.pro : Adding pkg-config support for unix-like systems
+    additional changes
