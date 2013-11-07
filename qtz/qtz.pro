@@ -14,7 +14,7 @@ SUBDIRS += \
     data \
     widgets
 
-VERSION = 0.1.0
+VERSION = 0.1.1
 
 DEFINES += QTZ_LIBRARY
 

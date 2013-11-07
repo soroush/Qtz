@@ -5,7 +5,7 @@ lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
 
 TEMPLATE = lib
 
-VERSION = 0.1.0
+VERSION = 0.1.2
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -37,6 +37,13 @@ unix {
     headers.path = /usr/include/qtz/core
     LIBS += -lcrypto++
     LINK_MAJ = ""
+    CONFIG += create_pc create_prl no_install_prl
+    QMAKE_PKGCONFIG_NAME = libqtz-core
+    QMAKE_PKGCONFIG_DESCRIPTION = Qtz Core Library
+    QMAKE_PKGCONFIG_PREFIX = $$INSTALLBASE
+    QMAKE_PKGCONFIG_LIBDIR = $$target.path
+    QMAKE_PKGCONFIG_INCDIR = $$headers.path
+    QMAKE_PKGCONFIG_VERSION = $$VERSION
 }
 
 win32 {
