@@ -52,6 +52,7 @@ CONFIG(local){
 }
 
 HEADERS += \
+    library.h \
     settings.h \
     acl.h \
     auth-provider.h \

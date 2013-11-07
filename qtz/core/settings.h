@@ -2,8 +2,8 @@
 #define SETTING_H
 
 #include <QObject>
-#include <qtz/global.h>
 #include <QSettings>
+#include "library.h"
 
 class QTZ_SHARED_EXPORT Settings {
 private:

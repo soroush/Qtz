@@ -2,7 +2,7 @@
 #define PERSON_H
 
 #include <QObject>
-#include <qtz/global.h>
+#include "library.h"
 
 class QTZ_SHARED_EXPORT Person : public QObject {
     Q_OBJECT

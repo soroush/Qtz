@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTextStream>
+#include "library.h"
 
 class QIO : public QObject {
     Q_OBJECT

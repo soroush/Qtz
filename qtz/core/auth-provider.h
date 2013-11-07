@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QMap>
-#include <qtz/global.h>
+#include "library.h"
 
 class QTZ_SHARED_EXPORT AuthProvider : public QObject {
     Q_OBJECT
