@@ -1,7 +1,6 @@
 ﻿#include "database.h"
 #include <qtz/core/settings.h>
 #include <qtz/core/auth-provider.h>
-#include <qtz/data/data-provider-information.h>
 #include <QFile>
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -18,6 +17,7 @@
 #include <iostream>
 
 #include "table-node.h"
+#include "data-provider-information.h"
 
 #include <QDebug>
 

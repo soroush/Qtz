@@ -6,7 +6,7 @@
 #include <QQueue>
 #include <QVector>
 #include <QSqlDatabase>
-#include <qtz/global.h>
+#include "export.h"
 
 struct TableNode;
 
