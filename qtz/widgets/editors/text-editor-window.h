@@ -2,7 +2,7 @@
 #define TEXTEDITORWINDOW_H
 
 #include <QMainWindow>
-#include <qtz/global.h>
+#include "../export.h"
 
 
 QT_BEGIN_NAMESPACE

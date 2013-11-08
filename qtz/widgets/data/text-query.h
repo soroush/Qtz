@@ -2,7 +2,7 @@
 #define TEXTQUERY_H
 
 #include <QWidget>
-#include <qtz/global.h>
+#include "../export.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

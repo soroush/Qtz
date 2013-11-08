@@ -80,5 +80,3 @@ headers.files = $$HEADERS
 
 INSTALLS += target
 INSTALLS += headers
-
-QMAKE_CXXFLAGS += -std=c++0x

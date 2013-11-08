@@ -38,6 +38,14 @@ unix {
     headers_misc.path = /usr/include/qtz/widgets/misc
     headers_security.path = /usr/include/qtz/widgets/security
     LINK_MAJ = ""
+    CONFIG += create_pc create_prl no_install_prl
+    QMAKE_PKGCONFIG_NAME = libqtz-widgets
+    QMAKE_PKGCONFIG_DESCRIPTION = Qtz Widgets Library
+    QMAKE_PKGCONFIG_PREFIX = $$INSTALLBASE
+    QMAKE_PKGCONFIG_LIBDIR = $$target.path
+    QMAKE_PKGCONFIG_INCDIR = $$headers.path
+    QMAKE_PKGCONFIG_VERSION = $$VERSION
+    QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 }
 win32 {
     target.path = $$INSTALL_ROOT/lib
