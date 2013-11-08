@@ -35,6 +35,14 @@ unix {
     target.path = /usr/lib
     headers.path = /usr/include/qtz/data
     LINK_MAJ = ""
+    CONFIG += create_pc create_prl no_install_prl
+    QMAKE_PKGCONFIG_NAME = libqtz-data
+    QMAKE_PKGCONFIG_DESCRIPTION = Qtz Data Library
+    QMAKE_PKGCONFIG_PREFIX = $$INSTALLBASE
+    QMAKE_PKGCONFIG_LIBDIR = $$target.path
+    QMAKE_PKGCONFIG_INCDIR = $$headers.path
+    QMAKE_PKGCONFIG_VERSION = $$VERSION
+    QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 }
 win32 {
     target.path = $$INSTALL_ROOT/lib
