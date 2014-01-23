@@ -9,9 +9,11 @@
 class QTZ_SHARED_EXPORT ACL {
 private:
     ACL();
-    ACL(const ACL &);
-    ACL &operator=(const ACL &);
-    ~ACL();
+    ACL(const ACL &) = delete;
+    ACL &operator=(const ACL &) = delete;
+    ACL(const ACL &&);
+    ACL &operator=(const ACL &&) = delete;
+    ~ACL() = delete;
 
     static ACL *m_Instance;
     QString objectsTable;
@@ -23,7 +25,6 @@ public:
     void setDataAdapter(const QString &objectsTable = "acl_objects",
                         const QString &classesTable = "acl_classes",
                         const QString &listsTable = "acl");
-    QString currentIdentityClass();
     bool acquireAccess(const QString &Object, AuthProvider *const auth = NULL);
     static ACL *instance();
     static void drop();

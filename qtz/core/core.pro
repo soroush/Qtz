@@ -1,5 +1,5 @@
 QT       -= gui
-QT       += sql
+QT       += sql test
 CONFIG   += C++11
 lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
 
@@ -80,3 +80,4 @@ headers.files = $$HEADERS
 
 INSTALLS += target
 INSTALLS += headers
+

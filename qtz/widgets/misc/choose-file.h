@@ -20,8 +20,8 @@ class ChooseFile : public QWidget {
                STORED true)
     Q_PROPERTY(QString windowTitle READ windowTitle WRITE setWindowTitle USER true
                DESIGNABLE true STORED true)
-    Q_PROPERTY(QLineEdit *lineEdit READ lineEdit USER true DESIGNABLE true STORED
-               true)
+    Q_PROPERTY(bool showLabel READ showLabel WRITE setShowLabel USER true
+               DESIGNABLE true STORED true)
 
 public:
     explicit ChooseFile(QWidget *parent = 0);
@@ -38,6 +38,9 @@ public:
 
     void setWindowTitle(const QString &text);
     QString windowTitle();
+
+    void setShowLabel(const bool &show);
+    bool showLabel();
 
     QLineEdit *lineEdit();
 

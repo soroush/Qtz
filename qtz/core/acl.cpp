@@ -42,45 +42,32 @@ void ACL::setDataAdapter(const QString &_objectsTable,
 
 bool ACL::acquireAccess(const QString &Class, const QString &Object) {
     // TODO: add caching implementation
-    QString queryText = QString("SELECT %1 from %2 where %3='%4' and %5='%6'")
-                        .arg("access")
-                        .arg("acl")
-                        .arg("class")
-                        .arg(Class)
-                        .arg("object")
-                        .arg(Object);
     QSqlQuery accessQuery;
-    accessQuery.prepare(queryText);
+    accessQuery.prepare("SELECT access FROM acl WHERE class=':className' AND object=':objectName'");
+    accessQuery.bindValue(":className",Class);
+    accessQuery.bindValue(":objectName",Object);
     if(accessQuery.exec()) {
         if(accessQuery.next()) {
             return accessQuery.value(0).toBool();
         }
         else {
-            QIO::cerr << QObject::tr("Access control not defined for this item") << endl;
+            QIO::cerr << QObject::tr("Access control not defined for this item.") << endl;
             return false;
         }
     }
     else {
-        QIO::cerr << QObject::tr("Unable to execute statement") << endl;
+        QIO::cerr << QObject::tr("Unable to execute statement.") << endl;
         QIO::cerr << accessQuery.lastError().text() << endl;
         return false;
     }
 }
 
 bool ACL::acquireAccess(const QString &Object, AuthProvider *const auth) {
-    if(auth != NULL) {
-        //return acquireAccess(Object,auth)
+    if(auth != nullptr) {
+       // return acquireAccess(Object,auth->)
     }
-}
-
-ACL::ACL() {
-}
-
-ACL::ACL(const ACL &) {
-}
-
-ACL &ACL::operator =(const ACL &) {
-}
-
-ACL::~ACL() {
+    else{
+        // TODO: throw exception
+        return false;
+    }
 }

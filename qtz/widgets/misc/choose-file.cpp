@@ -23,11 +23,11 @@ QString ChooseFile::labelText() {
 }
 
 void ChooseFile::setText(const QString &text) {
-    this->ui->lineEdit->setText(text);
+    this->ui->lineEditFileName->setText(text);
 }
 
 QString ChooseFile::text() {
-    return this->ui->lineEdit->text();
+    return this->ui->lineEditFileName->text();
 }
 
 void ChooseFile::setFilter(const QString &text) {
@@ -46,8 +46,16 @@ QString ChooseFile::windowTitle() {
     return this->m_windowTitle;
 }
 
+void ChooseFile::setShowLabel(const bool &show){
+    this->ui->label->setVisible(show);
+}
+
+bool ChooseFile::showLabel(){
+    return this->ui->label->isVisible();
+}
+
 QLineEdit *ChooseFile::lineEdit() {
-    return (ui->lineEdit);
+    return (ui->lineEditFileName);
 }
 
 void ChooseFile::chooseFile() {
@@ -60,7 +68,7 @@ void ChooseFile::chooseFile() {
     dialog.setWindowTitle(this->m_windowTitle);
     if(dialog.exec() == QDialog::Accepted) {
         QString fileName = dialog.selectedFiles().at(0);
-        ui->lineEdit->setText(fileName);
+        ui->lineEditFileName->setText(fileName);
         emit fileSelected(fileName);
     }
 }
