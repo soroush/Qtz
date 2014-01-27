@@ -14,11 +14,10 @@ EditableLabelPlugin::EditableLabelPlugin(QObject *parent)
 
 void EditableLabelPlugin::initialize(QDesignerFormEditorInterface * /* core */)
 {
-    if (m_initialized)
+    if (m_initialized) {
         return;
-
+    }
     // Add extension registrations, etc. here
-
     m_initialized = true;
 }
 

@@ -1,6 +1,9 @@
-﻿#include "database.h"
+#include "database.h"
 #include <qtz/core/settings.h>
 #include <qtz/core/auth-provider.h>
+#include <qtz/core/qio.h>
+#include <QCoreApplication>
+#include <QStack>
 #include <QFile>
 #include <QSqlQuery>
 #include <QSqlRecord>
@@ -16,96 +19,119 @@
 #include <string>
 #include <iostream>
 
-#include "table-node.h"
+//#include "table-node.h"
 #include "data-provider-information.h"
 
 #include <QDebug>
 
 using namespace std;
 
-Database Database::instance;
-bool Database::set = false;
+Database *Database::instance;
 
 Database::Database(QObject *parent):
-    QObject(parent) {
+    QObject(parent),
+    m_blockSize(100)
+{
 }
 
 Database::Database(const Database &other):
-    QObject(other.parent()) {
+    QObject(other.parent()),
+    m_blockSize(100)
+{
 }
 
 
-void Database::setInstance(const QSqlDatabase &database, bool destroy) {
-    if(!set) {
-        instance.m_database = database;
+//void Database::setInstance(const QSqlDatabase &database, bool destroy)
+//{
+//    if(!set) {
+//        instance->m_database = database;
+//    }
+//    else if(destroy) {
+//        instance->m_database->close();
+//        instance->m_database = database;
+//    }
+//    set = true;
+//    getInstance()->setBlockSize(100);
+//}
+
+Database *Database::getInstance()
+{
+    if(instance != nullptr) {
+        return instance;
     }
-    else if(destroy) {
-        instance.m_database.close();
-        instance.m_database = database;
+    else {
+        instance = new Database(nullptr);
+        return instance;
     }
-    set = true;
-    getInstance()->setBlockSize(100);
 }
 
-Database *Database::getInstance() {
-    if(!set) {
-        return nullptr;
+QSqlDatabase *Database::database()
+{
+    return instance->m_database;
+}
+
+void Database::setType(const Type &newType)
+{
+    if(m_type != newType ) {
+        m_type = newType;
+        m_database = new QSqlDatabase(QSqlDatabase::addDatabase(
+                                          DataProviderInformation::getInstance()->getDriverName(m_type)));
     }
-    return &instance;
 }
 
-QSqlDatabase *Database::database() {
-    return &instance.m_database;
-}
-
-void Database::setType(const Type &newType) {
-    m_type = newType;
-}
-
-Database::Type Database::type() {
+Database::Type Database::type()
+{
     return m_type;
 }
 
-void Database::readConnectionInfo() {
+void Database::readConnectionInfo()
+{
     Type driver = static_cast<Type>
                   (Settings::getInstance()->value("db:type").toUInt());
-    QString driverName = DataProviderInformation::getInstance()->getDriverName(driver);
-    instance.m_database = QSqlDatabase::addDatabase(driverName);
-    instance.m_type = driver;
-    instance.m_database.setHostName(
+    QString driverName = DataProviderInformation::getInstance()->getDriverName(
+                             driver);
+    *(instance->m_database) = QSqlDatabase::addDatabase(driverName);
+    instance->m_type = driver;
+    instance->m_database->setHostName(
         Settings::getInstance()->value("db:host").toString());
-    instance.m_database.setPort(Settings::getInstance()->value("db:port").toInt());
-    instance.m_database.setDatabaseName(
+    instance->m_database->setPort(
+        Settings::getInstance()->value("db:port").toInt());
+    instance->m_database->setDatabaseName(
         Settings::getInstance()->value("db:database").toString());
-    instance.m_database.setUserName(
+    instance->m_database->setUserName(
         Settings::getInstance()->value("db:user").toString());
-    instance.m_database.setPassword(
+    instance->m_database->setPassword(
         AuthProvider::instance()->decryptPassword(
             Settings::getInstance()->value("db:password").toString()));
 }
 
-void Database::writeConnectionInfo() {
-    Settings::getInstance()->setValue("db:type", static_cast<quint8>(instance.m_type));
-    Settings::getInstance()->setValue("db:host", instance.m_database.hostName());
-    Settings::getInstance()->setValue("db:port", instance.m_database.port());
+void Database::writeConnectionInfo()
+{
+    Settings::getInstance()->setValue("db:type",
+                                      static_cast<quint8>(instance->m_type));
+    Settings::getInstance()->setValue("db:host", instance->m_database->hostName());
+    Settings::getInstance()->setValue("db:port", instance->m_database->port());
     Settings::getInstance()->setValue("db:database",
-                                      instance.m_database.databaseName());
-    Settings::getInstance()->setValue("db:user", instance.m_database.userName());
+                                      instance->m_database->databaseName());
+    Settings::getInstance()->setValue("db:user", instance->m_database->userName());
     Settings::getInstance()->setValue(
         "db:password", AuthProvider::instance()->encryptPassword(
-            instance.m_database.password()));
+            instance->m_database->password()));
 }
 
-void Database::setBlockSize(const unsigned int &size) {
+void Database::setBlockSize(const unsigned int &size)
+{
     this->m_blockSize = size;
 }
 
-unsigned int Database::blockSize() const {
+unsigned int Database::blockSize() const
+{
     return this->m_blockSize;
 }
 
 void Database::backup(const QString &filename,
-                      const Database::BackupStrategy &strategy) {
+                      const Database::BackupStrategy &strategy)
+{
     switch(strategy) {
     case BackupStrategy::BinaryByVariant:
         backupByVariant(filename);
@@ -120,41 +146,42 @@ void Database::backup(const QString &filename,
     }
 }
 
-void Database::backupByVariant(const QString &filename) {
-    QQueue<TableNode *> tablesQueue;
-    getTables(tablesQueue);
-    getParents(tablesQueue);
-    QQueue<TableNode *> orderedQueue;
-    sortTables(tablesQueue, orderedQueue);
+void Database::backupByVariant(const QString &filename)
+{
+    QStringList tables = getTables();
+    auto parents = getParents(tables);
+    QStringList sortedList = sortTables(parents);
     // Starting task
     QFile backupFile(filename);
     if(backupFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         emit backupStageChanged(tr("Analyzing database information..."));
+        qDebug("Analyzing database information...");
         uint totalRows = getNumberOfDBRows();
         uint writtenRows = 0;
         QDataStream out(&backupFile);
         emit backupStageChanged(tr("Writing database information..."));
         out << static_cast<quint8>(BackupStrategy::BinaryByVariant);
         out << Database::getInstance()->database()->databaseName(); // Stored as QString
-        out << quint32(orderedQueue.size());
+        out << quint32(sortedList.size());
         out << quint32(totalRows);
         emit backupStageChanged(tr("Writing data..."));
-        foreach(TableNode * table, orderedQueue) {
-            quint32 fieldCount = getNumberOfTableColumns(table->name);
-            quint32 rowCount = getNumberOfTableRows(table->name);
-            out << table->name;
+        foreach(QString table, sortedList) {
+            quint32 fieldCount = getNumberOfTableColumns(table);
+            quint32 rowCount = getNumberOfTableRows(table);
+            out << table;
             out << quint32(rowCount);
             uint blockCount = rowCount / blockSize();
             if(rowCount % blockSize() != 0) {
                 ++blockCount;
             }
-            QString selectQueryText =  QString("SELECT * FROM %1 LIMIT %2,%3")
-                                       .arg(table->name, "%1", QString::number(blockSize()));
             QSqlQuery selectQuery;
             for (uint i = 0; i < blockCount; ++i) {
-                QString selectQueryText2 = selectQueryText.arg(i * blockSize());
-                selectQuery.prepare(selectQueryText2);
+                selectQuery.prepare(QString("SELECT * FROM %1 LIMIT %2,%3")
+                                    .arg(table)
+                                    .arg(i * blockSize())
+                                    .arg(blockSize()));
                 if(selectQuery.exec()) {
+                    qDebug() << "Fetching block: " << i;
                     while(selectQuery.next()) {
                         // First strategy:
                         // Store all data in QVariant format
@@ -167,6 +194,8 @@ void Database::backupByVariant(const QString &filename) {
                                          static_cast<double>(totalRows));
                 }
                 else {
+                    qDebug() << "Unable to execute query: " << selectQuery.executedQuery();
+                    // TODO: through exception
                 }
             }
         } // end of foreach (table)
@@ -175,117 +204,124 @@ void Database::backupByVariant(const QString &filename) {
         emit backupCompleted();
     }
     else {
-        wcerr << tr("Unable to open backup file for writing.").toStdWString() << endl;
+        QIO::cerr << tr("Unable to open backup file for writing.") << endl;
+        // TODO: Through exception
     }
 }
 
-void Database::backupByRuntimeCheck(const QString &filename) {
-    QQueue<TableNode *> tablesQueue;
-    getTables(tablesQueue);
-    getParents(tablesQueue);
-    QQueue<TableNode *> orderedQueue;
-    sortTables(tablesQueue, orderedQueue);
+void Database::backupByRuntimeCheck(const QString &filename)
+{
+    QStringList tables = getTables();
+    auto parents = getParents(tables);
+    QStringList sortedList = sortTables(parents);
     // Starting task
     QFile backupFile(filename);
-    if(! backupFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        wcerr << tr("Unable to open backup file for writing.").toStdWString() << endl;
-        return;
-    }
-    emit backupStageChanged(tr("Analyzing database information..."));
-    uint totalRows = getNumberOfDBRows();
-    uint writtenRows = 0;
-    QDataStream out(&backupFile);
-    emit backupStageChanged(tr("Writing database information..."));
-    out << static_cast<quint8>(BackupStrategy::BinaryRuntimeCheck);
-    out << Database::getInstance()->database()->databaseName(); // Stored as QString
-    out << quint32(orderedQueue.size());
-    out << quint32(totalRows);
-    emit backupStageChanged(tr("Writing data..."));
-    foreach(TableNode *table, orderedQueue) {
-        uint fieldCount = getNumberOfTableColumns(table->name);
-        uint rowCount = getNumberOfTableRows(table->name);
-        QVector<FieldType> types;
-        getTableFiledTypes(table->name, types);
-        out << table->name;
-        out << (rowCount);
-        uint blockCount = rowCount / blockSize();
-        if(rowCount % blockSize() != 0) {
-            ++blockCount;
-        }
-        QString selectQueryText =  QString("SELECT * FROM %1 LIMIT %2,%3")
-                                   .arg(table->name, "%1", QString::number(blockSize()));
-        QSqlQuery selectQuery;
-        for (uint i = 0; i < blockCount; ++i) {
-            QString selectQueryText2 = selectQueryText.arg(i * blockSize());
-            selectQuery.prepare(selectQueryText2);
-            if(selectQuery.exec()) {
-                while(selectQuery.next()) {
-                    // Second strategy:
-                    // Store all data in native binary representation, check types at runtime
-                    for (uint f = 0; f < fieldCount; ++f) {
-                        switch(types[f]) {
-                        case FieldType::INT_8:
-                            out << static_cast<qint8>(selectQuery.value(f).toInt());
-                            break;
-                        case FieldType::UINT_8:
-                            out << static_cast<quint8>(selectQuery.value(f).toUInt());
-                            break;
-                        case FieldType::INT_16:
-                            out << static_cast<qint16>(selectQuery.value(f).toInt());
-                            break;
-                        case FieldType::UINT_16:
-                            out << static_cast<quint16>(selectQuery.value(f).toUInt());
-                            break;
-                        case FieldType::INT_32:
-                            out << static_cast<qint32>(selectQuery.value(f).toInt());
-                            break;
-                        case FieldType::UINT_32:
-                            out << static_cast<quint32>(selectQuery.value(f).toUInt());
-                            break;
-                        case FieldType::INT_64:
-                            out << static_cast<qint64>(selectQuery.value(f).toInt());
-                            break;
-                        case FieldType::UINT_64:
-                            out << static_cast<quint64>(selectQuery.value(f).toUInt());
-                            break;
-                        case FieldType::BOOL:
-                            out << selectQuery.value(f).toBool();
-                            break;
-                        case FieldType::TEXT:
-                            out << QString::fromUtf8(selectQuery.value(f).toByteArray());
-                            break;
-                        case FieldType::FLOAT:
-                            out << selectQuery.value(f).toFloat();
-                            break;
-                        case FieldType::DOUBLE:
-                            out << selectQuery.value(f).toDouble();
-                            break;
-                        case FieldType::DATE_TIME:
-                            out << selectQuery.value(f).toDateTime();
-                            break;
-                        case FieldType::DATE:
-                            out << selectQuery.value(f).toDate();
-                            break;
-                        case FieldType::TIME:
-                            out << selectQuery.value(f).toTime();
-                            break;
+    if(backupFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        emit backupStageChanged(tr("Analyzing database information..."));
+        qDebug("Analyzing database information...");
+        uint totalRows = getNumberOfDBRows();
+        uint writtenRows = 0;
+        QDataStream out(&backupFile);
+        emit backupStageChanged(tr("Writing database information..."));
+        out << static_cast<quint8>(BackupStrategy::BinaryByVariant);
+        out << Database::getInstance()->database()->databaseName(); // Stored as QString
+        out << quint32(sortedList.size());
+        out << quint32(totalRows);
+        emit backupStageChanged(tr("Writing data..."));
+        foreach(QString table, sortedList) {
+            quint32 fieldCount = getNumberOfTableColumns(table);
+            quint32 rowCount = getNumberOfTableRows(table);
+            QVector<FieldType> types;
+            getTableFiledTypes(table, types);
+            out << table;
+            out << quint32(rowCount);
+            uint blockCount = rowCount / blockSize();
+            if(rowCount % blockSize() != 0) {
+                ++blockCount;
+            }
+            QSqlQuery selectQuery;
+            for (uint i = 0; i < blockCount; ++i) {
+                selectQuery.prepare(QString("SELECT * FROM %1 LIMIT %2,%3")
+                                    .arg(table)
+                                    .arg(i * blockSize())
+                                    .arg(blockSize()));
+                if(selectQuery.exec()) {
+                    qDebug() << "Fetching block: " << i;
+                    while(selectQuery.next()) {
+                        // First strategy:
+                        // Store all data in QVariant format
+                        for (uint f = 0; f < fieldCount; ++f) {
+                            switch(types[f]) {
+                            case FieldType::INT_8:
+                                out << static_cast<qint8>(selectQuery.value(f).toInt());
+                                break;
+                            case FieldType::UINT_8:
+                                out << static_cast<quint8>(selectQuery.value(f).toUInt());
+                                break;
+                            case FieldType::INT_16:
+                                out << static_cast<qint16>(selectQuery.value(f).toInt());
+                                break;
+                            case FieldType::UINT_16:
+                                out << static_cast<quint16>(selectQuery.value(f).toUInt());
+                                break;
+                            case FieldType::INT_32:
+                                out << static_cast<qint32>(selectQuery.value(f).toInt());
+                                break;
+                            case FieldType::UINT_32:
+                                out << static_cast<quint32>(selectQuery.value(f).toUInt());
+                                break;
+                            case FieldType::INT_64:
+                                out << static_cast<qint64>(selectQuery.value(f).toInt());
+                                break;
+                            case FieldType::UINT_64:
+                                out << static_cast<quint64>(selectQuery.value(f).toUInt());
+                                break;
+                            case FieldType::BOOL:
+                                out << selectQuery.value(f).toBool();
+                                break;
+                            case FieldType::TEXT:
+                                out << QString::fromUtf8(selectQuery.value(f).toByteArray());
+                                break;
+                            case FieldType::FLOAT:
+                                out << selectQuery.value(f).toFloat();
+                                break;
+                            case FieldType::DOUBLE:
+                                out << selectQuery.value(f).toDouble();
+                                break;
+                            case FieldType::DATE_TIME:
+                                out << selectQuery.value(f).toDateTime();
+                                break;
+                            case FieldType::DATE:
+                                out << selectQuery.value(f).toDate();
+                                break;
+                            case FieldType::TIME:
+                                out << selectQuery.value(f).toTime();
+                                break;
+                            }
                         }
+                        ++writtenRows;
                     }
-                    ++writtenRows;
+                    emit backupCompleted(100.0 * static_cast<double>(writtenRows) /
+                                         static_cast<double>(totalRows));
                 }
-                emit backupCompleted(100.0 * static_cast<double>(writtenRows) /
-                                     static_cast<double>(totalRows));
+                else {
+                    qDebug() << "Unable to execute query: " << selectQuery.executedQuery();
+                    // TODO: through exception
+                }
             }
-            else {
-            }
-        }
-    } // end of foreach (table)
-    backupFile.close();
-    emit backupStageChanged(tr("Done."));
-    emit backupCompleted();
+        } // end of foreach (table)
+        backupFile.close();
+        emit backupStageChanged(tr("Done."));
+        emit backupCompleted();
+    }
+    else {
+        QIO::cerr << tr("Unable to open backup file for writing.") << endl;
+        // TODO: Through exception
+    }
 }
 
-void Database::restore(const QString &filename) {
+void Database::restore(const QString &filename)
+{
     QFile backupFile(filename);
     if(backupFile.open(QIODevice::ReadOnly)) {
         QDataStream in(&backupFile);
@@ -298,9 +334,7 @@ void Database::restore(const QString &filename) {
         in >> schemaName;
         in >> tableCount >> totalRows;
         qDebug() << in.status();
-#ifdef DEBUG
         qDebug() << schemaName << tableCount << totalRows;
-#endif
         if(schemaName != database()->databaseName()) {
             wcerr << tr("Database names mismatch").toStdWString() << endl;
             return;
@@ -320,11 +354,13 @@ void Database::restore(const QString &filename) {
         }
     }
     else {
-        wcerr << tr("Unable to open backup file for reading.").toStdWString() << endl;
+        QIO::cerr << tr("Unable to open backup file for reading.") << endl;
+        // TODO: through exception
     }
 }
 
-uint Database::getNumberOfDBRows() {
+uint Database::getNumberOfDBRows()
+{
     QSqlQuery prepareData;
     if(!prepareData.exec("CALL COUNT_ALL_RECORDS_BY_TABLE")) {
         wcerr << tr("Unable to call stored procedure `CALL COUNT_ALL_RECORDS_BY_TABLE' "
@@ -342,7 +378,8 @@ uint Database::getNumberOfDBRows() {
     return 0;
 }
 
-uint Database::getNumberOfTableRows(const QString &tableName) {
+uint Database::getNumberOfTableRows(const QString &tableName)
+{
     QString countQueryText = QString("SELECT COUNT(*) from %1").arg(tableName);
     QSqlQuery countQuery;
     countQuery.prepare(countQueryText);
@@ -358,7 +395,8 @@ uint Database::getNumberOfTableRows(const QString &tableName) {
     return 0;
 }
 
-uint Database::getNumberOfTableColumns(const QString &tableName) {
+uint Database::getNumberOfTableColumns(const QString &tableName)
+{
     QString selectFieldCountText = QString(
                                        "SELECT COUNT(*) FROM information_schema.`COLUMNS`"
                                        "WHERE table_name = '%1'"
@@ -372,7 +410,8 @@ uint Database::getNumberOfTableColumns(const QString &tableName) {
 }
 
 void Database::getTableFiledTypes(const QString &tableName,
-                                  QVector<FieldType> &types) {
+                                  QVector<FieldType> &types)
+{
     QSqlQuery selectFieldType;
     selectFieldType.prepare(QString("describe %1").arg(tableName));
     if(!selectFieldType.exec()) {
@@ -502,75 +541,82 @@ void Database::getTableFiledTypes(const QString &tableName,
     }
 }
 
-void Database::getTables(QQueue<TableNode *> &tables) {
+QStringList Database::getTables()
+{
+    // TODO: Write a caching mechanism
+    QStringList tables;
     QSqlQuery fetchTables;
     fetchTables.prepare("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA=DATABASE()");
     if(fetchTables.exec()) {
         while(fetchTables.next()) {
-            //FIXME: Unsafe code:
-            TableNode *item = new TableNode(fetchTables.value(0).toString(), -1);
-            tables << item;
+            tables << fetchTables.value(0).toString();
         }
     }
+    qDebug() << tables;
+    return tables;
 }
 
-void Database::getParents(const QQueue<TableNode *> &inputList) {
-    QSqlQuery getParents;
-    QFile queryFile(":/data/resources/mysql_fk_fetch.sql");
+QMap<QString, QStringList> Database::getParents(const QStringList &tables)
+{
+    QMap<QString, QStringList> results;
+    QStringList emptyList;
+    QSqlQuery getParentsQuery;
+    QFile queryFile(":/en/resources/mysql_fk_fetch.sql");
     if(!queryFile.open(QFile::ReadOnly | QFile::Text)) {
-        wcerr << tr("Unable to open SQL query file").toStdWString() << endl;
-        return;
+        QIO::cerr << tr("Unable to open SQL query file") << endl;
+        // TODO: Through exception
     }
     QString genericQueryText = QString::fromUtf8(queryFile.readAll());
-    foreach(TableNode * item, inputList) {
-        QString queryText = genericQueryText.arg(item->name);
-        getParents.prepare(queryText);
-        if(getParents.exec()) {
-            while(getParents.next()) {
-                QString tableName = getParents.value(0).toString();
-                foreach(TableNode * parentItem, inputList) {
-                    if(parentItem->name == tableName) {
-                        item->referencedTables << parentItem;
-                    }
-                }
+    foreach(QString table, tables) {
+        results.insert(table,emptyList);
+        QString queryText = genericQueryText.arg(table);
+        getParentsQuery.prepare(queryText);
+        if(getParentsQuery.exec()) {
+            while(getParentsQuery.next()) {
+                QString parentTableName = getParentsQuery.value(0).toString();
+                results[table].append(parentTableName);
             }
         }
         else {
-            wcerr << tr("Unable to execute statement").toStdWString() << endl;
-            wcerr << getParents.lastError().text().toStdWString() << endl;
+            QIO::cerr << tr("Unable to execute statement") << endl;
+            QIO::cerr << getParentsQuery.lastError().text() << endl;
             // TODO: throw new exception
         }
     }
+    return results;
 }
 
-void Database::sortTables(QQueue<TableNode *> &input,
-                          QQueue<TableNode *> &output) {
-    while(! input.isEmpty()) {
-        // Check dependencies
-        bool satisfied = true;
-        foreach(TableNode * parent, input.head()->referencedTables) {
-            if(parent->degreeOfFreedom == -1) {
-                satisfied = false;
-                break;
+
+QStringList Database::sortTables(QMap<QString, QStringList> &inputMap)
+{
+    QStringList sortedTables;
+    QStack<QString> traceStack;
+    while (!inputMap.empty()) {
+        if(traceStack.empty()) {
+            traceStack.push(inputMap.begin().key());
+        }
+        // Trace to find null
+        while (!traceStack.empty()) {
+            QString topElement = traceStack.top();
+            if(inputMap[topElement].empty()) {
+                traceStack.pop();
+                sortedTables << topElement;
+                inputMap.remove(topElement);
+                for(auto i = inputMap.begin(); i!=inputMap.end(); ++i) {
+                    i.value().removeAll(topElement);
+                }
             }
             else {
+                traceStack << inputMap[topElement].first();
             }
         }
-        if(satisfied) {
-            int max = 0;
-            foreach(TableNode * parent, input.head()->referencedTables)
-            max = (max < parent->degreeOfFreedom + 1) ? parent->degreeOfFreedom + 1 : max;
-            input.head()->degreeOfFreedom = max;
-            output.enqueue(input.dequeue());
-        }
-        else {
-            input.enqueue(input.dequeue());
-        }
     }
+    return sortedTables;
 }
 
 void Database::restoreByVariant(QDataStream &in, const quint32 &totalRows,
-                                quint32 &restoredRecords) {
+                                quint32 &restoredRecords)
+{
     switch(executeMode) {
     case Database::RestoreExecuteMode::Normal:
         restoreVN(in, totalRows, restoredRecords);
@@ -580,9 +626,9 @@ void Database::restoreByVariant(QDataStream &in, const quint32 &totalRows,
         break;
     }
 }
-
 void Database::restoreVN(QDataStream &in, const quint32 &totalRows,
-                         quint32 &restoredRecords) {
+                         quint32 &restoredRecords)
+{
     QString tableName;
     int rowCount;
     in >> tableName;
@@ -626,9 +672,9 @@ void Database::restoreVN(QDataStream &in, const quint32 &totalRows,
                               static_cast<double>(totalRows));
     }
 }
-
 void Database::restoreVB(QDataStream &in, const quint32 &totalRows,
-                         quint32 &restoredRecords) {
+                         quint32 &restoredRecords)
+{
     QString tableName;
     int rowCount;
     in >> tableName;
@@ -667,5 +713,13 @@ void Database::restoreVB(QDataStream &in, const quint32 &totalRows,
             QVariant value;
             in >> value;
         }
+    }
+}
+
+void Database::clearDatabase()
+{
+    auto tables = getTables();
+    foreach (auto table, tables) {
+        m_database->exec(QString("DELETE FROM %1").arg(table));
     }
 }

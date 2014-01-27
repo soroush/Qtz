@@ -10,32 +10,40 @@ DataProvider::DataProvider(const QString &name,
                            const quint32 &defaultPort,
                            const QString &defaultDatabase,
                            const QString &defaultUsername):
-    m_providerName(name), m_type(static_cast<Database::Type>(code)), m_defaultHost(defaultHost),
-    m_defaultPort(defaultPort), m_defaultUsername(defaultUsername), m_defaultDatabase(defaultDatabase)
+    m_providerName(name), m_type(static_cast<Database::Type>(code)),
+    m_defaultHost(defaultHost),
+    m_defaultPort(defaultPort), m_defaultUsername(defaultUsername),
+    m_defaultDatabase(defaultDatabase)
 {
 }
 
-QString DataProvider::providerName() const {
+QString DataProvider::providerName() const
+{
     return this->m_providerName;
 }
 
-quint8 DataProvider::providerCode() const {
+quint8 DataProvider::providerCode() const
+{
     return static_cast<quint8>(this->m_type);
 }
 
-QString DataProvider::defaultHost() const {
+QString DataProvider::defaultHost() const
+{
     return this->m_defaultHost;
 }
 
-quint32 DataProvider::defaultPort() const {
+quint32 DataProvider::defaultPort() const
+{
     return this->m_defaultPort;
 }
 
-QString DataProvider::defaultUsername() const {
+QString DataProvider::defaultUsername() const
+{
     return this->m_defaultUsername;
 }
 
-QString DataProvider::defaultDatabase() const {
+QString DataProvider::defaultDatabase() const
+{
     return this->m_defaultDatabase;
 }
 

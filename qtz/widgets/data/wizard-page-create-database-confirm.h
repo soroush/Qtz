@@ -9,17 +9,16 @@ class WizardPageCreateDatabaseConfirm;
 }
 QT_END_NAMESPACE
 
-class WizardPageCreateDatabaseConfirm : public QWizardPage
-{
+class WizardPageCreateDatabaseConfirm : public QWizardPage {
     Q_OBJECT
-    
+
 public:
     explicit WizardPageCreateDatabaseConfirm(QWidget *parent = 0);
     ~WizardPageCreateDatabaseConfirm();
-    
+
 protected:
     void changeEvent(QEvent *e);
-    
+
 private:
     Ui::WizardPageCreateDatabaseConfirm *ui;
     void initializePage();

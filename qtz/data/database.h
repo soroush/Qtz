@@ -6,15 +6,18 @@
 #include <QQueue>
 #include <QVector>
 #include <QSqlDatabase>
+#include <QMap>
 #include "export.h"
 
-struct TableNode;
+QT_BEGIN_NAMESPACE
+//class QMap<QString, QStringList>;
+QT_END_NAMESPACE
 
 class QTZ_SHARED_EXPORT Database : public QObject {
     Q_OBJECT
-
+    friend class DatabaseTest;
 private:
-    Database(QObject *parent = NULL);
+    Database(QObject *parent = nullptr);
     Database(const Database &other);
 
 public:
@@ -58,8 +61,16 @@ public:
         SQLServer    = 0x07
     };
 
-    static void setInstance(const QSqlDatabase &database, bool destroy = false);
+    //    static void setInstance(const QSqlDatabase &database, bool destroy = false);
+    /**
+     * @brief This is a static method to retreive the single instance of @ref Database class.
+     * @return A poniter to Database instance->
+     */
     static Database *getInstance();
+    /**
+     * @brief database
+     * @return A pointer to underlying QSqlDatabase object.
+     */
     QSqlDatabase *database();
     void setType(const Type &);
     Type type();
@@ -84,10 +95,9 @@ signals:
     void restoreCompleted();
 
 private:
-    static Database instance;
-    static bool set;
+    static Database *instance;
 
-    QSqlDatabase m_database;
+    QSqlDatabase *m_database;
     Type m_type;
     unsigned int m_blockSize;
     RestoreExecuteMode executeMode;
@@ -95,15 +105,17 @@ private:
     uint getNumberOfTableRows(const QString &tableName);
     uint getNumberOfTableColumns(const QString &tableName);
     void getTableFiledTypes(const QString &tableName, QVector<FieldType> &types);
-    void getTables(QQueue<TableNode *> &outputList);
-    void getParents(const QQueue<TableNode *> &input);
-    void sortTables(QQueue<TableNode *> &input, QQueue<TableNode *> &output);
+    QStringList getTables();
+    QMap<QString, QStringList> getParents(const QStringList &tables);
+    QStringList sortTables(QMap<QString, QStringList> &sortedMap);
+
     void restoreByVariant(QDataStream &in, const quint32 &totalRows,
                           quint32 &restoredRecords);
     void restoreVN(QDataStream &in, const quint32 &totalRows,
                    quint32 &restoredRecords);
     void restoreVB(QDataStream &in, const quint32 &totalRows,
                    quint32 &restoredRecords);
+    void clearDatabase();
 };
 
 #endif // DATABASE_H

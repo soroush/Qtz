@@ -4,12 +4,12 @@
 #include <QString>
 #include "database.h"
 
-class DataProvider
-{
+class DataProvider {
     friend class DataProviderInformation;
 public:
     DataProvider();
-    DataProvider(const QString&, const quint8&, const QString&, const quint32&, const QString&, const QString&);
+    DataProvider(const QString &, const quint8 &, const QString &, const quint32 &,
+                 const QString &, const QString &);
     QString providerName() const;
     quint8 providerCode() const;
     QString defaultHost() const;

@@ -3,15 +3,18 @@
 
 DataNavigator::DataNavigator(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::DataNavigator) {
+    ui(new Ui::DataNavigator)
+{
     ui->setupUi(this);
 }
 
-DataNavigator::~DataNavigator() {
+DataNavigator::~DataNavigator()
+{
     delete ui;
 }
 
-void DataNavigator::changeEvent(QEvent *e) {
+void DataNavigator::changeEvent(QEvent *e)
+{
     QWidget::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
@@ -22,18 +25,22 @@ void DataNavigator::changeEvent(QEvent *e) {
     }
 }
 
-void DataNavigator::setModel(QSqlTableModel *_model) {
+void DataNavigator::setModel(QSqlTableModel *_model)
+{
     this->m_model = _model;
 }
 
-void DataNavigator::setRowCount(const size_t &count) {
+void DataNavigator::setRowCount(const size_t &count)
+{
     this->m_rowCount = count;
 }
 
-QSqlTableModel *DataNavigator::model() const {
+QSqlTableModel *DataNavigator::model() const
+{
     return this->m_model;
 }
 
-size_t DataNavigator::rowCount() const {
+size_t DataNavigator::rowCount() const
+{
     return this->m_rowCount;
 }

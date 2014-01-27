@@ -1,7 +1,8 @@
 #include "wizard-page-create-database-operation.h"
 #include "ui_wizard-page-create-database-operation.h"
 
-WizardPageCreateDatabaseOperation::WizardPageCreateDatabaseOperation(QWidget *parent) :
+WizardPageCreateDatabaseOperation::WizardPageCreateDatabaseOperation(
+    QWidget *parent) :
     QWizardPage(parent),
     ui(new Ui::WizardPageCreateDatabaseOperation)
 {

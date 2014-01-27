@@ -7,17 +7,16 @@ namespace Ui {
 class WizardPageCreateDatabaseOperation;
 }
 
-class WizardPageCreateDatabaseOperation : public QWizardPage
-{
+class WizardPageCreateDatabaseOperation : public QWizardPage {
     Q_OBJECT
-    
+
 public:
     explicit WizardPageCreateDatabaseOperation(QWidget *parent = 0);
     ~WizardPageCreateDatabaseOperation();
-    
+
 protected:
     void changeEvent(QEvent *e);
-    
+
 private:
     Ui::WizardPageCreateDatabaseOperation *ui;
 };

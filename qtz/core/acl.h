@@ -9,11 +9,11 @@
 class QTZ_SHARED_EXPORT ACL {
 private:
     ACL();
-    ACL(const ACL &) = delete;
-    ACL &operator=(const ACL &) = delete;
-    ACL(const ACL &&);
-    ACL &operator=(const ACL &&) = delete;
-    ~ACL() = delete;
+//    ACL(const ACL &) = delete;
+//    ACL &operator=(const ACL &) = delete;
+//    ACL(const ACL &&);
+//    ACL &operator=(const ACL &&) = delete;
+//    ~ACL() = delete;
 
     static ACL *m_Instance;
     QString objectsTable;

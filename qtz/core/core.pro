@@ -1,6 +1,6 @@
 QT       -= gui
-QT       += sql test
-CONFIG   += C++11
+QT       += sql
+CONFIG   += C++11 qtestlib
 lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
 
 TEMPLATE = lib
@@ -27,6 +27,10 @@ CONFIG(debug, debug|release){
     BUILD = "debug"
     BUILD_SUFFIX = "d"
     TARGET = QtzCored
+}
+
+default_key {
+    DEFINES+=PRIVATE_KEY=\\\"f9bf8a579d1fa38c4e20ee884e4096c054b57771153799f49fb674d1006caf52\\\"
 }
 
 DEPENDPATH += .
@@ -81,3 +85,4 @@ headers.files = $$HEADERS
 INSTALLS += target
 INSTALLS += headers
 
+include(config.pri)

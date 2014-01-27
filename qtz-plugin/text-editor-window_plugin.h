@@ -3,8 +3,8 @@
 
 #include <QDesignerCustomWidgetInterface>
 
-class TextEditorWindowPlugin : public QObject, public QDesignerCustomWidgetInterface
-{
+class TextEditorWindowPlugin : public QObject,
+    public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 public:

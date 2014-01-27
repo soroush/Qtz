@@ -11,7 +11,8 @@ using namespace std;
 
 ACL *ACL::m_Instance = 0;
 
-ACL *ACL::instance() {
+ACL *ACL::instance()
+{
     static QMutex mutex;
     if (!m_Instance) {
         mutex.lock();
@@ -23,7 +24,8 @@ ACL *ACL::instance() {
     return m_Instance;
 }
 
-void ACL::drop() {
+void ACL::drop()
+{
     QIO::cerr << "drop called" ;
     //    QMutex mutex;
     //    mutex.lock();
@@ -33,21 +35,27 @@ void ACL::drop() {
 
 void ACL::setDataAdapter(const QString &_objectsTable,
                          const QString &_classesTable,
-                         const QString &_listsTable) {
+                         const QString &_listsTable)
+{
     //    this->database = _database;
     objectsTable = _objectsTable;
     classesTable = _classesTable;
     listsTable = _listsTable;
 }
 
-bool ACL::acquireAccess(const QString &Class, const QString &Object) {
+ACL::ACL()
+{
+}
+
+bool ACL::acquireAccess(const QString &Class, const QString &Object)
+{
     // TODO: add caching implementation
     QSqlQuery accessQuery;
     accessQuery.prepare("SELECT access FROM acl WHERE class=':className' AND object=':objectName'");
-    accessQuery.bindValue(":className",Class);
-    accessQuery.bindValue(":objectName",Object);
-    if(accessQuery.exec()) {
-        if(accessQuery.next()) {
+    accessQuery.bindValue(":className", Class);
+    accessQuery.bindValue(":objectName", Object);
+    if (accessQuery.exec()) {
+        if (accessQuery.next()) {
             return accessQuery.value(0).toBool();
         }
         else {
@@ -62,11 +70,12 @@ bool ACL::acquireAccess(const QString &Class, const QString &Object) {
     }
 }
 
-bool ACL::acquireAccess(const QString &Object, AuthProvider *const auth) {
-    if(auth != nullptr) {
-       // return acquireAccess(Object,auth->)
+bool ACL::acquireAccess(const QString &Object, AuthProvider *const auth)
+{
+    if (auth != nullptr) {
+        // return acquireAccess(Object,auth->)
     }
-    else{
+    else {
         // TODO: throw exception
         return false;
     }

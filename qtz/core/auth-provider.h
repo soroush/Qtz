@@ -6,7 +6,7 @@
 #include "library.h"
 
 QT_BEGIN_NAMESPACE
-class QLatin1String;
+class QString;
 QT_END_NAMESPACE
 
 /**
@@ -15,14 +15,15 @@ QT_END_NAMESPACE
   database backend is implemented. @ref AuthProvider follows a singleton pattern by design
   and it's permanent by application's lifecycle.
   */
-class QTZ_SHARED_EXPORT AuthProvider {
+class QTZ_SHARED_EXPORT AuthProvider : QObject {
+    Q_OBJECT
 public:
-    enum class AuthenticationSource{
+    enum class AuthenticationSource {
         Database,
         File,
         LDAP,
     };
-    enum class HashAlgorithm{
+    enum class HashAlgorithm {
         MD5,
         SHA1,
         SHA256,
@@ -30,16 +31,19 @@ public:
     };
 private:
     AuthProvider();
-    AuthProvider(const AuthProvider&);
-    AuthProvider &operator=(const AuthProvider&)=delete;
+    AuthProvider(const AuthProvider &);
+    AuthProvider &operator=(const AuthProvider &)=delete;
 
     static AuthProvider *m_instance;
 
-    QLatin1String authTableName;
-    QLatin1String authIDFiled;
-    QLatin1String authPassField;
+    QString authTableName;
+    QString authIDFiled;
+    QString authPassField;
     AuthenticationSource m_source;
     HashAlgorithm m_passwordHash;
+
+private slots:
+
 
 public:
     /**
@@ -64,11 +68,12 @@ public:
     hash is then encoded to UTF8. Doing this, we will give a penalty of doubled size in storage, but gain
     compatibility and ease of use.
     */
-    QString hashPassword(const QString&);
+    QString hashPassword(const QString &);
     bool authenticate(const QString &username, const QString &password);
-    void initialize(const QLatin1String &_authTableName = QLatin1String("credentials"),
-                    const QLatin1String &_authIDFiled = QLatin1String("username"),
-                    const QLatin1String &_authPassField = QLatin1String("password"),
+    void initialize(const QString &_authTableName =
+                        QString("credentials"),
+                    const QString &_authIDFiled = QString("username"),
+                    const QString &_authPassField = QString("password"),
                     const AuthenticationSource &_source = AuthenticationSource::Database,
                     const HashAlgorithm &_passwordHash = HashAlgorithm::SHA512);
     static AuthProvider *instance();

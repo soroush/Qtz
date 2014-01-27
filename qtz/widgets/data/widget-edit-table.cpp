@@ -3,7 +3,8 @@
 
 WidgetEditTable::WidgetEditTable(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::EditTableWidget) {
+    ui(new Ui::EditTableWidget)
+{
     ui->setupUi(this);
     connect(ui->toolButtonAdd, SIGNAL(clicked()), this, SIGNAL(add()));
     connect(ui->toolButtonRemove, SIGNAL(clicked()), this, SLOT(emitRemove()));
@@ -13,11 +14,13 @@ WidgetEditTable::WidgetEditTable(QWidget *parent) :
     connect(ui->toolButtonSave, SIGNAL(clicked()), this, SIGNAL(save()));
 }
 
-WidgetEditTable::~WidgetEditTable() {
+WidgetEditTable::~WidgetEditTable()
+{
     delete ui;
 }
 
-void WidgetEditTable::changeEvent(QEvent *e) {
+void WidgetEditTable::changeEvent(QEvent *e)
+{
     QWidget::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
@@ -28,11 +31,13 @@ void WidgetEditTable::changeEvent(QEvent *e) {
     }
 }
 
-void WidgetEditTable::setModel(QSqlRelationalTableModel *model) {
+void WidgetEditTable::setModel(QSqlRelationalTableModel *model)
+{
     ui->tableView->setModel(model);
 }
 
-void WidgetEditTable::emitRemove() {
+void WidgetEditTable::emitRemove()
+{
     if(ui->tableView->currentIndex().isValid()) {
         QModelIndexList list = ui->tableView->selectionModel()->selectedIndexes();
         if(! list.empty()) {
@@ -41,7 +46,8 @@ void WidgetEditTable::emitRemove() {
     }
 }
 
-void WidgetEditTable::emitEdit() {
+void WidgetEditTable::emitEdit()
+{
     if(ui->tableView->currentIndex().isValid()) {
         QModelIndex i = ui->tableView->selectionModel()->selectedIndexes().at(0);
         if(i.isValid()) {

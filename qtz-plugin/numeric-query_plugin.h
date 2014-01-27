@@ -3,14 +3,14 @@
 
 #include <QDesignerCustomWidgetInterface>
 
-class NumericQueryPlugin : public QObject, public QDesignerCustomWidgetInterface
-{
+class NumericQueryPlugin : public QObject,
+    public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
-    
+
 public:
     NumericQueryPlugin(QObject *parent = 0);
-    
+
     bool isContainer() const;
     bool isInitialized() const;
     QIcon icon() const;
@@ -22,7 +22,7 @@ public:
     QString whatsThis() const;
     QWidget *createWidget(QWidget *parent);
     void initialize(QDesignerFormEditorInterface *core);
-    
+
 private:
     bool m_initialized;
 };

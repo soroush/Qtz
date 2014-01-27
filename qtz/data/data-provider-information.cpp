@@ -1,4 +1,4 @@
-﻿#include "data-provider-information.h"
+#include "data-provider-information.h"
 #include <QObject>
 #include <QStringList>
 #include <QFile>
@@ -10,10 +10,12 @@ using namespace std;
 
 DataProviderInformation *DataProviderInformation::m_instance = nullptr;
 
-DataProviderInformation::DataProviderInformation() {
+DataProviderInformation::DataProviderInformation()
+{
 }
 
-void DataProviderInformation::initialize() {
+void DataProviderInformation::initialize()
+{
     supportedSystems.clear();
     QList<Database::Type> availableSystems = getAvailableSystems();
     QFile providersFile(":/en/resources/database-providers.xml");
@@ -53,7 +55,8 @@ void DataProviderInformation::initialize() {
 }
 
 const DataProvider DataProviderInformation::getProviderInfo(
-        const Database::Type &type) const {
+    const Database::Type &type) const
+{
     foreach (DataProvider db, this->supportedSystems) {
         if(db.m_type == type) {
             return db;
@@ -62,11 +65,13 @@ const DataProvider DataProviderInformation::getProviderInfo(
     // TODO: Handle error
 }
 
-QVector<DataProvider> DataProviderInformation::getSupportedProviders() {
+QVector<DataProvider> DataProviderInformation::getSupportedProviders()
+{
     return this->supportedSystems;
 }
 
-DataProviderInformation *DataProviderInformation::getInstance() {
+DataProviderInformation *DataProviderInformation::getInstance()
+{
     if(m_instance == nullptr) {
         m_instance = new DataProviderInformation();
         m_instance->initialize();
@@ -74,13 +79,15 @@ DataProviderInformation *DataProviderInformation::getInstance() {
     return m_instance;
 }
 
-QList<Database::Type> DataProviderInformation::getAvailableSystems() {
+QList<Database::Type> DataProviderInformation::getAvailableSystems()
+{
     generateAvailableSystems();
     return availableSystems;
 }
 
 
-void DataProviderInformation::generateAvailableSystems() {
+void DataProviderInformation::generateAvailableSystems()
+{
     availableSystems.clear();
     QStringList drivers = QSqlDatabase::drivers();
     foreach (QString driver, drivers) {
@@ -117,22 +124,21 @@ void DataProviderInformation::generateAvailableSystems() {
     }
 }
 
-QString DataProviderInformation::getDriverName(const Database::Type &type) {
+QString DataProviderInformation::getDriverName(const Database::Type &type)
+{
     switch (type) {
     case Database::Type::MySQL5:
-        return "QMYSQL";
-        break;
+        return QString("QMYSQL");
     case Database::Type::SQLServer:
     case Database::Type::SQLServer2005:
     case Database::Type::SQLServer2008:
     case Database::Type::SQLServer2010:
     case Database::Type::SQLServer2012:
-        return "QODBC";
+        return QString("QODBC");
         break;
     case Database::Type::SQLite:
-        return "QSQLITE";
-        break;
+        return QString("QSQLITE");
     default:
-        break;
+        return QString("");
     }
 }

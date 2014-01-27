@@ -7,22 +7,26 @@
 QSettings *Settings::instance = NULL;
 bool Settings::set = false;
 
-Settings::Settings() {
+Settings::Settings()
+{
     // Foo ctor
 }
 
-void Settings::release() {
+void Settings::release()
+{
     if(instance != NULL) {
         delete instance;
     }
 }
 
-void Settings::initialize(const QString &organization, const QString &program) {
+void Settings::initialize(const QString &organization, const QString &program)
+{
     instance = new QSettings(organization, program);
     set = true;
 }
 
-QSettings *Settings::getInstance() {
+QSettings *Settings::getInstance()
+{
     if(!set) {
         std::wcerr <<
                    QObject::tr("Request for non-existing instance. Returning null.").toStdWString()
@@ -32,7 +36,8 @@ QSettings *Settings::getInstance() {
     return instance;
 }
 
-bool Settings::isFirstRun() {
+bool Settings::isFirstRun()
+{
     if(!set) {
         return true;    //TODO: add exception here
     }
@@ -40,7 +45,8 @@ bool Settings::isFirstRun() {
     return result;
 }
 
-void Settings::setFirstRun(const bool &value) {
+void Settings::setFirstRun(const bool &value)
+{
     if(!set) {
         // TODO: add exception
         return;

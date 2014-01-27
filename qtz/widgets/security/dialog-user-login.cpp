@@ -8,16 +8,19 @@
 DialogUserLogin::DialogUserLogin(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogUserLogin),
-    tries(0) {
+    tries(0)
+{
     ui->setupUi(this);
     createConnections();
 }
 
-DialogUserLogin::~DialogUserLogin() {
+DialogUserLogin::~DialogUserLogin()
+{
     delete ui;
 }
 
-void DialogUserLogin::changeEvent(QEvent *e) {
+void DialogUserLogin::changeEvent(QEvent *e)
+{
     QDialog::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
@@ -28,19 +31,20 @@ void DialogUserLogin::changeEvent(QEvent *e) {
     }
 }
 
-void DialogUserLogin::synchChecks() {
+void DialogUserLogin::synchChecks()
+{
     if(! (ui->checkBoxRememberPassword->isChecked()
             && ui->checkBoxRememberUsername->isChecked())) {
         ui->checkBoxDontShow->setChecked(false);
     }
 }
 
-void DialogUserLogin::login() {
+void DialogUserLogin::login()
+{
     ++tries;
     if(tries < 5) {
-        qDebug() << 4;
-        if(AuthProvider::instance()->checkLogin(ui->lineEditUsername->text(),
-                                                ui->lineEditPassword->text())) {
+        if(AuthProvider::instance()->authenticate(ui->lineEditUsername->text(),
+                ui->lineEditPassword->text())) {
             // TODO: generate role
             accept();
         }
@@ -67,7 +71,8 @@ void DialogUserLogin::login() {
     }
 }
 
-void DialogUserLogin::createConnections() {
+void DialogUserLogin::createConnections()
+{
     connect(ui->pushButtonLogin, SIGNAL(clicked()), this, SLOT(login()));
 }
 

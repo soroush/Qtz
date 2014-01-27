@@ -3,8 +3,7 @@
 
 #include <QDesignerCustomWidgetInterface>
 
-class ChooseFilePlugin : public QObject, public QDesignerCustomWidgetInterface
-{
+class ChooseFilePlugin : public QObject, public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 

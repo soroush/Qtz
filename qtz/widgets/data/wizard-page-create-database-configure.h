@@ -10,17 +10,16 @@ class WizardPageCreateDatabaseConfigure;
 }
 QT_END_NAMESPACE
 
-class WizardPageCreateDatabaseConfigure : public QWizardPage
-{
+class WizardPageCreateDatabaseConfigure : public QWizardPage {
     Q_OBJECT
-    
+
 public:
     explicit WizardPageCreateDatabaseConfigure(QWidget *parent = 0);
     ~WizardPageCreateDatabaseConfigure();
-    
+
 protected:
     void changeEvent(QEvent *e);
-    
+
 private:
     Ui::WizardPageCreateDatabaseConfigure *ui;
 

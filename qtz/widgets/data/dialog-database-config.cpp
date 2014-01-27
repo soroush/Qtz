@@ -1,4 +1,4 @@
-﻿#include "dialog-database-config.h"
+#include "dialog-database-config.h"
 #include "ui_dialog-database-config.h"
 
 #include <QSet>
@@ -13,7 +13,8 @@
 DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogDatabaseConfig),
-    tested(false), connected(false) {
+    tested(false), connected(false)
+{
     ui->setupUi(this);
     // Remove maximize and minimize buttons
     this->setWindowFlags(Qt::Dialog | Qt::WindowContextHelpButtonHint |
@@ -25,16 +26,18 @@ DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
     if(shouldRemember) {
         readConnectionInfo();
     }
-    else{
+    else {
         updateDatabaseType(0);
     }
 }
 
-DialogDatabaseConfig::~DialogDatabaseConfig() {
+DialogDatabaseConfig::~DialogDatabaseConfig()
+{
     delete ui;
 }
 
-void DialogDatabaseConfig::changeEvent(QEvent *e) {
+void DialogDatabaseConfig::changeEvent(QEvent *e)
+{
     QDialog::changeEvent(e);
     switch (e->type()) {
     case QEvent::LanguageChange:
@@ -45,7 +48,8 @@ void DialogDatabaseConfig::changeEvent(QEvent *e) {
     }
 }
 
-void DialogDatabaseConfig::initializeDatabaseSystems() {
+void DialogDatabaseConfig::initializeDatabaseSystems()
+{
     QVector<DataProvider> systems =
         DataProviderInformation::getInstance()->getSupportedProviders();
     foreach (DataProvider p, systems) {
@@ -53,7 +57,8 @@ void DialogDatabaseConfig::initializeDatabaseSystems() {
     }
 }
 
-void DialogDatabaseConfig::createConnections() {
+void DialogDatabaseConfig::createConnections()
+{
     connect(ui->comboBoxDatabaseType, SIGNAL(currentIndexChanged(int)), this,
             SLOT(updateDatabaseType(int)));
     connect(ui->pushButtonTest, SIGNAL(clicked()), this, SLOT(test()));
@@ -67,7 +72,8 @@ void DialogDatabaseConfig::createConnections() {
             SLOT(updateDefaultPortStatus(bool)));
 }
 
-bool DialogDatabaseConfig::testConnection() {
+bool DialogDatabaseConfig::testConnection()
+{
     QSqlDatabase db;
     tested = true;
     switch(currentType) {
@@ -114,7 +120,9 @@ bool DialogDatabaseConfig::testConnection() {
     return false;
 }
 
-void DialogDatabaseConfig::establishActualConnection() {
+void DialogDatabaseConfig::establishActualConnection()
+{
+    Database::getInstance()->setType(currentType);
     switch(currentType) {
     case Database::Type::SQLServer2005:
         break;
@@ -125,7 +133,7 @@ void DialogDatabaseConfig::establishActualConnection() {
     case Database::Type::SQLServer2012:
         break;
     case Database::Type::MySQL5:
-        Database::setInstance(QSqlDatabase::addDatabase("QMYSQL"), true);
+        //Database::setInstance(QSqlDatabase::addDatabase("QMYSQL"), true);
         Database::getInstance()->database()->setHostName(ui->lineEditHost->text());
         Database::getInstance()->database()->setPort(ui->spinBoxPort->value());
         Database::getInstance()->database()->setDatabaseName(
@@ -139,10 +147,10 @@ void DialogDatabaseConfig::establishActualConnection() {
     case Database::Type::SQLServer:
         break;
     }
-    Database::getInstance()->setType(currentType);
 }
 
-void DialogDatabaseConfig::readConnectionInfo() {
+void DialogDatabaseConfig::readConnectionInfo()
+{
     if(Database::getInstance() != nullptr) {
         Database::getInstance()->readConnectionInfo();
         ui->lineEditHost->setText(Database::getInstance()->database()->hostName());
@@ -162,7 +170,8 @@ void DialogDatabaseConfig::readConnectionInfo() {
     }
 }
 
-void DialogDatabaseConfig::writeConnectionInfo() {
+void DialogDatabaseConfig::writeConnectionInfo()
+{
     Database::getInstance()->writeConnectionInfo();
     Settings::getInstance()->setValue("ui:data:dbconfig:local",
                                       ui->checkBoxLocal->isChecked());
@@ -172,11 +181,13 @@ void DialogDatabaseConfig::writeConnectionInfo() {
                                       ui->checkBoxRemember->isChecked());
 }
 
-void DialogDatabaseConfig::clearConnectionInfo() {
+void DialogDatabaseConfig::clearConnectionInfo()
+{
     Settings::getInstance()->setValue("ui:data:dbconfig:remember", false);
 }
 
-void DialogDatabaseConfig::accept() {
+void DialogDatabaseConfig::accept()
+{
     if(tested) {
         if(connected) {
             establishActualConnection();
@@ -211,16 +222,19 @@ void DialogDatabaseConfig::accept() {
     }
 }
 
-void DialogDatabaseConfig::test() {
+void DialogDatabaseConfig::test()
+{
     connected = testConnection();
 }
 
-void DialogDatabaseConfig::updateLocalHostStatus(bool checked) {
+void DialogDatabaseConfig::updateLocalHostStatus(bool checked)
+{
     if(checked) {
         this->lastCustomHost = ui->lineEditHost->text();
-        if((quint8)currentType!=0){
-        ui->lineEditHost->setText(DataProviderInformation::getInstance()->getProviderInfo(
-                                      currentType).defaultHost());
+        if((quint8)currentType!=0) {
+            ui->lineEditHost->setText(
+                DataProviderInformation::getInstance()->getProviderInfo(
+                    currentType).defaultHost());
         }
     }
     else {
@@ -228,13 +242,14 @@ void DialogDatabaseConfig::updateLocalHostStatus(bool checked) {
     }
 }
 
-void DialogDatabaseConfig::updateDefaultPortStatus(bool checked) {
+void DialogDatabaseConfig::updateDefaultPortStatus(bool checked)
+{
     if(checked) {
         this->lastCustomPort = ui->spinBoxPort->value();
-        if((quint8)currentType!=0){
-        quint32 port = DataProviderInformation::getInstance()->getProviderInfo(
-                           currentType).defaultPort();
-        ui->spinBoxPort->setValue(port);
+        if((quint8)currentType!=0) {
+            quint32 port = DataProviderInformation::getInstance()->getProviderInfo(
+                               currentType).defaultPort();
+            ui->spinBoxPort->setValue(port);
         }
     }
     else {
@@ -242,8 +257,10 @@ void DialogDatabaseConfig::updateDefaultPortStatus(bool checked) {
     }
 }
 
-void DialogDatabaseConfig::updateDatabaseType(int i) {
-    currentType = static_cast<Database::Type>(ui->comboBoxDatabaseType->itemData(i).toUInt());
+void DialogDatabaseConfig::updateDatabaseType(int i)
+{
+    currentType = static_cast<Database::Type>(ui->comboBoxDatabaseType->itemData(
+                      i).toUInt());
     switch(currentType) {
     case Database::Type::SQLServer2005:
     case Database::Type::SQLServer2008:

@@ -12,14 +12,14 @@ Qtz::Qtz(QObject *parent)
 {
     m_widgets.append(new NumericQueryPlugin(this));
     m_widgets.append(new TextQueryPlugin(this));
-    m_widgets.append(new DateQueryPlugin(this));    
+    m_widgets.append(new DateQueryPlugin(this));
     m_widgets.append(new TextEditorWindowPlugin(this));
     m_widgets.append(new EditableLabelPlugin(this));
     m_widgets.append(new ChooseFilePlugin(this));
     m_widgets.append(new TableEditPlugin(this));
 }
 
-QList<QDesignerCustomWidgetInterface*> Qtz::customWidgets() const
+QList<QDesignerCustomWidgetInterface *> Qtz::customWidgets() const
 {
     return m_widgets;
 }

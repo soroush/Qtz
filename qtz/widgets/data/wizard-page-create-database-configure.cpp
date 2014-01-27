@@ -11,7 +11,8 @@
 
 #include <QDebug>
 
-WizardPageCreateDatabaseConfigure::WizardPageCreateDatabaseConfigure(QWidget *parent) :
+WizardPageCreateDatabaseConfigure::WizardPageCreateDatabaseConfigure(
+    QWidget *parent) :
     QWizardPage(parent),
     ui(new Ui::WizardPageCreateDatabaseConfigure)
 {
@@ -19,8 +20,6 @@ WizardPageCreateDatabaseConfigure::WizardPageCreateDatabaseConfigure(QWidget *pa
     initializeDatabaseSystems();
     createConnections();
     updateDatabaseType(0);
-
-
     registerField("provider",ui->comboBoxDatabaseType);
     registerField("host",ui->lineEditHost);
     registerField("port",ui->spinBoxPort);
@@ -49,15 +48,17 @@ void WizardPageCreateDatabaseConfigure::changeEvent(QEvent *e)
     }
 }
 
-void WizardPageCreateDatabaseConfigure::initializeDatabaseSystems() {
+void WizardPageCreateDatabaseConfigure::initializeDatabaseSystems()
+{
     QVector<DataProvider> systems =
-            DataProviderInformation::getInstance()->getSupportedProviders();
+        DataProviderInformation::getInstance()->getSupportedProviders();
     foreach (DataProvider p, systems) {
         ui->comboBoxDatabaseType->addItem(p.providerName(),p.providerCode());
     }
 }
 
-void WizardPageCreateDatabaseConfigure::createConnections() {
+void WizardPageCreateDatabaseConfigure::createConnections()
+{
     connect(ui->comboBoxDatabaseType, SIGNAL(currentIndexChanged(int)), this,
             SLOT(updateDatabaseType(int)));
     connect(ui->checkBoxLocal, SIGNAL(toggled(bool)), ui->lineEditHost,
@@ -68,29 +69,33 @@ void WizardPageCreateDatabaseConfigure::createConnections() {
             SLOT(setDisabled(bool)));
     connect(ui->checkBoxDefaultPort, SIGNAL(toggled(bool)), this ,
             SLOT(updateDefaultPortStatus(bool)));
-
-    connect(ui->comboBoxDatabaseType, SIGNAL(currentIndexChanged(int)),this,SIGNAL(completeChanged()));
-    connect(ui->lineEditHost, SIGNAL(textChanged(QString)),this,SIGNAL(completeChanged()));
-    connect(ui->spinBoxPort, SIGNAL(valueChanged(int)),this,SIGNAL(completeChanged()));
-    connect(ui->lineEditDatabase, SIGNAL(textChanged(QString)),this,SIGNAL(completeChanged()));
-    connect(ui->lineEditUser, SIGNAL(textChanged(QString)),this,SIGNAL(completeChanged()));
-    connect(ui->lineEditPassword, SIGNAL(textChanged(QString)),this,SIGNAL(completeChanged()));
-    connect(ui->checkBoxRemoveExisting, SIGNAL(stateChanged(int)),this,SIGNAL(completeChanged()));
+    connect(ui->comboBoxDatabaseType, SIGNAL(currentIndexChanged(int)),this,
+            SIGNAL(completeChanged()));
+    connect(ui->lineEditHost, SIGNAL(textChanged(QString)),this,
+            SIGNAL(completeChanged()));
+    connect(ui->spinBoxPort, SIGNAL(valueChanged(int)),this,
+            SIGNAL(completeChanged()));
+    connect(ui->lineEditDatabase, SIGNAL(textChanged(QString)),this,
+            SIGNAL(completeChanged()));
+    connect(ui->lineEditUser, SIGNAL(textChanged(QString)),this,
+            SIGNAL(completeChanged()));
+    connect(ui->lineEditPassword, SIGNAL(textChanged(QString)),this,
+            SIGNAL(completeChanged()));
+    connect(ui->checkBoxRemoveExisting, SIGNAL(stateChanged(int)),this,
+            SIGNAL(completeChanged()));
 }
 
 bool WizardPageCreateDatabaseConfigure::isComplete() const
 {
-    if(currentType == Database::Type::SQLite)
-    {
+    if(currentType == Database::Type::SQLite) {
         // TODO: Check existence and override
         return true;
     }
     else if(
-               field("host").toString().isEmpty() ||
-               field("name").toString().isEmpty() ||
-               field("username").toString().isEmpty()
-            )
-    {
+        field("host").toString().isEmpty() ||
+        field("name").toString().isEmpty() ||
+        field("username").toString().isEmpty()
+    ) {
         return false;
     }
     return true;
@@ -98,27 +103,32 @@ bool WizardPageCreateDatabaseConfigure::isComplete() const
 
 bool WizardPageCreateDatabaseConfigure::validatePage()
 {
-    wizard()->setProperty("providerCode",ui->comboBoxDatabaseType->itemData(ui->comboBoxDatabaseType->currentIndex()).toUInt());
+    wizard()->setProperty("providerCode",
+                          ui->comboBoxDatabaseType->itemData(
+                              ui->comboBoxDatabaseType->currentIndex()).toUInt());
     return true;
 }
 
-void WizardPageCreateDatabaseConfigure::updateLocalHostStatus(bool checked) {
+void WizardPageCreateDatabaseConfigure::updateLocalHostStatus(bool checked)
+{
     if(checked) {
         this->lastCustomHost = ui->lineEditHost->text();
-        ui->lineEditHost->setText(DataProviderInformation::getInstance()->getProviderInfo(
-                                      currentType).defaultHost());
+        ui->lineEditHost->setText(
+            DataProviderInformation::getInstance()->getProviderInfo(
+                currentType).defaultHost());
     }
     else {
         ui->lineEditHost->setText(lastCustomHost);
     }
 }
 
-void WizardPageCreateDatabaseConfigure::updateDefaultPortStatus(bool checked) {
+void WizardPageCreateDatabaseConfigure::updateDefaultPortStatus(bool checked)
+{
     if(checked) {
         this->lastCustomPort = ui->spinBoxPort->value();
-        if((quint8)currentType!=0){
+        if((quint8)currentType!=0) {
             quint32 port = DataProviderInformation::getInstance()->getProviderInfo(
-                        currentType).defaultPort();
+                               currentType).defaultPort();
             ui->spinBoxPort->setValue(port);
         }
     }
@@ -127,8 +137,10 @@ void WizardPageCreateDatabaseConfigure::updateDefaultPortStatus(bool checked) {
     }
 }
 
-void WizardPageCreateDatabaseConfigure::updateDatabaseType(int i) {
-    currentType = static_cast<Database::Type>(ui->comboBoxDatabaseType->itemData(i).toUInt());
+void WizardPageCreateDatabaseConfigure::updateDatabaseType(int i)
+{
+    currentType = static_cast<Database::Type>(ui->comboBoxDatabaseType->itemData(
+                      i).toUInt());
     switch(currentType) {
     case Database::Type::SQLServer2005:
     case Database::Type::SQLServer2008:
