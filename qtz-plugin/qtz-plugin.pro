@@ -4,6 +4,13 @@ lessThan(QT_MAJOR_VERSION, 5): CONFIG += designer
 TARGET      = $$qtLibraryTarget(qtzplugin)
 TEMPLATE    = lib
 
+unix{
+    LINK_MAJ = ""
+}
+win32{
+    LINK_MAJ = "0"
+}
+
 CONFIG(release, debug|release){
     BUILD = "release"
     BUILD_SUFFIX = ""

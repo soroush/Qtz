@@ -8,6 +8,13 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
+unix{
+    LINK_MAJ = ""
+}
+win32{
+    LINK_MAJ = "0"
+}
+
 CONFIG(release, debug|release){
     BUILD = "release"
     BUILD_SUFFIX = ""

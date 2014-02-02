@@ -3,9 +3,11 @@
 
 #include <QWizardPage>
 
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class WizardPageCreateDatabaseOperation;
 }
+QT_END_NAMESPACE
 
 class WizardPageCreateDatabaseOperation : public QWizardPage {
     Q_OBJECT
