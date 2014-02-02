@@ -69,6 +69,12 @@ public:
     compatibility and ease of use.
     */
     QString hashPassword(const QString &);
+    /**
+     * @brief This method provides a mean to authenticate a user using given credentials.
+     * @param username ID of user
+     * @param password Password of user
+     * @return 'true' if authentication was successful and 'false' if not.
+     */
     bool authenticate(const QString &username, const QString &password);
     void initialize(const QString &_authTableName =
                         QString("credentials"),

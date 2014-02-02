@@ -2,6 +2,8 @@
 #define DIALOGDATABASECONFIG_H
 
 #include <QDialog>
+#include <QFutureWatcher>
+#include <QFuture>
 #include <qtz/data/database.h>
 
 QT_BEGIN_NAMESPACE
@@ -12,7 +14,7 @@ QT_END_NAMESPACE
 
 class DialogDatabaseConfig : public QDialog {
     Q_OBJECT
-
+    friend class GuiTest;
 public:
     explicit DialogDatabaseConfig(QWidget *parent = 0);
     ~DialogDatabaseConfig();
@@ -35,6 +37,12 @@ private:
     bool connected;
     QString lastCustomHost;
     quint32 lastCustomPort;
+    QString lastSSLCA;
+    QString lastSSLCert;
+    QString lastSSLKey;
+    // TODO: Move data operations into another thread
+    QFutureWatcher<bool> *fw;
+    QFuture<bool> f;
 
 public slots:
     void accept();
@@ -44,6 +52,10 @@ private slots:
     void test();
     void updateLocalHostStatus(bool);
     void updateDefaultPortStatus(bool);
+    void updateSecurityOption(int);
+    void modifyWindow();
+    void lockGUI();
+    void releaseGUI();
 };
 
 #endif // DIALOGDATABASECONFIG_H
