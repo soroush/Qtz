@@ -17,11 +17,11 @@ BEGIN
     BEGIN
         BLOCK   "040904b0"
         BEGIN
-            VALUE   "CompanyName",      "FEMA Ltd.\0"
-            VALUE   "FileDescription",  "FEMA Qtz User Interface Abstraction Layer.\0"
+            VALUE   "CompanyName",      "Phemto Ltd.\0"
+            VALUE   "FileDescription",  "Phemto Qtz User Interface Abstraction Layer.\0"
             VALUE   "FileVersion",      "0.1.0\0"
             VALUE   "InternalName",     "Qtz Widgets\0"
-            VALUE   "LegalCopyright",   "Copyright 2012-2013 by FEMA Ltd. All rights reserved.\0"
+            VALUE   "LegalCopyright",   "Copyright 2012-2013 by Phemto Ltd. All rights reserved.\0"
             VALUE   "OriginalFilename", "QtzWidgets.dll\0"
             VALUE   "ProductName",      "Qtz Widgets Library\0"
             VALUE   "ProductVersion",   "0.1.0\0"

@@ -5,6 +5,9 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QCursor>
+#include <QtConcurrentRun>
+
 #include <qtz/core/settings.h>
 #include <qtz/data/data-provider-information.h>
 
@@ -13,7 +16,9 @@
 DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogDatabaseConfig),
-    tested(false), connected(false)
+    tested(false), connected(false),
+    fw(new QFutureWatcher<bool>())
+
 {
     ui->setupUi(this);
     // Remove maximize and minimize buttons
@@ -26,14 +31,15 @@ DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
     if(shouldRemember) {
         readConnectionInfo();
     }
-    else {
-        updateDatabaseType(0);
-    }
+    updateSecurityOption(ui->comboBoxConnectionSecurity->currentIndex());
+    updateDatabaseType(ui->comboBoxDatabaseType->currentIndex());
+    setWindowModified(false);
 }
 
 DialogDatabaseConfig::~DialogDatabaseConfig()
 {
     delete ui;
+    delete fw;
 }
 
 void DialogDatabaseConfig::changeEvent(QEvent *e)
@@ -70,12 +76,38 @@ void DialogDatabaseConfig::createConnections()
             SLOT(setDisabled(bool)));
     connect(ui->checkBoxDefaultPort, SIGNAL(toggled(bool)), this ,
             SLOT(updateDefaultPortStatus(bool)));
+    connect(ui->comboBoxConnectionSecurity,SIGNAL(currentIndexChanged(int)),this,
+            SLOT(updateSecurityOption(int)));
+    // Window Modified flags
+    connect(ui->comboBoxDatabaseType, SIGNAL(currentIndexChanged(int)), this,
+            SLOT(modifyWindow()));
+    connect(ui->checkBoxLocal, SIGNAL(toggled(bool)), this,
+            SLOT(modifyWindow()));
+    connect(ui->checkBoxDefaultPort, SIGNAL(toggled(bool)), this ,
+            SLOT(modifyWindow()));
+    connect(ui->spinBoxPort,SIGNAL(valueChanged(int)),this,
+            SLOT(modifyWindow()));
+    connect(ui->lineEditHost,SIGNAL(textChanged(QString)),this,
+            SLOT(modifyWindow()));
+    connect(ui->spinBoxPort,SIGNAL(valueChanged(int)),this,
+            SLOT(modifyWindow()));
+    connect(ui->lineEditDatabase,SIGNAL(textChanged(QString)),this,
+            SLOT(modifyWindow()));
+    connect(ui->lineEditUser,SIGNAL(textChanged(QString)),this,
+            SLOT(modifyWindow()));
+    connect(ui->lineEditPassword,SIGNAL(textChanged(QString)),this,
+            SLOT(modifyWindow()));
+    connect(ui->comboBoxConnectionSecurity, SIGNAL(currentIndexChanged(int)), this,
+            SLOT(modifyWindow()));
+    // TODO: add signals for choose file
 }
 
 bool DialogDatabaseConfig::testConnection()
 {
-    QSqlDatabase db;
+    QSqlDatabase testDB;
     tested = true;
+    currentType = static_cast<Database::Type>(ui->comboBoxDatabaseType->itemData(
+                      ui->comboBoxDatabaseType->currentIndex()).toUInt());
     switch(currentType) {
     case Database::Type::SQLServer2005:
         break;
@@ -86,14 +118,17 @@ bool DialogDatabaseConfig::testConnection()
     case Database::Type::SQLServer2012:
         break;
     case Database::Type::MySQL5:
-        db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName(ui->lineEditHost->text());
-        db.setPort(ui->spinBoxPort->value());
-        db.setDatabaseName(ui->lineEditDatabase->text());
-        db.setUserName(ui->lineEditUser->text());
-        db.setPassword(ui->lineEditPassword->text());
-        if(db.open()) {
-            db.close();
+        QSqlDatabase::database("testConnection").close();
+        testDB = QSqlDatabase::addDatabase("QMYSQL","testConnection");
+        testDB.setHostName(ui->lineEditHost->text());
+        testDB.setPort(ui->spinBoxPort->value());
+        testDB.setDatabaseName(ui->lineEditDatabase->text());
+        testDB.setUserName(ui->lineEditUser->text());
+        testDB.setPassword(ui->lineEditPassword->text());
+        // TODO: Connect with SSL
+        testDB.open();
+        if(testDB.isOpen() && testDB.isValid()) {
+            testDB.close();
             QMessageBox information(QMessageBox::Information,
                                     tr("No problem occured."),
                                     tr("Successfuly connected to database."),
@@ -107,7 +142,7 @@ bool DialogDatabaseConfig::testConnection()
                                   tr("Unable connected to database."),
                                   tr("Could not establish connection with database management system provider.\n"
                                      "System has reported following error:\n%1")
-                                  .arg(db.lastError().text())
+                                  .arg(testDB.lastError().text())
                                  );
             return false;
         }
@@ -133,7 +168,6 @@ void DialogDatabaseConfig::establishActualConnection()
     case Database::Type::SQLServer2012:
         break;
     case Database::Type::MySQL5:
-        //Database::setInstance(QSqlDatabase::addDatabase("QMYSQL"), true);
         Database::getInstance()->database()->setHostName(ui->lineEditHost->text());
         Database::getInstance()->database()->setPort(ui->spinBoxPort->value());
         Database::getInstance()->database()->setDatabaseName(
@@ -153,20 +187,22 @@ void DialogDatabaseConfig::readConnectionInfo()
 {
     if(Database::getInstance() != nullptr) {
         Database::getInstance()->readConnectionInfo();
+        currentType = Database::getInstance()->type();
         ui->lineEditHost->setText(Database::getInstance()->database()->hostName());
-        quint32 type = Settings::getInstance()->value("db:type").toUInt();
-        int index = ui->comboBoxDatabaseType->findData(type);
+        int index = ui->comboBoxDatabaseType->findData(static_cast<int>(currentType));
         ui->comboBoxDatabaseType->setCurrentIndex(index);
+        updateDatabaseType(index);
         ui->checkBoxLocal->setChecked(
             Settings::getInstance()->value("ui:data:dbconfig:local").toBool());
         ui->checkBoxDefaultPort->setChecked(
             Settings::getInstance()->value("ui:data:dbconfig:defaultPort").toBool());
+        ui->checkBoxRemember->setChecked(
+            Settings::getInstance()->value("ui:data:dbconfig:remember").toBool());
         ui->spinBoxPort->setValue(Database::getInstance()->database()->port());
         ui->lineEditDatabase->setText(
             Database::getInstance()->database()->databaseName());
         ui->lineEditUser->setText(Database::getInstance()->database()->userName());
         ui->lineEditPassword->setText(Database::getInstance()->database()->password());
-        currentType = Database::getInstance()->type();
     }
 }
 
@@ -188,37 +224,43 @@ void DialogDatabaseConfig::clearConnectionInfo()
 
 void DialogDatabaseConfig::accept()
 {
-    if(tested) {
-        if(connected) {
-            establishActualConnection();
-            QDialog::accept();
+    if(isWindowModified()) {
+        if(tested) {
+            if(connected) {
+                establishActualConnection();
+                QDialog::accept();
+            }
+            else {
+                QMessageBox message;
+                message.setIcon(QMessageBox::Critical);
+                message.setText(tr("Unable to connect to database.\n"
+                                   "Do you want to continue anyway?"));
+                message.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                int returnCode = message.exec();
+                if(returnCode == QMessageBox::Yes) {
+                    establishActualConnection();
+                    QDialog::accept();
+                }
+            }
+            if(ui->checkBoxRemember->isChecked()) {
+                writeConnectionInfo();
+            }
+            else {
+                clearConnectionInfo();
+            }
         }
         else {
             QMessageBox message;
             message.setIcon(QMessageBox::Critical);
-            message.setText(tr("Unable to connect to database.\n"
-                               "Do you want to continue anyway?"));
-            message.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-            int returnCode = message.exec();
-            if(returnCode == QMessageBox::Yes) {
-                establishActualConnection();
-                QDialog::accept();
-            }
-        }
-        if(ui->checkBoxRemember->isChecked()) {
-            writeConnectionInfo();
-        }
-        else {
-            clearConnectionInfo();
+            message.setText(tr("Your connection is not tested yet.\n"
+                               "Please make sure that you can connect to a valid database."));
+            message.setStandardButtons(QMessageBox::Ok);
+            message.exec();
         }
     }
     else {
-        QMessageBox message;
-        message.setIcon(QMessageBox::Critical);
-        message.setText(tr("Your connection is not tested yet.\n"
-                           "Please make sure that you can connect to a valid database."));
-        message.setStandardButtons(QMessageBox::Ok);
-        message.exec();
+        establishActualConnection();
+        QDialog::accept();
     }
 }
 
@@ -255,6 +297,49 @@ void DialogDatabaseConfig::updateDefaultPortStatus(bool checked)
     else {
         ui->spinBoxPort->setValue(lastCustomPort);
     }
+}
+
+void DialogDatabaseConfig::updateSecurityOption(int index)
+{
+    switch (index) {
+    case 0: // No encryption
+        this->ui->labelSSLCA->hide();
+        this->ui->labelSSLCert->hide();
+        this->ui->labelSSLKey->hide();
+        this->ui->chooseFileSSLCA->hide();
+        this->ui->chooseFileSSLCert->hide();
+        this->ui->chooseFileSSLKey->hide();
+        break;
+    case 1: // Encrypt over SSL
+        this->ui->labelSSLCA->show();
+        this->ui->labelSSLCert->show();
+        this->ui->labelSSLKey->show();
+        this->ui->chooseFileSSLCA->show();
+        this->ui->chooseFileSSLCert->show();
+        this->ui->chooseFileSSLKey->show();
+    default:
+        break;
+    }
+    adjustSize();
+}
+
+void DialogDatabaseConfig::modifyWindow()
+{
+    setWindowModified(true);
+}
+
+void DialogDatabaseConfig::lockGUI()
+{
+    QCursor wait {Qt::WaitCursor};
+    this->setCursor(wait);
+    this->setEnabled(false);
+}
+
+void DialogDatabaseConfig::releaseGUI()
+{
+    QCursor wait {Qt::ArrowCursor};
+    this->setCursor(wait);
+    this->setEnabled(true);
 }
 
 void DialogDatabaseConfig::updateDatabaseType(int i)

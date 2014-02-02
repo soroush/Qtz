@@ -7,7 +7,7 @@
 #include <QVector>
 #include <QSqlDatabase>
 #include <QMap>
-#include "export.h"
+#include <qtz/core/library.h>
 
 QT_BEGIN_NAMESPACE
 //class QMap<QString, QStringList>;
@@ -97,7 +97,7 @@ signals:
 private:
     static Database *instance;
 
-    QSqlDatabase *m_database;
+    QSqlDatabase m_database;
     Type m_type;
     unsigned int m_blockSize;
     RestoreExecuteMode executeMode;

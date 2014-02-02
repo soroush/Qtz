@@ -47,7 +47,7 @@ Database::Database(const Database &other):
 //        instance->m_database = database;
 //    }
 //    else if(destroy) {
-//        instance->m_database->close();
+//        instance->m_database.close();
 //        instance->m_database = database;
 //    }
 //    set = true;
@@ -67,14 +67,14 @@ Database *Database::getInstance()
 
 QSqlDatabase *Database::database()
 {
-    return instance->m_database;
+    return &(instance->m_database);
 }
 
 void Database::setType(const Type &newType)
 {
     if(m_type != newType ) {
         m_type = newType;
-        m_database = new QSqlDatabase(QSqlDatabase::addDatabase(
+        m_database = QSqlDatabase(QSqlDatabase::addDatabase(
                                           DataProviderInformation::getInstance()->getDriverName(m_type)));
     }
 }
@@ -90,17 +90,19 @@ void Database::readConnectionInfo()
                   (Settings::getInstance()->value("db:type").toUInt());
     QString driverName = DataProviderInformation::getInstance()->getDriverName(
                              driver);
-    *(instance->m_database) = QSqlDatabase::addDatabase(driverName);
+//    qDebug() << driver;
+    qDebug() << driverName;
+    instance->m_database = QSqlDatabase::addDatabase(driverName);
     instance->m_type = driver;
-    instance->m_database->setHostName(
+    instance->m_database.setHostName(
         Settings::getInstance()->value("db:host").toString());
-    instance->m_database->setPort(
+    instance->m_database.setPort(
         Settings::getInstance()->value("db:port").toInt());
-    instance->m_database->setDatabaseName(
+    instance->m_database.setDatabaseName(
         Settings::getInstance()->value("db:database").toString());
-    instance->m_database->setUserName(
+    instance->m_database.setUserName(
         Settings::getInstance()->value("db:user").toString());
-    instance->m_database->setPassword(
+    instance->m_database.setPassword(
         AuthProvider::instance()->decryptPassword(
             Settings::getInstance()->value("db:password").toString()));
 }
@@ -109,14 +111,14 @@ void Database::writeConnectionInfo()
 {
     Settings::getInstance()->setValue("db:type",
                                       static_cast<quint8>(instance->m_type));
-    Settings::getInstance()->setValue("db:host", instance->m_database->hostName());
-    Settings::getInstance()->setValue("db:port", instance->m_database->port());
+    Settings::getInstance()->setValue("db:host", instance->m_database.hostName());
+    Settings::getInstance()->setValue("db:port", instance->m_database.port());
     Settings::getInstance()->setValue("db:database",
-                                      instance->m_database->databaseName());
-    Settings::getInstance()->setValue("db:user", instance->m_database->userName());
+                                      instance->m_database.databaseName());
+    Settings::getInstance()->setValue("db:user", instance->m_database.userName());
     Settings::getInstance()->setValue(
         "db:password", AuthProvider::instance()->encryptPassword(
-            instance->m_database->password()));
+            instance->m_database.password()));
 }
 
 void Database::setBlockSize(const unsigned int &size)
@@ -630,14 +632,14 @@ void Database::restoreVN(QDataStream &in, const quint32 &totalRows,
                          quint32 &restoredRecords)
 {
     QString tableName;
-    int rowCount;
+    int recordCount;
     in >> tableName;
-    in >> rowCount;
+    in >> recordCount;
     quint32 columnsCount = getNumberOfTableColumns(tableName);
     QSqlQuery insert;
     QString insertRecord = QString("INSERT INTO %1 VALUES (%2)").arg(tableName,
                            "%1");
-    for(quint32 r = 0; r < rowCount; ++r) {
+    for(quint32 r = 0; r < recordCount; ++r) {
         QStringList valueList;
         valueList.clear();
         for(uint c = 0; c < columnsCount; ++c) {
@@ -720,6 +722,6 @@ void Database::clearDatabase()
 {
     auto tables = getTables();
     foreach (auto table, tables) {
-        m_database->exec(QString("DELETE FROM %1").arg(table));
+        m_database.exec(QString("DELETE FROM %1").arg(table));
     }
 }

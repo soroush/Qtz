@@ -9,12 +9,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>316</width>
-    <height>424</height>
+    <width>329</width>
+    <height>451</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
-   <string>Configure Database Connection</string>
+   <string>[*] Configure Database Connection</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../QtzWidgets.qrc">
@@ -30,7 +36,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="labelType">
         <property name="text">
-         <string>Provider:</string>
+         <string>Pro&amp;vider:</string>
         </property>
         <property name="buddy">
          <cstring>comboBoxDatabaseType</cstring>
@@ -182,7 +188,7 @@
             </property>
            </widget>
           </item>
-          <item row="8" column="1">
+          <item row="9" column="1">
            <widget class="QPushButton" name="pushButtonTest">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -191,7 +197,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Test Connection</string>
+             <string>&amp;Test Connection</string>
             </property>
             <property name="iconSize">
              <size>
@@ -201,14 +207,14 @@
             </property>
            </widget>
           </item>
-          <item row="9" column="1">
+          <item row="10" column="1">
            <widget class="QCheckBox" name="checkBoxRemember">
             <property name="text">
              <string>Remember</string>
             </property>
            </widget>
           </item>
-          <item row="10" column="1">
+          <item row="11" column="1">
            <spacer name="verticalSpacer_2">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -221,8 +227,76 @@
             </property>
            </spacer>
           </item>
-          <item row="5" column="1">
+          <item row="6" column="1">
            <widget class="ChooseFile" name="chooseFileSSLCA">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::StrongFocus</enum>
+            </property>
+            <property name="showLabel">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="labelSSLCA">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>SSL &amp;CA:</string>
+            </property>
+            <property name="buddy">
+             <cstring>chooseFileSSLCA</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="labelSSLCert">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Ce&amp;rtificate:</string>
+            </property>
+            <property name="buddy">
+             <cstring>chooseFileSSLCert</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="labelSSLKey">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>&amp;Key:</string>
+            </property>
+            <property name="buddy">
+             <cstring>chooseFileSSLKey</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="ChooseFile" name="chooseFileSSLCert">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::StrongFocus</enum>
+            </property>
+            <property name="showLabel">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="ChooseFile" name="chooseFileSSLKey">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
@@ -232,53 +306,33 @@
            </widget>
           </item>
           <item row="5" column="0">
-           <widget class="QLabel" name="labelSSLCA">
-            <property name="text">
-             <string>SSL &amp;CA:</string>
-            </property>
-            <property name="buddy">
-             <cstring>chooseFileSSLCA</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="labelSSLCert">
-            <property name="text">
-             <string>Ce&amp;rtificate:</string>
-            </property>
-            <property name="buddy">
-             <cstring>chooseFileSSLCert</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>&amp;Key:</string>
-            </property>
-            <property name="buddy">
-             <cstring>chooseFileSSLKey</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="ChooseFile" name="chooseFileSSLCert">
-            <property name="focusPolicy">
-             <enum>Qt::StrongFocus</enum>
-            </property>
-            <property name="showLabel">
+           <widget class="QLabel" name="labelSecurity">
+            <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="text">
+             <string>Se&amp;curity:</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBoxConnectionSecurity</cstring>
+            </property>
            </widget>
           </item>
-          <item row="7" column="1">
-           <widget class="ChooseFile" name="chooseFileSSLKey">
-            <property name="focusPolicy">
-             <enum>Qt::StrongFocus</enum>
-            </property>
-            <property name="showLabel">
+          <item row="5" column="1">
+           <widget class="QComboBox" name="comboBoxConnectionSecurity">
+            <property name="enabled">
              <bool>false</bool>
             </property>
+            <item>
+             <property name="text">
+              <string>Normal (No Encryption)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>SSL (Encrypted Connection)</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>
@@ -356,6 +410,7 @@
   <tabstop>lineEditDatabase</tabstop>
   <tabstop>lineEditUser</tabstop>
   <tabstop>lineEditPassword</tabstop>
+  <tabstop>comboBoxConnectionSecurity</tabstop>
   <tabstop>chooseFileSSLCA</tabstop>
   <tabstop>chooseFileSSLCert</tabstop>
   <tabstop>chooseFileSSLKey</tabstop>
@@ -377,8 +432,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>222</x>
-     <y>396</y>
+     <x>226</x>
+     <y>446</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -393,8 +448,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>290</x>
-     <y>402</y>
+     <x>293</x>
+     <y>446</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
