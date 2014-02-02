@@ -1,6 +1,7 @@
-QT       += network sql xml testlib
+QT       += network sql xml gui testlib
 CONFIG += C++11
 lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = tst_qtz
 CONFIG   += console
@@ -31,19 +32,24 @@ CONFIG(local){
     LIBS    += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
+HEADERS += \
+    tst_authprovider.h \
+    tst_database.h \
+    testunit.h \
+    tst_gui.h
 
-SOURCES +=  tst_authprovider.cpp \
-            tst_database.cpp \
-    main.cpp
+SOURCES +=  \
+    testunit.cpp \
+    tst_authprovider.cpp \
+    tst_database.cpp \
+    main.cpp \
+    tst_gui.cpp
+
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 DEFINES += QTZ_LIBRARY
 
-HEADERS += \
-    tst_authprovider.h \
-    tst_database.h
-
 VERSION = 0.1.0
 
-include(config.pri)
+#include(config.pri)
 
 RESOURCES +=
