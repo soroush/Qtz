@@ -17,5 +17,6 @@
         <file>images/mail-mark-task_128x131.png</file>
         <file>images/encrypted_128x128.png</file>
         <file>images/application-vnd.oasis.opendocument.database-64x64.png</file>
+        <file>images/loader.gif</file>
     </qresource>
 </RCC>

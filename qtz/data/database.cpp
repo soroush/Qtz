@@ -40,20 +40,6 @@ Database::Database(const Database &other):
 {
 }
 
-
-//void Database::setInstance(const QSqlDatabase &database, bool destroy)
-//{
-//    if(!set) {
-//        instance->m_database = database;
-//    }
-//    else if(destroy) {
-//        instance->m_database.close();
-//        instance->m_database = database;
-//    }
-//    set = true;
-//    getInstance()->setBlockSize(100);
-//}
-
 Database *Database::getInstance()
 {
     if(instance != nullptr) {
@@ -90,8 +76,6 @@ void Database::readConnectionInfo()
                   (Settings::getInstance()->value("db:type").toUInt());
     QString driverName = DataProviderInformation::getInstance()->getDriverName(
                              driver);
-//    qDebug() << driver;
-    qDebug() << driverName;
     instance->m_database = QSqlDatabase::addDatabase(driverName);
     instance->m_type = driver;
     instance->m_database.setHostName(
@@ -157,7 +141,6 @@ void Database::backupByVariant(const QString &filename)
     QFile backupFile(filename);
     if(backupFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         emit backupStageChanged(tr("Analyzing database information..."));
-        qDebug("Analyzing database information...");
         uint totalRows = getNumberOfDBRows();
         uint writtenRows = 0;
         QDataStream out(&backupFile);
@@ -183,7 +166,6 @@ void Database::backupByVariant(const QString &filename)
                                     .arg(i * blockSize())
                                     .arg(blockSize()));
                 if(selectQuery.exec()) {
-                    qDebug() << "Fetching block: " << i;
                     while(selectQuery.next()) {
                         // First strategy:
                         // Store all data in QVariant format
@@ -196,7 +178,6 @@ void Database::backupByVariant(const QString &filename)
                                          static_cast<double>(totalRows));
                 }
                 else {
-                    qDebug() << "Unable to execute query: " << selectQuery.executedQuery();
                     // TODO: through exception
                 }
             }
@@ -220,7 +201,6 @@ void Database::backupByRuntimeCheck(const QString &filename)
     QFile backupFile(filename);
     if(backupFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         emit backupStageChanged(tr("Analyzing database information..."));
-        qDebug("Analyzing database information...");
         uint totalRows = getNumberOfDBRows();
         uint writtenRows = 0;
         QDataStream out(&backupFile);
@@ -248,7 +228,6 @@ void Database::backupByRuntimeCheck(const QString &filename)
                                     .arg(i * blockSize())
                                     .arg(blockSize()));
                 if(selectQuery.exec()) {
-                    qDebug() << "Fetching block: " << i;
                     while(selectQuery.next()) {
                         // First strategy:
                         // Store all data in QVariant format
@@ -307,7 +286,6 @@ void Database::backupByRuntimeCheck(const QString &filename)
                                          static_cast<double>(totalRows));
                 }
                 else {
-                    qDebug() << "Unable to execute query: " << selectQuery.executedQuery();
                     // TODO: through exception
                 }
             }
@@ -327,7 +305,6 @@ void Database::restore(const QString &filename)
     QFile backupFile(filename);
     if(backupFile.open(QIODevice::ReadOnly)) {
         QDataStream in(&backupFile);
-        qDebug() << in.status();
         QString schemaName;
         quint32 tableCount, totalRows, restoredRecords = 0;
         quint8 rawBackupType;
@@ -335,8 +312,6 @@ void Database::restore(const QString &filename)
         BackupStrategy backupType = static_cast<BackupStrategy>(rawBackupType);
         in >> schemaName;
         in >> tableCount >> totalRows;
-        qDebug() << in.status();
-        qDebug() << schemaName << tableCount << totalRows;
         if(schemaName != database()->databaseName()) {
             wcerr << tr("Database names mismatch").toStdWString() << endl;
             return;
@@ -415,7 +390,7 @@ void Database::getTableFiledTypes(const QString &tableName,
                                   QVector<FieldType> &types)
 {
     QSqlQuery selectFieldType;
-    selectFieldType.prepare(QString("describe %1").arg(tableName));
+    selectFieldType.prepare(QString("DESCRIBE %1").arg(tableName));
     if(!selectFieldType.exec()) {
         wcerr << tr("Unable to get types of fields for table `%1'").arg(
                   tableName).toStdWString() << endl;

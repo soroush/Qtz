@@ -2,7 +2,6 @@
 #include "ui_dialog-database-config.h"
 
 #include <QSet>
-#include <QSqlDatabase>
 #include <QSqlError>
 #include <QMessageBox>
 #include <QCursor>
@@ -16,9 +15,7 @@
 DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogDatabaseConfig),
-    tested(false), connected(false),
-    fw(new QFutureWatcher<bool>())
-
+    tested(false), connected(false)
 {
     ui->setupUi(this);
     // Remove maximize and minimize buttons
@@ -39,7 +36,6 @@ DialogDatabaseConfig::DialogDatabaseConfig(QWidget *parent) :
 DialogDatabaseConfig::~DialogDatabaseConfig()
 {
     delete ui;
-    delete fw;
 }
 
 void DialogDatabaseConfig::changeEvent(QEvent *e)
@@ -100,59 +96,11 @@ void DialogDatabaseConfig::createConnections()
     connect(ui->comboBoxConnectionSecurity, SIGNAL(currentIndexChanged(int)), this,
             SLOT(modifyWindow()));
     // TODO: add signals for choose file
-}
-
-bool DialogDatabaseConfig::testConnection()
-{
-    QSqlDatabase testDB;
-    tested = true;
-    currentType = static_cast<Database::Type>(ui->comboBoxDatabaseType->itemData(
-                      ui->comboBoxDatabaseType->currentIndex()).toUInt());
-    switch(currentType) {
-    case Database::Type::SQLServer2005:
-        break;
-    case Database::Type::SQLServer2008:
-        break;
-    case Database::Type::SQLServer2010:
-        break;
-    case Database::Type::SQLServer2012:
-        break;
-    case Database::Type::MySQL5:
-        QSqlDatabase::database("testConnection").close();
-        testDB = QSqlDatabase::addDatabase("QMYSQL","testConnection");
-        testDB.setHostName(ui->lineEditHost->text());
-        testDB.setPort(ui->spinBoxPort->value());
-        testDB.setDatabaseName(ui->lineEditDatabase->text());
-        testDB.setUserName(ui->lineEditUser->text());
-        testDB.setPassword(ui->lineEditPassword->text());
-        // TODO: Connect with SSL
-        testDB.open();
-        if(testDB.isOpen() && testDB.isValid()) {
-            testDB.close();
-            QMessageBox information(QMessageBox::Information,
-                                    tr("No problem occured."),
-                                    tr("Successfuly connected to database."),
-                                    QMessageBox::Ok,
-                                    this);
-            information.exec();
-            return true;
-        }
-        else {
-            QMessageBox::critical(this,
-                                  tr("Unable connected to database."),
-                                  tr("Could not establish connection with database management system provider.\n"
-                                     "System has reported following error:\n%1")
-                                  .arg(testDB.lastError().text())
-                                 );
-            return false;
-        }
-        break;
-    case Database::Type::SQLite:
-        break;
-    case Database::Type::SQLServer:
-        break;
-    }
-    return false;
+    // Concurrency Connections:
+    connect(&FW_testDBOpen,SIGNAL(finished()),this,SLOT(handleTestResult()));
+    connect(&FW_testDBOpen,SIGNAL(finished()),this,SLOT(releaseGUI()));
+    connect(&FW_mainDBOpen,SIGNAL(finished()),this,SLOT(handleActualConnection()));
+    connect(&FW_mainDBOpen,SIGNAL(finished()),this,SLOT(releaseGUI()));
 }
 
 void DialogDatabaseConfig::establishActualConnection()
@@ -174,7 +122,11 @@ void DialogDatabaseConfig::establishActualConnection()
             ui->lineEditDatabase->text());
         Database::getInstance()->database()->setUserName(ui->lineEditUser->text());
         Database::getInstance()->database()->setPassword(ui->lineEditPassword->text());
-        Database::getInstance()->database()->open();
+        lockGUI();
+        F_mainDBOpen = QtConcurrent::run(Database::getInstance()->database(),
+                                         &QSqlDatabase::open);
+        FW_mainDBOpen.setFuture(F_mainDBOpen);
+        //Database::getInstance()->database()->open();
         break;
     case Database::Type::SQLite:
         break;
@@ -228,7 +180,6 @@ void DialogDatabaseConfig::accept()
         if(tested) {
             if(connected) {
                 establishActualConnection();
-                QDialog::accept();
             }
             else {
                 QMessageBox message;
@@ -239,7 +190,6 @@ void DialogDatabaseConfig::accept()
                 int returnCode = message.exec();
                 if(returnCode == QMessageBox::Yes) {
                     establishActualConnection();
-                    QDialog::accept();
                 }
             }
             if(ui->checkBoxRemember->isChecked()) {
@@ -260,13 +210,72 @@ void DialogDatabaseConfig::accept()
     }
     else {
         establishActualConnection();
-        QDialog::accept();
     }
 }
 
 void DialogDatabaseConfig::test()
 {
-    connected = testConnection();
+    tested = true;
+    currentType = static_cast<Database::Type>(ui->comboBoxDatabaseType->itemData(
+                      ui->comboBoxDatabaseType->currentIndex()).toUInt());
+    switch(currentType) {
+    case Database::Type::SQLServer2005:
+        break;
+    case Database::Type::SQLServer2008:
+        break;
+    case Database::Type::SQLServer2010:
+        break;
+    case Database::Type::SQLServer2012:
+        break;
+    case Database::Type::MySQL5:
+        QSqlDatabase::database("testConnection").close();
+        testDB = QSqlDatabase::addDatabase("QMYSQL","testConnection");
+        testDB.setHostName(ui->lineEditHost->text());
+        testDB.setPort(ui->spinBoxPort->value());
+        testDB.setDatabaseName(ui->lineEditDatabase->text());
+        testDB.setUserName(ui->lineEditUser->text());
+        testDB.setPassword(ui->lineEditPassword->text());
+        // TODO: Connect with SSL
+        lockGUI();
+        F_testDBOpen = QtConcurrent::run(testDB, &QSqlDatabase::open);
+        FW_testDBOpen.setFuture(F_testDBOpen);
+        break;
+    case Database::Type::SQLite:
+        break;
+    case Database::Type::SQLServer:
+        break;
+    }
+}
+
+void DialogDatabaseConfig::handleTestResult()
+{
+    if(F_testDBOpen.result() && testDB.isOpen() && testDB.isValid()) {
+        testDB.close();
+        QMessageBox information(QMessageBox::Information,
+                                tr("No problem occured."),
+                                tr("Successfuly connected to database."),
+                                QMessageBox::Ok,
+                                this);
+        information.exec();
+        connected= true;
+    }
+    else {
+        QMessageBox::critical(this,
+                              tr("Unable to connect to database."),
+                              tr("Could not establish connection within given information.\n"
+                                 "The Database Management System Provider "
+                                 "has reported following error(s):\n%1")
+                              .arg(testDB.lastError().text())
+                             );
+        connected=false;
+    }
+}
+
+void DialogDatabaseConfig::handleActualConnection()
+{
+    if(F_mainDBOpen.result()) {
+        QDialog::accept();
+    }
 }
 
 void DialogDatabaseConfig::updateLocalHostStatus(bool checked)

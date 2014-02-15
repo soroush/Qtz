@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QFutureWatcher>
 #include <QFuture>
+#include <QSqlDatabase>
 #include <qtz/data/database.h>
 
 QT_BEGIN_NAMESPACE
@@ -41,8 +42,12 @@ private:
     QString lastSSLCert;
     QString lastSSLKey;
     // TODO: Move data operations into another thread
-    QFutureWatcher<bool> *fw;
-    QFuture<bool> f;
+    QFutureWatcher<bool> FW_testDBOpen;
+    QFutureWatcher<bool> FW_mainDBOpen;
+    QFuture<bool> F_testDBOpen;
+    QFuture<bool> F_mainDBOpen;
+
+    QSqlDatabase testDB;
 
 public slots:
     void accept();
@@ -50,6 +55,8 @@ public slots:
 private slots:
     void updateDatabaseType(int);
     void test();
+    void handleTestResult();
+    void handleActualConnection();
     void updateLocalHostStatus(bool);
     void updateDefaultPortStatus(bool);
     void updateSecurityOption(int);

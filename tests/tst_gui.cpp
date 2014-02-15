@@ -36,6 +36,7 @@ void GuiTest::databaseConfigDialog()
     QTest::keyClicks(dialog.focusWidget(),this->db->getMysqlPassword(),
                      Qt::NoModifier,LONG_DELAY);
     QTest::keyClicks(&dialog,"t",Qt::AltModifier,SHORT_DELAY);
+    QTest::qWait(35000);
     QTest::mouseClick(dialog.focusWidget(),Qt::LeftButton,0,QPoint(),LONG_DELAY);
     QTest::keyClick(&dialog,Qt::Key_Enter,Qt::NoModifier,SHORT_DELAY);
 }
