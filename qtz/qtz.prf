@@ -7,6 +7,10 @@ QMAKE_RPATHDIR  += $${QTZ_INSTALL_LIBS}
 macx:LIBS       += -F$${QTZ_INSTALL_LIBS}
 LIBS            += -L$${QTZ_INSTALL_LIBS}
 
+win32 {
+    LINK_MAJ = "0"
+}
+
 contains(QTZ, core) {
     contains(QTZ_MODULES, core):DEFINES += QTZ_CORE_LIB
     else:warning(Qtz was built without core module)
