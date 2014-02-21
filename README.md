@@ -1,6 +1,5 @@
 # Qtz Framework [![Build
-Status](https://travis-ci.org/soroush/qtz.png?branch=master)](https://travis-ci.
-org/soroush/qtz)
+Status](https://travis-ci.org/soroush/qtz.png?branch=master)](https://travis-ci.org/soroush/qtz)
 
 Qtz is a Qt-based Rapid Application Development Framework. Currently Qtz
 consists of following libraries:
