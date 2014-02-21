@@ -11,4 +11,4 @@ script:
   - make
   - make install INSTALL_ROOT=./release
   - export $VERSION=0.1.3
-  - tar -C ./release/ -cvjf Qtz-$VERSION-release.tar.bz2 ./usr
+  - tar -C ./release/ -cvjf Qtz-0.1.3-release.tar.bz2 ./usr
