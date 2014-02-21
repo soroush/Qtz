@@ -55,8 +55,4 @@ SOURCES +=  \
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 DEFINES += QTZ_LIBRARY
 
-VERSION = 0.1.0
-
-#include(config.pri)
-
-RESOURCES +=
+VERSION = 0.1.3

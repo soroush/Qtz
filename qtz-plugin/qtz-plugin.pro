@@ -36,7 +36,7 @@ CONFIG(local){
 
 DEFINES += QTZ_LIBRARY
 
-VERSION = 0.1.0
+VERSION = 0.1.3
 
 HEADERS     =   \
     global.h \

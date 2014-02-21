@@ -5,7 +5,7 @@ lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
 
 TEMPLATE = lib
 
-VERSION = 0.1.0
+VERSION = 0.1.3
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
