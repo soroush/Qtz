@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>681</width>
-    <height>461</height>
+    <width>607</width>
+    <height>361</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -240,11 +240,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>stackedWidget</zorder>
-  <zorder>lineEditProvider</zorder>
-  <zorder>labelProvider</zorder>
-  <zorder>lineEditProvider</zorder>
-  <zorder>labelProvider</zorder>
  </widget>
  <resources/>
  <connections/>

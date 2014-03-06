@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="Command">
+        <xs:attribute name="title" type="xs:string" use="required" />
+    </xs:complexType>
+    <xs:element name="Schema" minOccurs="1" maxOccurs="unbounded" type="t_schema"/>
+</xs:schema>

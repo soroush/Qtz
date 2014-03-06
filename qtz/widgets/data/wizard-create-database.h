@@ -3,15 +3,17 @@
 
 #include <QWizard>
 
+class WizardPageCreateDatabaseOperation;
+
 class WizardCreateDatabase : public QWizard {
     Q_OBJECT
 public:
     explicit WizardCreateDatabase(QWidget *parent = 0);
-
-signals:
-
-public slots:
-
+public:
+    void setSqlFile(const QString& filename);
+    void setSqlContent(const QString& filename);
+private:
+    WizardPageCreateDatabaseOperation* m_operationPage;
 };
 
 #endif // WIZARDCREATEDATABASE_H

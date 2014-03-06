@@ -22,6 +22,7 @@ protected:
 
 private:
     Ui::WizardPageCreateDatabaseConfigure *ui;
+    bool m_connected;
 
     void initializeDatabaseSystems();
     void createConnections();

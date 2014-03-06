@@ -1,4 +1,4 @@
-QT += core gui sql
+QT += core gui sql xml
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TEMPLATE = lib
@@ -138,3 +138,6 @@ INSTALLS += headers_data headers_editors headers_misc headers_security
 
 RESOURCES += \
     QtzWidgets.qrc
+
+OTHER_FILES += \
+    data/schema-specified.xsd

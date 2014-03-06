@@ -3,6 +3,7 @@
 
 #include <QSet>
 #include <QSqlDatabase>
+#include <QSqlQuery>
 #include <QSqlError>
 #include <QMessageBox>
 #include <qtz/core/settings.h>
@@ -14,7 +15,8 @@
 WizardPageCreateDatabaseConfigure::WizardPageCreateDatabaseConfigure(
     QWidget *parent) :
     QWizardPage(parent),
-    ui(new Ui::WizardPageCreateDatabaseConfigure)
+    ui(new Ui::WizardPageCreateDatabaseConfigure),
+    m_connected(false)
 {
     ui->setupUi(this);
     initializeDatabaseSystems();
@@ -23,7 +25,7 @@ WizardPageCreateDatabaseConfigure::WizardPageCreateDatabaseConfigure(
     registerField("provider",ui->comboBoxDatabaseType);
     registerField("host",ui->lineEditHost);
     registerField("port",ui->spinBoxPort);
-    registerField("name",ui->lineEditDatabase);
+    registerField("database",ui->lineEditDatabase);
     registerField("removeExisting",ui->checkBoxRemoveExisting);
     registerField("username",ui->lineEditUser);
     registerField("password",ui->lineEditPassword);
@@ -93,7 +95,7 @@ bool WizardPageCreateDatabaseConfigure::isComplete() const
     }
     else if(
         field("host").toString().isEmpty() ||
-        field("name").toString().isEmpty() ||
+        field("database").toString().isEmpty() ||
         field("username").toString().isEmpty()
     ) {
         return false;
@@ -103,10 +105,64 @@ bool WizardPageCreateDatabaseConfigure::isComplete() const
 
 bool WizardPageCreateDatabaseConfigure::validatePage()
 {
+    // Last minute property sets:
+    quint8 dbTypeCode =
+        ui->comboBoxDatabaseType->itemData(
+            ui->comboBoxDatabaseType->currentIndex()).toUInt();
     wizard()->setProperty("providerCode",
-                          ui->comboBoxDatabaseType->itemData(
-                              ui->comboBoxDatabaseType->currentIndex()).toUInt());
-    return true;
+                          dbTypeCode);
+    // check database connection:
+    QSqlDatabase db;
+    Database::Type dbType = static_cast<Database::Type>(dbTypeCode);
+    switch (dbType) {
+    case Database::Type::MySQL5:
+        db= QSqlDatabase::addDatabase("QMYSQL","ConnectionTest");
+        break;
+    case Database::Type::SQLite:
+        break;
+    case Database::Type::SQLServer:
+    case Database::Type::SQLServer2005:
+    case Database::Type::SQLServer2008:
+    case Database::Type::SQLServer2010:
+    case Database::Type::SQLServer2012:
+        // TODO: Implement Microsoft SQL Server Backend
+        break;
+    default:
+        break;
+    }
+    // TODO: Implement SSL backend
+    db.setHostName(field("host").toString());
+    db.setDatabaseName("");
+    db.setUserName(field("username").toString());
+    db.setPassword(field("password").toString());
+    db.setPort(field("password").toUInt());
+    QSqlQuery query;
+    bool isOk = db.open();
+    //qDebug() << "isOk: " << isOk;
+    isOk = isOk & db.isValid();
+    if(! isOk) {
+        QMessageBox::critical(this,tr("Database Error")
+                              ,tr("Unabel to connect to database. Database Management System has reported following error(s):")
+                              +
+                              db.lastError().text()
+                             );
+    }
+    else {
+        // FIXME: This only works for MySQL
+        // Check for database existence
+        query.prepare("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ':dbname'");
+        query.bindValue(":dbname",field("database").toString());
+        if(query.exec()) {
+            if(query.next() && !ui->checkBoxRemoveExisting->isChecked()) {
+                QMessageBox::critical(this,tr("Database Exists")
+                                      ,tr("Database `%1' already exists and you did't choose to "
+                                          "remove old database").arg(field("database").toString())
+                                     );
+                isOk = false;
+            }
+        }
+    }
+    return isOk;
 }
 
 void WizardPageCreateDatabaseConfigure::updateLocalHostStatus(bool checked)
