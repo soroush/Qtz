@@ -10,6 +10,8 @@ WizardPageCreateDatabaseConfirm::WizardPageCreateDatabaseConfirm(
     ui->setupUi(this);
     connect(ui->toolButtonShowHide,SIGNAL(toggled(bool)),this,
             SLOT(showHidePasswrod(bool)));
+    setCommitPage(true);
+    setButtonText(QWizard::CommitButton,tr("Create"));
 }
 
 WizardPageCreateDatabaseConfirm::~WizardPageCreateDatabaseConfirm()
@@ -40,7 +42,7 @@ void WizardPageCreateDatabaseConfirm::initializePage()
         ui->lineEditProvider->setText(providerText);
         ui->lineEditHost->setText(field("host").toString());
         ui->lineEditPort->setText(field("port").toString());
-        ui->lineEditDatabase->setText(field("name").toString());
+        ui->lineEditDatabase->setText(field("database").toString());
         ui->lineEditUsername->setText(field("username").toString());
         ui->lineEditPassword->setText(field("password").toString());
     }

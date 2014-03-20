@@ -2,14 +2,19 @@
 #include "ui_wizard-page-create-database-operation.h"
 #include <QtConcurrentRun>
 #include <QDateTime>
+#include <QMessageBox>
+#include <QRegExp>
+#include <qtz/data/database.h>
 
 #include <QDebug>
+#include <QSqlError>
 
 WizardPageCreateDatabaseOperation::WizardPageCreateDatabaseOperation(
     QWidget *parent) :
     QWizardPage(parent),
     ui(new Ui::WizardPageCreateDatabaseOperation),
-    fw(new QFutureWatcher<QSqlQuery>())
+    m_futureWatcher(new QFutureWatcher<bool>()),
+    m_finished(false)
 {
     ui->setupUi(this);
     ui->tableWidget->horizontalHeader()->setResizeMode(0,
@@ -20,8 +25,7 @@ WizardPageCreateDatabaseOperation::WizardPageCreateDatabaseOperation(
             QHeaderView::ResizeToContents);
     ui->tableWidget->horizontalHeader()->setResizeMode(3,
             QHeaderView::ResizeToContents);
-    connect(this->fw,SIGNAL(finished()),this,SLOT(taskFinished()));
-    connect(ui->pushButtonPRS,SIGNAL(clicked()),this,SLOT(startTasks()));
+    connect(this->m_futureWatcher,SIGNAL(finished()),this,SLOT(taskFinished()));
 }
 
 WizardPageCreateDatabaseOperation::~WizardPageCreateDatabaseOperation()
@@ -32,24 +36,59 @@ WizardPageCreateDatabaseOperation::~WizardPageCreateDatabaseOperation()
 void WizardPageCreateDatabaseOperation::addSql(QString &query,
         const QString title, const quint8 &progress)
 {
-    query.replace("%database%",field("database").toString());
     this->m_tasks.append({progress,title,query});
 }
 
-void WizardPageCreateDatabaseOperation::startTasks()
+void WizardPageCreateDatabaseOperation::initializePage()
 {
-    disconnect(ui->pushButtonPRS);
-    db= QSqlDatabase::database("ConnectionTest");
+    // Replace placeholders:
+    QRegExp reg {"__database__"};
+    for(auto& task : this->m_tasks) {
+        task.query.replace(reg,field("database").toString());
+    }
+    Database::Type providerType = static_cast<Database::Type>
+                                  (wizard()->property("providerCode").toUInt());
+    switch (providerType) {
+    case Database::Type::SQLite:
+        break;
+    case Database::Type::MySQL5:
+        m_db = QSqlDatabase::addDatabase("QMYSQL","createDatabase");
+        break;
+        // TODO: Support these databases:
+    case Database::Type::SQLServer:
+    case Database::Type::SQLServer2005:
+    case Database::Type::SQLServer2008:
+    case Database::Type::SQLServer2010:
+    case Database::Type::SQLServer2012:
+        // TODO: Support these databases
+        break;
+    default:
+        break;
+    }
+    m_db.setDatabaseName("");
+    m_db.setHostName(field("host").toString());
+    m_db.setPassword(field("password").toString());
+    m_db.setPort(field("port").toUInt());
+    m_db.setUserName(field("username").toString());
+    // TODO: Assert:
+    m_db.open();
+    // Set start time:
+    this->m_start.start();
+    ui->labelShowStartTime->setText(m_start.toString("hh:mm:ss.zzz"));
+    // Start operations
     this->m_currentTask = this->m_tasks.begin();
     performNextTask();
 }
 
-void WizardPageCreateDatabaseOperation::pauseTasks()
+bool WizardPageCreateDatabaseOperation::isComplete() const
 {
+    return this->m_finished;
 }
 
-void WizardPageCreateDatabaseOperation::resumeTasks()
+void WizardPageCreateDatabaseOperation::estimateTime()
 {
+    int delta = this->m_start.elapsed();
+    int ert = delta*100/ui->progressBar->value();
 }
 
 void WizardPageCreateDatabaseOperation::changeEvent(QEvent *e)
@@ -66,39 +105,51 @@ void WizardPageCreateDatabaseOperation::changeEvent(QEvent *e)
 
 void WizardPageCreateDatabaseOperation::performNextTask()
 {
-    //qDebug() << "performNextTask()";
     if(this->m_currentTask != m_tasks.end()) {
-        QSqlQuery query;
+        QSqlQuery query {m_db};
         query.prepare(m_currentTask->query);
         int row = ui->tableWidget->rowCount();
         ui->tableWidget->insertRow(row);
         ui->tableWidget->setItem(row,0,new QTableWidgetItem {QIcon{":/images/images/task-ongoing.png"},m_currentTask->title});
-        ui->tableWidget->setItem(row,1,new QTableWidgetItem {QDateTime::currentDateTime().toString()});
-        f = QtConcurrent::run(this, &WizardPageCreateDatabaseOperation::performTask,
-                              query);
-        fw->setFuture(f);
+        ui->tableWidget->setItem(row,1,new QTableWidgetItem {QDateTime::currentDateTime().toString("hh:mm:ss.zzz")});
+        ui->tableWidget->scrollToBottom();
+        m_future = QtConcurrent::run(this,
+                                     &WizardPageCreateDatabaseOperation::performTask,
+                                     query);
+        m_futureWatcher->setFuture(m_future);
+    }
+    else {
+        this->m_finished = true;
+        emit completeChanged();
     }
 }
 
-QSqlQuery WizardPageCreateDatabaseOperation::performTask(QSqlQuery query)
+bool WizardPageCreateDatabaseOperation::performTask(QSqlQuery query)
 {
-    qDebug() << "performTask";
-    sleep(2);
-
-    return query;
+    return query.exec();
 }
 
 void WizardPageCreateDatabaseOperation::taskFinished()
 {
-    qDebug() << "taskFinished";
     ui->progressBar->setValue(ui->progressBar->value()+m_currentTask->progress);
     m_currentTask++;
-    taskCallback(f.result());
+    taskCallback(m_future.result());
 }
 
-void WizardPageCreateDatabaseOperation::taskCallback(QSqlQuery query)
+void WizardPageCreateDatabaseOperation::taskCallback(bool result)
 {
-    qDebug() << "taskCallback";
-    // perform checks, update GUI, show messages, do next task
-    performNextTask();
+    if(result) {
+        int row = ui->tableWidget->rowCount()-1;
+        ui->tableWidget->item(row,0)->setIcon(QIcon {":/images/images/task-complete.png"});
+        ui->tableWidget->setItem(row,2,new QTableWidgetItem {QDateTime::currentDateTime().toString("hh:mm:ss.zzz")});
+        performNextTask();
+    }
+    else {
+        QMessageBox::critical(this,
+                              tr("Database Error"),
+                              tr("Unable to execute provided query.\n"
+                                 "Database Management System has provided following error(s):\n%1")
+                              .arg(m_db.lastError().text()));
+        m_finished = false;
+    }
 }

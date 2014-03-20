@@ -8,6 +8,7 @@
 #include <QSqlQuery>
 #include <QFutureWatcher>
 #include <QFuture>
+#include <QTime>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,12 +22,13 @@ class WizardPageCreateDatabaseOperation : public QWizardPage {
 public:
     explicit WizardPageCreateDatabaseOperation(QWidget *parent = 0);
     ~WizardPageCreateDatabaseOperation();
-    void addSql(QString &query, const QString title=QString {}, const quint8& progress=0);
+    void addSql(QString &query, const QString title=QString {}, const quint8
+                &progress=0);
+    void initializePage();
+    bool isComplete() const;
 
 public slots:
-    void startTasks();
-    void pauseTasks();
-    void resumeTasks();
+    void estimateTime();
 
 signals:
     void taskCompleted(QSqlQuery query);
@@ -35,27 +37,28 @@ protected:
     void changeEvent(QEvent *e);
 
 private:
-    struct Operation{
+    void performNextTask();
+    bool performTask(QSqlQuery query);
+
+    struct Operation {
         quint8 progress;
         QString title;
         QString query;
     };
 
     Ui::WizardPageCreateDatabaseOperation *ui;
-    //QList<QPair<QString,QString>> m_tasks;
-    //QList<QPair<QString,QString>>::iterator m_currentTask;
     QList<Operation> m_tasks;
     QList<Operation>::iterator m_currentTask;
-    QFutureWatcher<QSqlQuery> *fw;
-    QFuture<QSqlQuery> f;
-
-    void performNextTask();
-    QSqlQuery performTask(QSqlQuery query);
-    QSqlDatabase db;
+    QFutureWatcher<bool> *m_futureWatcher;
+    QFuture<bool> m_future;
+    QSqlDatabase m_db;
+    bool m_finished;
+    QTime m_start;
+    QTime m_end;
 
 private slots:
     void taskFinished();
-    void taskCallback(QSqlQuery query);
+    void taskCallback(bool result);
 };
 
 #endif // WIZARDPAGECREATEDATABASEOPERATION_H

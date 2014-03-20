@@ -57,6 +57,15 @@ void DialogDatabaseConfig::initializeDatabaseSystems()
     foreach (DataProvider p, systems) {
         ui->comboBoxDatabaseType->addItem(p.providerName(),p.providerCode());
     }
+    // Establish first valid state:
+    quint8 type = ui->comboBoxDatabaseType->itemData(
+                      ui->comboBoxDatabaseType->currentIndex()
+                ).toUInt();
+    currentType = static_cast<Database::Type>(type);
+    quint32 port = DataProviderInformation::getInstance()->getProviderInfo(
+                       currentType).defaultPort();
+    this->lastCustomPort = port;
+    ui->spinBoxPort->setValue(port);
 }
 
 void DialogDatabaseConfig::createConnections()

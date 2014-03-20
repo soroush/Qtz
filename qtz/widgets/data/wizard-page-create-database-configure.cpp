@@ -57,6 +57,15 @@ void WizardPageCreateDatabaseConfigure::initializeDatabaseSystems()
     foreach (DataProvider p, systems) {
         ui->comboBoxDatabaseType->addItem(p.providerName(),p.providerCode());
     }
+    // Establish first valid state:
+    quint8 type = ui->comboBoxDatabaseType->itemData(
+                      ui->comboBoxDatabaseType->currentIndex()
+                ).toUInt();
+    currentType = static_cast<Database::Type>(type);
+    quint32 port = DataProviderInformation::getInstance()->getProviderInfo(
+                       currentType).defaultPort();
+    this->lastCustomPort = port;
+    ui->spinBoxPort->setValue(port);
 }
 
 void WizardPageCreateDatabaseConfigure::createConnections()
@@ -105,6 +114,7 @@ bool WizardPageCreateDatabaseConfigure::isComplete() const
 
 bool WizardPageCreateDatabaseConfigure::validatePage()
 {
+    // FIXME: Move all staff into a new thread to prevent GUI locks
     // Last minute property sets:
     quint8 dbTypeCode =
         ui->comboBoxDatabaseType->itemData(
@@ -132,35 +142,50 @@ bool WizardPageCreateDatabaseConfigure::validatePage()
     }
     // TODO: Implement SSL backend
     db.setHostName(field("host").toString());
-    db.setDatabaseName("");
+    db.setDatabaseName(""); // Connect to provider, not a database
     db.setUserName(field("username").toString());
     db.setPassword(field("password").toString());
     db.setPort(field("password").toUInt());
-    QSqlQuery query;
     bool isOk = db.open();
-    //qDebug() << "isOk: " << isOk;
     isOk = isOk & db.isValid();
-    if(! isOk) {
-        QMessageBox::critical(this,tr("Database Error")
-                              ,tr("Unabel to connect to database. Database Management System has reported following error(s):")
-                              +
-                              db.lastError().text()
-                             );
-    }
-    else {
+    if(isOk) {
         // FIXME: This only works for MySQL
         // Check for database existence
-        query.prepare("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ':dbname'");
-        query.bindValue(":dbname",field("database").toString());
+        db.close();
+        db.setDatabaseName("information_schema");
+        qDebug() << "dbopen" << db.open();
+        qDebug() << db.isOpen();
+        //FIXME: QSqlQuery does not work here. Prevent SQL injections:
+        QSqlQuery query{db};
+        query.prepare("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = :database");
+        query.bindValue(":database",field("database").toString());
         if(query.exec()) {
-            if(query.next() && !ui->checkBoxRemoveExisting->isChecked()) {
+            qDebug() << query.executedQuery();
+            bool databaseExists = query.next();
+            qDebug() << "databaseExists: " << databaseExists;
+            if(databaseExists && !ui->checkBoxRemoveExisting->isChecked()) {
                 QMessageBox::critical(this,tr("Database Exists")
                                       ,tr("Database `%1' already exists and you did't choose to "
                                           "remove old database").arg(field("database").toString())
                                      );
                 isOk = false;
+                qDebug() << "We have next";
             }
         }
+        else { // Query does not execute successfully
+            QMessageBox::critical(this,tr("Database Error")
+                                  ,tr("Unable to execute provided query. Database Management System reported "
+                                      "following errors:\n%1").arg(db.lastError().text())
+                                 );
+            isOk=false;
+        }
+    }
+    else {
+        QMessageBox::critical(this,tr("Database Error")
+                              ,tr("Unabel to connect to database. Database Management System has reported following error(s):")
+                              +
+                              db.lastError().text()
+                             );
     }
     return isOk;
 }
