@@ -1,6 +1,10 @@
 #include "wizard-page-create-database-operation.h"
 #include "ui_wizard-page-create-database-operation.h"
+#if QT_VERSION >= 0x050000
+#include <QtConcurrent/QtConcurrentRun>
+#else
 #include <QtConcurrentRun>
+#endif
 #include <QDateTime>
 #include <QMessageBox>
 #include <QRegExp>
@@ -17,6 +21,16 @@ WizardPageCreateDatabaseOperation::WizardPageCreateDatabaseOperation(
     m_finished(false)
 {
     ui->setupUi(this);
+#if QT_VERSION >= 0x050000
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(0,
+            QHeaderView::Stretch);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(1,
+            QHeaderView::ResizeToContents);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(2,
+            QHeaderView::ResizeToContents);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(3,
+            QHeaderView::ResizeToContents);
+#else
     ui->tableWidget->horizontalHeader()->setResizeMode(0,
             QHeaderView::Stretch);
     ui->tableWidget->horizontalHeader()->setResizeMode(1,
@@ -25,6 +39,7 @@ WizardPageCreateDatabaseOperation::WizardPageCreateDatabaseOperation(
             QHeaderView::ResizeToContents);
     ui->tableWidget->horizontalHeader()->setResizeMode(3,
             QHeaderView::ResizeToContents);
+#endif
     connect(this->m_futureWatcher,SIGNAL(finished()),this,SLOT(taskFinished()));
 }
 
