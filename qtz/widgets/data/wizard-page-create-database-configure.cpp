@@ -126,7 +126,7 @@ bool WizardPageCreateDatabaseConfigure::validatePage()
     Database::Type dbType = static_cast<Database::Type>(dbTypeCode);
     switch (dbType) {
     case Database::Type::MySQL5:
-        db= QSqlDatabase::addDatabase("QMYSQL","ConnectionTest");
+        db= QSqlDatabase::addDatabase("QMYSQL","testConnection");
         break;
     case Database::Type::SQLite:
         break;

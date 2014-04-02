@@ -238,6 +238,7 @@ void DialogDatabaseConfig::test()
         break;
     case Database::Type::MySQL5:
         QSqlDatabase::database("testConnection").close();
+        QSqlDatabase::removeDatabase("testConnection");
         testDB = QSqlDatabase::addDatabase("QMYSQL","testConnection");
         testDB.setHostName(ui->lineEditHost->text());
         testDB.setPort(ui->spinBoxPort->value());
@@ -246,7 +247,7 @@ void DialogDatabaseConfig::test()
         testDB.setPassword(ui->lineEditPassword->text());
         // TODO: Connect with SSL
         lockGUI();
-        F_testDBOpen = QtConcurrent::run(testDB, &QSqlDatabase::open);
+        F_testDBOpen = QtConcurrent::run(this, &DialogDatabaseConfig::testDBOpen);
         FW_testDBOpen.setFuture(F_testDBOpen);
         break;
     case Database::Type::SQLite:
@@ -358,6 +359,13 @@ void DialogDatabaseConfig::releaseGUI()
     QCursor wait {Qt::ArrowCursor};
     this->setCursor(wait);
     this->setEnabled(true);
+}
+
+bool DialogDatabaseConfig::testDBOpen()
+{
+    bool validity = testDB.open();
+    validity = validity && testDB.isValid() && testDB.isOpen();
+    return validity;
 }
 
 void DialogDatabaseConfig::updateDatabaseType(int i)

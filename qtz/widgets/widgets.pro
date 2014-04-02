@@ -71,6 +71,7 @@ SOURCES += \
     data/dialog-database-config.cpp \
     editors/text-editor-window.cpp \
     editors/editable-label.cpp \
+    editors/sexagesimal-spinbox.cpp \
     misc/choose-file.cpp \
     security/dialog-user-login.cpp \
     data/widget-edit-table.cpp \
@@ -81,7 +82,8 @@ SOURCES += \
     data/wizard-page-create-database-intro.cpp \
     data/wizard-page-create-database-configure.cpp \
     data/wizard-page-create-database-confirm.cpp \
-    data/wizard-page-create-database-operation.cpp
+    data/wizard-page-create-database-operation.cpp \
+    data/i-dialog-insert-record.cpp
 
 DATA_HEADERS += \
     data/data-navigator.h \
@@ -94,21 +96,24 @@ DATA_HEADERS += \
     data/dialog-edit-table.h \
     data/dialog-insert-item.h \
     data/dialog-edit-item.h \
-    data/wizard-create-database.h
+    data/wizard-create-database.h \
+    data/wizard-page-create-database-intro.h \
+    data/wizard-page-create-database-configure.h \
+    data/wizard-page-create-database-confirm.h \
+    data/wizard-page-create-database-operation.h \
+    data/i-dialog-insert-record.h
 EDITORS_HEADERS += \
     editors/text-editor-window.h \
-    editors/editable-label.h
+    editors/editable-label.h \
+    editors/sexagesimal-spinbox.h
 MISC_HEADERS += \
     misc/choose-file.h
 
 SECURITY_HEADERS += \
     security/dialog-user-login.h
 
-HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS \
-    data/wizard-page-create-database-intro.h \
-    data/wizard-page-create-database-configure.h \
-    data/wizard-page-create-database-confirm.h \
-    data/wizard-page-create-database-operation.h
+HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS
+
 
 FORMS += \
     data/data-navigator.ui \

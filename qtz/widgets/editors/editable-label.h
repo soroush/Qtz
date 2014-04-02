@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
-#include "../export.h"
+#include <qtz/core/library.h>
 
 
 QT_BEGIN_NAMESPACE

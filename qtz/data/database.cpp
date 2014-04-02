@@ -60,8 +60,9 @@ void Database::setType(const Type &newType)
 {
     if(m_type != newType ) {
         m_type = newType;
-        m_database = QSqlDatabase(QSqlDatabase::addDatabase(
-                                          DataProviderInformation::getInstance()->getDriverName(m_type)));
+        m_database = QSqlDatabase::addDatabase(
+                         DataProviderInformation::getInstance()->getDriverName(m_type),
+                         "mainDB");
     }
 }
 
@@ -76,7 +77,7 @@ void Database::readConnectionInfo()
                   (Settings::getInstance()->value("db:type").toUInt());
     QString driverName = DataProviderInformation::getInstance()->getDriverName(
                              driver);
-    instance->m_database = QSqlDatabase::addDatabase(driverName);
+    instance->m_database = QSqlDatabase::addDatabase(driverName,"mainDB");
     instance->m_type = driver;
     instance->m_database.setHostName(
         Settings::getInstance()->value("db:host").toString());

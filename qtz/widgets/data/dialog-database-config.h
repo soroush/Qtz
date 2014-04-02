@@ -1,4 +1,4 @@
-﻿#ifndef DIALOGDATABASECONFIG_H
+#ifndef DIALOGDATABASECONFIG_H
 #define DIALOGDATABASECONFIG_H
 
 #include <QDialog>
@@ -63,6 +63,9 @@ private slots:
     void modifyWindow();
     void lockGUI();
     void releaseGUI();
+
+private:
+    bool testDBOpen();
 };
 
 #endif // DIALOGDATABASECONFIG_H

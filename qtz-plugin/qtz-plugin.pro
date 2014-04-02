@@ -45,6 +45,7 @@ HEADERS     =   \
     text-query_plugin.h \
     table-edit_plugin.h \
     editable-label_plugin.h \
+    sexagesimal-spinbox_plugin.h \
     text-editor-window_plugin.h \
     choose-file_plugin.h \
     qtz.h
@@ -55,6 +56,7 @@ SOURCES     =   \
     text-query_plugin.cpp \
     table-edit_plugin.cpp \
     editable-label_plugin.cpp \
+    sexagesimal-spinbox_plugin.cpp \
     text-editor-window_plugin.cpp \
     choose-file_plugin.cpp \
     qtz.cpp

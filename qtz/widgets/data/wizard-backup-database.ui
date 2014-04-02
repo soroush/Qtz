@@ -106,7 +106,7 @@ This wizard is designed to help you protect your critical data agains software o
     <item>
      <widget class="QStackedWidget" name="stackedWidgetDatabases">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page">
        <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -286,14 +286,14 @@ This wizard is designed to help you protect your critical data agains software o
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="ChooseFile" name="chooseFileSSLCA">
+              <widget class="ChooseFile" name="chooseFileSSLCA" native="true">
                <property name="enabled">
                 <bool>false</bool>
                </property>
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
-               <property name="showLabel">
+               <property name="showLabel" stdset="0">
                 <bool>false</bool>
                </property>
               </widget>
@@ -312,14 +312,14 @@ This wizard is designed to help you protect your critical data agains software o
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="ChooseFile" name="chooseFileSSLCert">
+              <widget class="ChooseFile" name="chooseFileSSLCert" native="true">
                <property name="enabled">
                 <bool>false</bool>
                </property>
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
-               <property name="showLabel">
+               <property name="showLabel" stdset="0">
                 <bool>false</bool>
                </property>
               </widget>
@@ -338,14 +338,14 @@ This wizard is designed to help you protect your critical data agains software o
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="ChooseFile" name="chooseFileSSLKey">
+              <widget class="ChooseFile" name="chooseFileSSLKey" native="true">
                <property name="enabled">
                 <bool>false</bool>
                </property>
                <property name="focusPolicy">
                 <enum>Qt::StrongFocus</enum>
                </property>
-               <property name="showLabel">
+               <property name="showLabel" stdset="0">
                 <bool>false</bool>
                </property>
               </widget>
@@ -359,13 +359,6 @@ This wizard is designed to help you protect your critical data agains software o
       </widget>
       <widget class="QWidget" name="page_2">
        <layout class="QVBoxLayout" name="verticalLayout_7">
-        <item>
-         <widget class="ChooseFile" name="chooseFile_2">
-          <property name="labelText">
-           <string>Database File:</string>
-          </property>
-         </widget>
-        </item>
         <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
