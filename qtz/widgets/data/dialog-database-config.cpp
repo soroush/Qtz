@@ -5,7 +5,11 @@
 #include <QSqlError>
 #include <QMessageBox>
 #include <QCursor>
+#if QT_VERSION >= 0x050000
+#include <QtConcurrent/QtConcurrentRun>
+#else
 #include <QtConcurrentRun>
+#endif
 
 #include <qtz/core/settings.h>
 #include <qtz/data/data-provider-information.h>
