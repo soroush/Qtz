@@ -3,10 +3,11 @@
 
 #include <QWizardPage>
 #include <qtz/data/database.h>
+#include <qtz/core/library.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-class WizardPageCreateDatabaseConfigure;
+class QTZ_SHARED_EXPORT WizardPageCreateDatabaseConfigure;
 }
 QT_END_NAMESPACE
 

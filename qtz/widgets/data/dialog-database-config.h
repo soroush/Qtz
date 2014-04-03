@@ -5,6 +5,7 @@
 #include <QFutureWatcher>
 #include <QFuture>
 #include <QSqlDatabase>
+#include <qtz/core/library.h>
 #include <qtz/data/database.h>
 
 QT_BEGIN_NAMESPACE
@@ -13,7 +14,7 @@ class DialogDatabaseConfig;
 }
 QT_END_NAMESPACE
 
-class DialogDatabaseConfig : public QDialog {
+class QTZ_SHARED_EXPORT DialogDatabaseConfig : public QDialog {
     Q_OBJECT
     friend class GuiTest;
 public:

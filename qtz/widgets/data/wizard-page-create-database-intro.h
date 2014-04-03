@@ -2,6 +2,7 @@
 #define WIZARDPAGECREATEDATABASEINTRO_H
 
 #include <QWizardPage>
+#include <qtz/core/library.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -9,7 +10,7 @@ class WizardPageCreateDatabaseIntro;
 }
 QT_END_NAMESPACE
 
-class WizardPageCreateDatabaseIntro : public QWizardPage {
+class QTZ_SHARED_EXPORT WizardPageCreateDatabaseIntro : public QWizardPage {
     Q_OBJECT
 
 public:

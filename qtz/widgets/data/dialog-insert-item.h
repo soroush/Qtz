@@ -2,12 +2,13 @@
 #define DIALOGINSERTITEM_H
 
 #include <QDialog>
+#include <qtz/core/library.h>
 
 QT_BEGIN_NAMESPACE
 class QSqlRelationalTableModel;
 QT_END_NAMESPACE
 
-class DialogInsertItem : public QDialog {
+class QTZ_SHARED_EXPORT DialogInsertItem : public QDialog {
     Q_OBJECT
 public:
     explicit DialogInsertItem(QSqlRelationalTableModel *model = 0,

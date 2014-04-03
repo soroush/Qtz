@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLineEdit>
+#include <qtz/core/library.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -10,7 +11,7 @@ class ChooseFile;
 }
 QT_END_NAMESPACE
 
-class ChooseFile : public QWidget {
+class QTZ_SHARED_EXPORT ChooseFile : public QWidget {
     Q_OBJECT
     Q_PROPERTY(QString labelText READ labelText WRITE setLabelText USER true
                DESIGNABLE true STORED true)

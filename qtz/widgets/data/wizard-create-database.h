@@ -2,10 +2,11 @@
 #define WIZARDCREATEDATABASE_H
 
 #include <QWizard>
+#include <qtz/core/library.h>
 
 class WizardPageCreateDatabaseOperation;
 
-class WizardCreateDatabase : public QWizard {
+class QTZ_SHARED_EXPORT WizardCreateDatabase : public QWizard {
     Q_OBJECT
 public:
     explicit WizardCreateDatabase(QWidget *parent = 0);

@@ -9,6 +9,7 @@
 #include <QFutureWatcher>
 #include <QFuture>
 #include <QTime>
+#include <qtz/core/library.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,7 +17,7 @@ class WizardPageCreateDatabaseOperation;
 }
 QT_END_NAMESPACE
 
-class WizardPageCreateDatabaseOperation : public QWizardPage {
+class QTZ_SHARED_EXPORT WizardPageCreateDatabaseOperation : public QWizardPage {
     Q_OBJECT
 
 public:

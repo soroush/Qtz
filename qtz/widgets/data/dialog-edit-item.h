@@ -2,8 +2,9 @@
 #define DIALOGEDITITEM_H
 
 #include <QDialog>
+#include <qtz/core/library.h>
 
-class DialogEditItem : public QDialog {
+class QTZ_SHARED_EXPORT DialogEditItem : public QDialog {
     Q_OBJECT
 public:
     explicit DialogEditItem(QWidget *parent = 0);

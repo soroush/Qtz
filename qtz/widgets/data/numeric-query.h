@@ -2,7 +2,7 @@
 #define NUMERICQUERY_H
 
 #include <QWidget>
-#include "../export.h"
+#include <qtz/core/library.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
