@@ -1,6 +1,9 @@
 #include "i-insert-record.h"
+#if QT_VERSION >= 0x050000
+#include <QtConcurrent/QtConcurrentRun>
+#else
 #include <QtConcurrentRun>
-#include <qtz/data/database.h>
+#endif#include <qtz/data/database.h>
 
 IInsertRecord::IInsertRecord(QSqlTableModel *_model, QObject *parent):
     QObject(parent)

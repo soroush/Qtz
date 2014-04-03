@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
+CONFIG += ordered
 
 SUBDIRS += \
-#    agt-test \
     qtz\
     qtz-plugin \
     tests
