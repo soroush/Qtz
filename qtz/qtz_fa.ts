@@ -58,25 +58,25 @@
         <location filename="data/database.cpp" line="144"/>
         <location filename="data/database.cpp" line="204"/>
         <source>Analyzing database information...</source>
-        <translation type="unfinished"></translation>
+        <translation>تحلیل اطلاعات پایگاه داده...</translation>
     </message>
     <message>
         <location filename="data/database.cpp" line="148"/>
         <location filename="data/database.cpp" line="208"/>
         <source>Writing database information...</source>
-        <translation type="unfinished"></translation>
+        <translation>بازنویسی اطلاعات پایگاه داده...</translation>
     </message>
     <message>
         <location filename="data/database.cpp" line="153"/>
         <location filename="data/database.cpp" line="213"/>
         <source>Writing data...</source>
-        <translation type="unfinished"></translation>
+        <translation>در حال ذخیرهٔ داده‌ها...</translation>
     </message>
     <message>
         <location filename="data/database.cpp" line="187"/>
         <location filename="data/database.cpp" line="295"/>
         <source>Done.</source>
-        <translation type="unfinished"></translation>
+        <translation>انجام شد.</translation>
     </message>
     <message>
         <location filename="data/database.cpp" line="191"/>
