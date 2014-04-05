@@ -23,4 +23,8 @@ win32 {
     headers.path = $$INSTALL_ROOT/include/qtz/
 }
 
+TRANSLATIONS = \
+        qtz_fa.ts \
+        qtz_en.ts
+
 OTHER_FILES += cxx.astyle
