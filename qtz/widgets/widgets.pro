@@ -60,6 +60,8 @@ win32 {
 CONFIG(local){
     INCLUDEPATH += ../../
     LIBS += -L"../data/$$BUILD" -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ} -L"../core/$$BUILD" -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
+} else {
+    LIBS += -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
 SOURCES += \

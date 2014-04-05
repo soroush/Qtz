@@ -1,4 +1,4 @@
-#include "wizard-page-create-database-operation.h"
+﻿#include "wizard-page-create-database-operation.h"
 #include "ui_wizard-page-create-database-operation.h"
 #if QT_VERSION >= 0x050000
 #include <QtConcurrent/QtConcurrentRun>
@@ -28,16 +28,12 @@ WizardPageCreateDatabaseOperation::WizardPageCreateDatabaseOperation(
             QHeaderView::ResizeToContents);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(2,
             QHeaderView::ResizeToContents);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(3,
-            QHeaderView::ResizeToContents);
 #else
     ui->tableWidget->horizontalHeader()->setResizeMode(0,
             QHeaderView::Stretch);
     ui->tableWidget->horizontalHeader()->setResizeMode(1,
             QHeaderView::ResizeToContents);
     ui->tableWidget->horizontalHeader()->setResizeMode(2,
-            QHeaderView::ResizeToContents);
-    ui->tableWidget->horizontalHeader()->setResizeMode(3,
             QHeaderView::ResizeToContents);
 #endif
     connect(this->m_futureWatcher,SIGNAL(finished()),this,SLOT(taskFinished()));
