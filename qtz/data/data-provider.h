@@ -11,6 +11,7 @@ public:
     DataProvider();
     DataProvider(const QString &, const quint8 &, const QString &, const quint32 &,
                  const QString &, const QString &);
+    ~DataProvider();
     QString providerName() const;
     quint8 providerCode() const;
     QString defaultHost() const;

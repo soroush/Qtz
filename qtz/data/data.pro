@@ -5,7 +5,7 @@ lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
 
 TEMPLATE = lib
 
-VERSION = 0.1.3
+VERSION = 0.2.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -63,12 +63,14 @@ HEADERS += database.h \
     table-node.h \
     data-provider-information.h \
     data-provider.h \
-    i-insert-record.h
+    i-insert-record.h \
+    i-edit-record.h
 
 SOURCES += database.cpp \
     data-provider-information.cpp \
     data-provider.cpp \
-    i-insert-record.cpp
+    i-insert-record.cpp \
+    i-edit-record.cpp
 
 RESOURCES += \
     QtzData.qrc
@@ -80,7 +82,8 @@ OTHER_FILES += resources/mysql_fk_fetch.sql \
     resources/mysql_fetch_all_row_count.sql \
     resources/mysql_fetch_all_rows_procedure.sql \
     resources/database-providers.xml \
-    resources/database-providers_fa.xml
+    resources/database-providers_fa.xml \
+    QtzData.rc
 
 headers.files = $$HEADERS
 

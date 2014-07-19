@@ -17,6 +17,11 @@ DataProvider::DataProvider(const QString &name,
 {
 }
 
+DataProvider::~DataProvider()
+{
+    // Default Dtor
+}
+
 QString DataProvider::providerName() const
 {
     return this->m_providerName;

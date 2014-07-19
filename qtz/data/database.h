@@ -1,4 +1,4 @@
-#ifndef DATABASE_H
+﻿#ifndef DATABASE_H
 #define DATABASE_H
 
 #include <QObject>
@@ -69,11 +69,30 @@ public:
     static Database *getInstance();
     /**
      * @brief database
-     * @return A pointer to underlying QSqlDatabase object.
+     * @return Returns a pointer to underlying QSqlDatabase object.
      */
     QSqlDatabase *database();
+
+    /**
+     * @brief Sets type of current database. If there already exists a database
+     * (maybe with different type) then the current db will be closed. This method should
+     * not be called by external users while database is open and operating.
+     */
     void setType(const Type &);
+
+    /**
+     * @brief type
+     * @return Type of database which is open, or just set.
+     */
     Type type();
+
+    /**
+     * @brief fieldFromString Returns a field type corrosponding to its argument
+     * @param name
+     * @return name of field.
+     */
+    FieldType fieldFromString(const QString &name);
+
     void readConnectionInfo();
     void writeConnectionInfo();
     void setBlockSize(const unsigned int &size);

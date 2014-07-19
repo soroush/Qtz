@@ -1,4 +1,4 @@
-#include "database.h"
+﻿#include "database.h"
 #include <qtz/core/settings.h>
 #include <qtz/core/auth-provider.h>
 #include <qtz/core/qio.h>
@@ -61,8 +61,8 @@ void Database::setType(const Type &newType)
     if(m_type != newType ) {
         m_type = newType;
         m_database = QSqlDatabase::addDatabase(
-                         DataProviderInformation::getInstance()->getDriverName(m_type),
-                         "mainDB");
+                    DataProviderInformation::getInstance()->getDriverName(m_type),
+                    "mainDB");
     }
 }
 
@@ -71,25 +71,59 @@ Database::Type Database::type()
     return m_type;
 }
 
+Database::FieldType Database::fieldFromString(const QString &name)
+{
+    if(name == "BOOL")
+        return FieldType::BOOL;
+    else if(name=="INT_8")
+        return FieldType::INT_8;
+    else if(name=="INT_16")
+        return FieldType::INT_16;
+    else if(name=="INT_32")
+        return FieldType::INT_32;
+    else if(name=="INT_64")
+        return FieldType::INT_64;
+    else if(name=="UINT_8")
+        return FieldType::UINT_8;
+    else if(name=="UINT_16")
+        return FieldType::UINT_16;
+    else if(name=="UINT_32")
+        return FieldType::UINT_32;
+    else if(name=="UINT_64")
+        return FieldType::UINT_64;
+    else if(name=="FLOAT")
+        return FieldType::FLOAT;
+    else if(name=="DOUBLE")
+        return FieldType::DOUBLE;
+    else if(name=="TEXT")
+        return FieldType::TEXT;
+    else if(name=="DATE_TIME")
+        return FieldType::DATE_TIME;
+    else if(name=="DATE")
+        return FieldType::DATE;
+    else if(name=="TIME")
+        return FieldType::TIME;
+}
+
 void Database::readConnectionInfo()
 {
     Type driver = static_cast<Type>
-                  (Settings::getInstance()->value("db:type").toUInt());
+            (Settings::getInstance()->value("db:type").toUInt());
     QString driverName = DataProviderInformation::getInstance()->getDriverName(
-                             driver);
+                driver);
     instance->m_database = QSqlDatabase::addDatabase(driverName,"mainDB");
     instance->m_type = driver;
     instance->m_database.setHostName(
-        Settings::getInstance()->value("db:host").toString());
+                Settings::getInstance()->value("db:host").toString());
     instance->m_database.setPort(
-        Settings::getInstance()->value("db:port").toInt());
+                Settings::getInstance()->value("db:port").toInt());
     instance->m_database.setDatabaseName(
-        Settings::getInstance()->value("db:database").toString());
+                Settings::getInstance()->value("db:database").toString());
     instance->m_database.setUserName(
-        Settings::getInstance()->value("db:user").toString());
+                Settings::getInstance()->value("db:user").toString());
     instance->m_database.setPassword(
-        AuthProvider::instance()->decryptPassword(
-            Settings::getInstance()->value("db:password").toString()));
+                AuthProvider::instance()->decryptPassword(
+                    Settings::getInstance()->value("db:password").toString()));
 }
 
 void Database::writeConnectionInfo()
@@ -102,8 +136,8 @@ void Database::writeConnectionInfo()
                                       instance->m_database.databaseName());
     Settings::getInstance()->setValue("db:user", instance->m_database.userName());
     Settings::getInstance()->setValue(
-        "db:password", AuthProvider::instance()->encryptPassword(
-            instance->m_database.password()));
+                "db:password", AuthProvider::instance()->encryptPassword(
+                    instance->m_database.password()));
 }
 
 void Database::setBlockSize(const unsigned int &size)
@@ -368,7 +402,7 @@ uint Database::getNumberOfTableRows(const QString &tableName)
     }
     else {
         wcerr << tr("Unable to fetch number of records in table `%1'").arg(
-                  tableName).toStdWString() << endl;
+                     tableName).toStdWString() << endl;
     }
     return 0;
 }
@@ -376,9 +410,9 @@ uint Database::getNumberOfTableRows(const QString &tableName)
 uint Database::getNumberOfTableColumns(const QString &tableName)
 {
     QString selectFieldCountText = QString(
-                                       "SELECT COUNT(*) FROM information_schema.`COLUMNS`"
-                                       "WHERE table_name = '%1'"
-                                       "AND TABLE_SCHEMA = DATABASE()").arg(tableName);
+                "SELECT COUNT(*) FROM information_schema.`COLUMNS`"
+                "WHERE table_name = '%1'"
+                "AND TABLE_SCHEMA = DATABASE()").arg(tableName);
     QSqlQuery selectFieldCount;
     selectFieldCount.prepare(selectFieldCountText);
     selectFieldCount.exec();
@@ -394,7 +428,7 @@ void Database::getTableFiledTypes(const QString &tableName,
     selectFieldType.prepare(QString("DESCRIBE %1").arg(tableName));
     if(!selectFieldType.exec()) {
         wcerr << tr("Unable to get types of fields for table `%1'").arg(
-                  tableName).toStdWString() << endl;
+                     tableName).toStdWString() << endl;
         wcerr << selectFieldType.lastError().text().toStdWString() << endl;
         return;
     }
@@ -614,7 +648,7 @@ void Database::restoreVN(QDataStream &in, const quint32 &totalRows,
     quint32 columnsCount = getNumberOfTableColumns(tableName);
     QSqlQuery insert;
     QString insertRecord = QString("INSERT INTO %1 VALUES (%2)").arg(tableName,
-                           "%1");
+                                                                     "%1");
     for(quint32 r = 0; r < recordCount; ++r) {
         QStringList valueList;
         valueList.clear();
@@ -664,9 +698,9 @@ void Database::restoreVB(QDataStream &in, const quint32 &totalRows,
     data.resize(columnsCount);
     for(quint32 b = 0; b < blockCount; ++b) {
         foreach(QVariantList list, data)
-        list.clear();
+            list.clear();
         QString insertRecord = QString("INSERT INTO %1 VALUES (%2)").arg(tableName,
-                               "%1");
+                                                                         "%1");
         for(quint32 i = 0; i < columnsCount - 1; ++i) {
             insertRecord = insertRecord.arg("?,%1");
         }
@@ -683,7 +717,7 @@ void Database::restoreVB(QDataStream &in, const quint32 &totalRows,
     //    Remaining part of data:
     QSqlQuery insert;
     QString insertRecord = QString("INSERT INTO %1 VALUES (%2);\n").arg(tableName,
-                           "%1");
+                                                                        "%1");
     for(quint32 r = 0; r < remaining; ++r) {
         QStringList valueList;
         valueList.clear();
