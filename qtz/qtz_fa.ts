@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="fa_IR">
+<TS version="2.1" language="fa_IR">
 <context>
     <name>ChooseFile</name>
     <message>
@@ -11,121 +11,116 @@
     <message>
         <location filename="widgets/misc/choose-file.ui" line="33"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">...</translation>
     </message>
 </context>
 <context>
     <name>DataNavigator</name>
     <message>
-        <location filename="widgets/data/data-navigator.ui" line="20"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="widgets/data/data-navigator.ui" line="42"/>
+        <location filename="widgets/data/data-navigator.ui" line="51"/>
         <source>&lt;&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt;&gt;</translation>
     </message>
     <message>
-        <location filename="widgets/data/data-navigator.ui" line="49"/>
+        <location filename="widgets/data/data-navigator.ui" line="58"/>
         <source>&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&gt;</translation>
     </message>
     <message>
-        <location filename="widgets/data/data-navigator.ui" line="56"/>
+        <location filename="widgets/data/data-navigator.ui" line="65"/>
         <source>Page:</source>
-        <translation type="unfinished"></translation>
+        <translation>صفحه:</translation>
     </message>
     <message>
-        <location filename="widgets/data/data-navigator.ui" line="66"/>
+        <location filename="widgets/data/data-navigator.ui" line="75"/>
         <source>/</source>
-        <translation type="unfinished"></translation>
+        <translation>/</translation>
     </message>
     <message>
-        <location filename="widgets/data/data-navigator.ui" line="80"/>
+        <location filename="widgets/data/data-navigator.ui" line="89"/>
         <source>&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;</translation>
     </message>
     <message>
-        <location filename="widgets/data/data-navigator.ui" line="87"/>
+        <location filename="widgets/data/data-navigator.ui" line="96"/>
         <source>&gt;&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;&lt;</translation>
     </message>
 </context>
 <context>
     <name>Database</name>
     <message>
-        <location filename="data/database.cpp" line="144"/>
-        <location filename="data/database.cpp" line="204"/>
+        <location filename="data/database.cpp" line="178"/>
+        <location filename="data/database.cpp" line="238"/>
         <source>Analyzing database information...</source>
         <translation>تحلیل اطلاعات پایگاه داده...</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="148"/>
-        <location filename="data/database.cpp" line="208"/>
+        <location filename="data/database.cpp" line="182"/>
+        <location filename="data/database.cpp" line="242"/>
         <source>Writing database information...</source>
         <translation>بازنویسی اطلاعات پایگاه داده...</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="153"/>
-        <location filename="data/database.cpp" line="213"/>
+        <location filename="data/database.cpp" line="187"/>
+        <location filename="data/database.cpp" line="247"/>
         <source>Writing data...</source>
         <translation>در حال ذخیرۀ داده‌ها...</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="187"/>
-        <location filename="data/database.cpp" line="295"/>
+        <location filename="data/database.cpp" line="221"/>
+        <location filename="data/database.cpp" line="329"/>
         <source>Done.</source>
         <translation>انجام شد.</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="191"/>
-        <location filename="data/database.cpp" line="299"/>
+        <location filename="data/database.cpp" line="225"/>
+        <location filename="data/database.cpp" line="333"/>
         <source>Unable to open backup file for writing.</source>
         <translation>نمی‌توان فایل پشتیبان را برای ذخیرۀ اطلاعات باز کرد.</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="317"/>
+        <location filename="data/database.cpp" line="351"/>
         <source>Database names mismatch</source>
         <translation>نام پایگاه داده‌ها تطابق ندارد</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="335"/>
+        <location filename="data/database.cpp" line="369"/>
         <source>Unable to open backup file for reading.</source>
         <translation>نمی‌توان فایل پشتیبان را برای خواندن اطلاعات باز کرد.</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="344"/>
+        <location filename="data/database.cpp" line="378"/>
         <source>Unable to call stored procedure `CALL COUNT_ALL_RECORDS_BY_TABLE&apos; in order to get count of total records of database:</source>
         <translation>نمی‌توان روال ذخیره شدۀ `COUNT_ALL_RECORDS_BY_TABLE&apos; را برای محسابۀ تعداد کل سطرهای پایگاه داده فراخوانی کرد:</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="370"/>
+        <location filename="data/database.cpp" line="404"/>
         <source>Unable to fetch number of records in table `%1&apos;</source>
         <translation>نمی‌توان تعداد سطرهای جدول `%1&apos; را بازیابی کرد</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="396"/>
+        <location filename="data/database.cpp" line="430"/>
         <source>Unable to get types of fields for table `%1&apos;</source>
         <translation>عدم موفقیت در بازیابی نوع فیلدها برای جدول `%1&apos;</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="544"/>
+        <location filename="data/database.cpp" line="578"/>
         <source>Unable to open SQL query file</source>
         <translation>نمی‌توان پروندۀ پرس‌وجوی SQL را باز کرد</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="559"/>
+        <location filename="data/database.cpp" line="593"/>
         <source>Unable to execute statement</source>
         <translation>نمی‌توان عبارت مورد نظر را اجرا کرد</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="637"/>
+        <location filename="data/database.cpp" line="671"/>
         <source>Unable to prepare SQL statement for data restore.</source>
         <translation>عدم موفقیت در آماده‌سازی عبارت SQL به منظور بازیابی پایگاه داده.</translation>
     </message>
     <message>
-        <location filename="data/database.cpp" line="643"/>
+        <location filename="data/database.cpp" line="677"/>
         <source>Unable to execure SQL statement to restore data.</source>
         <translation>عدم موفقیت در آماده‌سازی عبارت SQL به منظور بازیابی پایگاه داده.</translation>
     </message>
@@ -133,32 +128,27 @@
 <context>
     <name>DateQuery</name>
     <message>
-        <location filename="widgets/data/date-query.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="widgets/data/date-query.ui" line="30"/>
+        <location filename="widgets/data/date-query.ui" line="39"/>
         <source>Equal to:</source>
         <translation>برابر با:</translation>
     </message>
     <message>
-        <location filename="widgets/data/date-query.ui" line="35"/>
+        <location filename="widgets/data/date-query.ui" line="44"/>
         <source>After:</source>
         <translation>پس از:</translation>
     </message>
     <message>
-        <location filename="widgets/data/date-query.ui" line="40"/>
+        <location filename="widgets/data/date-query.ui" line="49"/>
         <source>Before:</source>
         <translation>پیش از:</translation>
     </message>
     <message>
-        <location filename="widgets/data/date-query.ui" line="45"/>
+        <location filename="widgets/data/date-query.ui" line="54"/>
         <source>Between:</source>
         <translation>بین:</translation>
     </message>
     <message>
-        <location filename="widgets/data/date-query.ui" line="127"/>
+        <location filename="widgets/data/date-query.ui" line="172"/>
         <source>And</source>
         <translation>و</translation>
     </message>
@@ -178,7 +168,7 @@
     <message>
         <location filename="widgets/data/dialog-database-config.ui" line="39"/>
         <source>Pro&amp;vider:</source>
-        <translation>فراهم‌کننده:</translation>
+        <translation>&amp;فراهم‌کننده:</translation>
     </message>
     <message>
         <location filename="widgets/data/dialog-database-config.ui" line="55"/>
@@ -196,78 +186,78 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;نشانی میزبان پایگاه داده. این مقدار می‌تواند یک نام میزبان (مانند www.example.com) یا یک آدرس IP (مانند. 127.0.0.1) باشد.&lt;/p&gt;&lt;p&gt;اگر در مورد مقدار این آیتم مطمئن نیستید، جعبۀ انتخاب &lt;span style=&quot; font-weight:600;&quot;&gt;محلی&lt;/span&gt; را کلیک کنید.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="93"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="96"/>
         <source>Local</source>
         <translation>محلی</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="102"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="105"/>
         <source>&amp;Port:</source>
         <translation>درگاه:</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="133"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="139"/>
         <source>Default</source>
         <translation>پیش‌فرض</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="142"/>
-        <location filename="widgets/data/dialog-database-config.ui" line="347"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="148"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="353"/>
         <source>&amp;Database:</source>
         <translation>پایگاه داده:</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="158"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="164"/>
         <source>&amp;Username:</source>
         <translation>نام کاربری:</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="174"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="180"/>
         <source>Pass&amp;word:</source>
         <translation>گذرواژه:</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="200"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="206"/>
         <source>&amp;Test Connection</source>
         <translation>تست اتصال</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="213"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="219"/>
         <source>Remember</source>
         <translation>به‌یادسپاری</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="249"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="255"/>
         <source>SSL &amp;CA:</source>
         <translation>مرکز SSL:</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="262"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="268"/>
         <source>Ce&amp;rtificate:</source>
         <translation>گواهی SSL:</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="275"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="281"/>
         <source>&amp;Key:</source>
-        <translation>کلید:</translation>
+        <translation>&amp;کلید:</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="314"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="320"/>
         <source>Se&amp;curity:</source>
         <translation>امنیت:</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="328"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="334"/>
         <source>Normal (No Encryption)</source>
         <translation>عادی (بدون رمزنگاری)</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="333"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="339"/>
         <source>SSL (Encrypted Connection)</source>
         <translation>SSL (ارتباط رمزنگاری‌شده)</translation>
     </message>
     <message>
-        <location filename="widgets/data/dialog-database-config.ui" line="360"/>
+        <location filename="widgets/data/dialog-database-config.ui" line="366"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -308,14 +298,6 @@ The Database Management System Provider has reported following error(s):
         <translation>نمی‌توان با استفاده از اطلاعات داده شده، به اتصالی به پایگاه داده برقرار کرد.
 سامانۀ مدیریت پایگاه داده خطا(ها)ی زیر را گزارش داده است:
 %1</translation>
-    </message>
-</context>
-<context>
-    <name>DialogEditTable</name>
-    <message>
-        <location filename="widgets/data/dialog-edit-table.ui" line="14"/>
-        <source>Dialog</source>
-        <translation></translation>
     </message>
 </context>
 <context>
@@ -378,16 +360,11 @@ You have %1 %2 left. If you forgot your password, please contact your data admin
         <location filename="widgets/security/dialog-user-login.cpp" line="60"/>
         <source>You have reachem maximux number of allowed trie. For security reasonsaccess through this program is denied.
 For more information contact your data administrator.</source>
-        <translation type="unfinished"></translation>
+        <translation>شما به بیشترین تعداد تلاش ممکن رسیده‌اید. به دلایل امنیتی دسترسی به این برنامه امکان‌پذیر نمی‌باشد. برای اطلاعات بیشتر با مدیریت سیستم تماس بگیرید.</translation>
     </message>
 </context>
 <context>
     <name>EditTableWidget</name>
-    <message>
-        <location filename="widgets/data/widget-edit-table.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <location filename="widgets/data/widget-edit-table.ui" line="31"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Add new items (Ctrl + I)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;You can add a new item using an intercative dialog by clicking on this button. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -450,32 +427,27 @@ For more information contact your data administrator.</source>
 <context>
     <name>NumericQuery</name>
     <message>
-        <location filename="widgets/data/numeric-query.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="widgets/data/numeric-query.ui" line="30"/>
+        <location filename="widgets/data/numeric-query.ui" line="39"/>
         <source>Equal to:</source>
         <translation>برابر با:</translation>
     </message>
     <message>
-        <location filename="widgets/data/numeric-query.ui" line="35"/>
+        <location filename="widgets/data/numeric-query.ui" line="44"/>
         <source>Greater than:</source>
         <translation>بزرگتر از:</translation>
     </message>
     <message>
-        <location filename="widgets/data/numeric-query.ui" line="40"/>
+        <location filename="widgets/data/numeric-query.ui" line="49"/>
         <source>Less than:</source>
         <translation>کمتر از:</translation>
     </message>
     <message>
-        <location filename="widgets/data/numeric-query.ui" line="45"/>
+        <location filename="widgets/data/numeric-query.ui" line="54"/>
         <source>Between:</source>
         <translation>بین:</translation>
     </message>
     <message>
-        <location filename="widgets/data/numeric-query.ui" line="111"/>
+        <location filename="widgets/data/numeric-query.ui" line="156"/>
         <source>And</source>
         <translation>و</translation>
     </message>
@@ -519,17 +491,12 @@ For more information contact your data administrator.</source>
 <context>
     <name>TextQuery</name>
     <message>
-        <location filename="widgets/data/text-query.ui" line="14"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="widgets/data/text-query.ui" line="24"/>
+        <location filename="widgets/data/text-query.ui" line="33"/>
         <source>Contains:</source>
         <translation>شامل:</translation>
     </message>
     <message>
-        <location filename="widgets/data/text-query.ui" line="29"/>
+        <location filename="widgets/data/text-query.ui" line="38"/>
         <source>Equals to:</source>
         <translation>برابر با:</translation>
     </message>
@@ -603,7 +570,7 @@ This wizard is designed to help you protect your critical data agains software o
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="142"/>
         <source>Local</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">محلی</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="151"/>
@@ -614,7 +581,7 @@ This wizard is designed to help you protect your critical data agains software o
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="176"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">پیش‌فرض</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="185"/>
@@ -640,32 +607,32 @@ This wizard is designed to help you protect your critical data agains software o
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="251"/>
         <source>Se&amp;curity:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">امنیت:</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="265"/>
         <source>Normal (No Encryption)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">عادی (بدون رمزنگاری)</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="270"/>
         <source>SSL (Encrypted Connection)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SSL (ارتباط رمزنگاری‌شده)</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="281"/>
         <source>SSL &amp;CA:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">مرکز SSL:</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="307"/>
         <source>Ce&amp;rtificate:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">گواهی SSL:</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="333"/>
         <source>&amp;Key:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">کلید:</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="396"/>
@@ -700,7 +667,7 @@ This wizard is designed to help you protect your critical data agains software o
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="444"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">...</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="467"/>
@@ -730,12 +697,12 @@ This wizard is designed to help you protect your critical data agains software o
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="600"/>
         <source>Progress:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">پیشرفت:</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="618"/>
         <source>Started at:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">زمان شروع:</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="625"/>
@@ -745,7 +712,7 @@ This wizard is designed to help you protect your critical data agains software o
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="632"/>
         <source>Time Elapsed:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">زمان سپری شده:</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="639"/>
@@ -755,7 +722,7 @@ This wizard is designed to help you protect your critical data agains software o
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="646"/>
         <source>Remaining Time:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">زمان باقی‌مانده:</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="653"/>
@@ -775,7 +742,7 @@ This wizard is designed to help you protect your critical data agains software o
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="678"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">لغو</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.ui" line="685"/>
@@ -785,7 +752,7 @@ This wizard is designed to help you protect your critical data agains software o
     <message>
         <location filename="widgets/data/wizard-backup-database.cpp" line="80"/>
         <source>Database Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">خطای پایگاه داده</translation>
     </message>
     <message>
         <location filename="widgets/data/wizard-backup-database.cpp" line="81"/>
@@ -1072,12 +1039,12 @@ This wizard is designed to help you protect your critical data agains software o
         <translation>اتمام</translation>
     </message>
     <message>
-        <location filename="widgets/data/wizard-page-create-database-operation.cpp" line="160"/>
+        <location filename="widgets/data/wizard-page-create-database-operation.cpp" line="162"/>
         <source>Database Error</source>
         <translation>خطای پایگاه داده</translation>
     </message>
     <message>
-        <location filename="widgets/data/wizard-page-create-database-operation.cpp" line="161"/>
+        <location filename="widgets/data/wizard-page-create-database-operation.cpp" line="163"/>
         <source>Unable to execute provided query.
 Database Management System has provided following error(s):
 %1</source>
