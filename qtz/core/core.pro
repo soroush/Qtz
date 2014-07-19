@@ -5,7 +5,7 @@ lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
 
 TEMPLATE = lib
 
-VERSION = 0.1.3
+VERSION = 0.2.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -52,7 +52,7 @@ unix {
 }
 
 win32 {
-    LIBS += -lcryptopp
+    LIBS += -lcryptopp$${BUILD_SUFFIX}5
     target.path = $$INSTALL_ROOT/lib
     headers.path = $$INSTALL_ROOT/include/qtz/core
     LINK_MAJ = "0"
@@ -70,7 +70,8 @@ HEADERS += \
     auth-provider.h \
     qio.h \
     person.h \
-    user.h
+    user.h \
+    number-formatter.h
 
 SOURCES += \
     settings.cpp \
@@ -78,9 +79,13 @@ SOURCES += \
     auth-provider.cpp \
     qio.cpp \
     person.cpp \
-    user.cpp
+    user.cpp \
+    number-formatter.cpp
 
 headers.files = $$HEADERS
 
 INSTALLS += target
 INSTALLS += headers
+
+OTHER_FILES += \
+    QtzCore.rc
