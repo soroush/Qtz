@@ -1,68 +1,81 @@
-#include "i-insert-record.h"
+﻿#include "i-insert-record.h"
 #if QT_VERSION >= 0x050000
 #include <QtConcurrent/QtConcurrentRun>
 #else
 #include <QtConcurrentRun>
-#endif#include <qtz/data/database.h>
+#endif
+#include <qtz/data/database.h>
+#include <QDebug>
 
-IInsertRecord::IInsertRecord(QSqlTableModel *_model, QObject *parent):
-    QObject(parent)
+IInsertRecord::IInsertRecord(QObject *parent, QSqlTableModel *_model):
+    QObject(parent), m_model(_model)
 {
-    this->setModel(_model);
-    connect(&this->watcher,SIGNAL(finished()),this,SLOT(finishCallback()));
+    connect(&this->m_watcher,SIGNAL(finished()),this,SLOT(emitFinished()));
+}
+
+IInsertRecord::~IInsertRecord()
+{
 }
 
 void IInsertRecord::setModel(QSqlTableModel *_model)
 {
-    this->model = _model;
-    this->record = this->model->record();
+    this->m_model = _model;
 }
 
-void IInsertRecord::setValue(const QString &name, const QVariant &val)
+QSqlTableModel *IInsertRecord::getModel()
 {
-    this->record.setValue(name,val);
-    this->validate();
-}
-
-bool IInsertRecord::isValid() const
-{
-    return this->valid;
+    return this->m_model;
 }
 
 bool IInsertRecord::isSuccessful() const
 {
-    return this->success;
+    return this->m_success;
 }
 
-void IInsertRecord::insert()
+void IInsertRecord::insert(const QSqlRecord& record)
 {
-    startCallback();
-    future = QtConcurrent::run(this,&IInsertRecord::insertWorkhorse);
-    watcher.setFuture(future);
+    emit started();
+    m_success = this->m_model->insertRecord(-1,record);
+    this->m_model->submitAll();
+    if(!m_success){
+        emit failed();
+    }
+    emit finished();
 }
 
-QString IInsertRecord::validateMessage()
+void IInsertRecord::insertAndComplete(QSqlRecord &record)
 {
-    return this->m_validateMessage;
+    // FIXME: Following assumptions are applied:
+    // 1. There is only one auto-increment field
+    // 2. The AI field is first field of record
+    // 3. The AI field is name "id"
+    emit started();
+    m_success = this->m_model->insertRecord(-1,record);
+    this->m_model->submitAll();
+    if(!m_success){
+        emit failed();
+    }
+    else {
+        QVariant id = m_model->query().lastInsertId();
+        if(id.isValid() && !id.isNull()){
+            record.setValue(0,id);
+        }
+        else{
+            emit failed();
+        }
+    }
 }
 
-void IInsertRecord::startCallback()
+void IInsertRecord::emitFinished()
 {
-    // TODO: Maybe throug exception?
+    emit finished();
 }
 
-void IInsertRecord::finishCallback()
+void IInsertRecord::insertWorkhorse(const QSqlRecord &record)
 {
-    // TODO: Maybe throug exception?
-}
-
-void IInsertRecord::validate()
-{
-    // TODO: Maybe throug exception?
-}
-
-void IInsertRecord::insertWorkhorse()
-{
-    success = this->model->insertRecord(-1,this->record);
-    this->model->submitAll();
+    m_success = this->m_model->insertRecord(-1,record);
+    this->m_model->submitAll();
+    if(!m_success){
+        emit failed();
+    }
 }
