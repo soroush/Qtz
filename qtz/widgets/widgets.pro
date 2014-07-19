@@ -85,7 +85,8 @@ SOURCES += \
     data/wizard-page-create-database-configure.cpp \
     data/wizard-page-create-database-confirm.cpp \
     data/wizard-page-create-database-operation.cpp \
-    data/i-dialog-insert-record.cpp
+    data/i-dialog-insert-record.cpp \
+    data/query-collection.cpp
 
 DATA_HEADERS += \
     data/data-navigator.h \
@@ -103,7 +104,9 @@ DATA_HEADERS += \
     data/wizard-page-create-database-configure.h \
     data/wizard-page-create-database-confirm.h \
     data/wizard-page-create-database-operation.h \
-    data/i-dialog-insert-record.h
+    data/i-dialog-insert-record.h \
+    data/query-collection.h
+
 EDITORS_HEADERS += \
     editors/text-editor-window.h \
     editors/editable-label.h \
@@ -147,4 +150,5 @@ RESOURCES += \
     QtzWidgets.qrc
 
 OTHER_FILES += \
-    data/schema-specified.xsd
+    data/schema-specification.xsd \
+    QtzWidgets.rc

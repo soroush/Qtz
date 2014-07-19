@@ -1,4 +1,4 @@
-#ifndef TEXTQUERY_H
+﻿#ifndef TEXTQUERY_H
 #define TEXTQUERY_H
 
 #include <QWidget>

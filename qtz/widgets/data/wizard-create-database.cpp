@@ -1,4 +1,4 @@
-#include "wizard-create-database.h"
+﻿#include "wizard-create-database.h"
 #include "wizard-page-create-database-intro.h"
 #include "wizard-page-create-database-configure.h"
 #include "wizard-page-create-database-confirm.h"
@@ -36,8 +36,23 @@ void WizardCreateDatabase::setSqlFile(const QString &filename)
                 QXmlStreamAttributes attrib = xml.attributes();
                 QString title = attrib.value("title").toString();
                 quint8 progress = attrib.value("progress").toString().toUInt();
-                QString query = xml.readElementText();
-                this->m_operationPage->addSql(query,title,progress);
+                bool group = (attrib.value("group").toString()=="true");
+                if(group){
+                    QStringList tasks = xml.readElementText().split(';');
+                    auto i = tasks.begin();
+                    if(i!=tasks.end()){
+                        this->m_operationPage->addSql(*i,title,progress,false);
+                        ++i;
+                    }
+                    while(i!=tasks.end()){
+                        this->m_operationPage->addSql(*i,title,progress,true);
+                        ++i;
+                    }
+                }
+                else{
+                    QString query = xml.readElementText();
+                    this->m_operationPage->addSql(query,title,progress);
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-#ifndef WIZARDPAGECREATEDATABASEOPERATION_H
+﻿#ifndef WIZARDPAGECREATEDATABASEOPERATION_H
 #define WIZARDPAGECREATEDATABASEOPERATION_H
 
 #include <QWizardPage>
@@ -24,7 +24,7 @@ public:
     explicit WizardPageCreateDatabaseOperation(QWidget *parent = 0);
     ~WizardPageCreateDatabaseOperation();
     void addSql(QString &query, const QString title=QString {}, const quint8
-                &progress=0);
+                &progress=0, bool hidden=false);
     void initializePage();
     bool isComplete() const;
 
@@ -42,6 +42,7 @@ private:
     bool performTask(QSqlQuery query);
 
     struct Operation {
+        bool hidden;
         quint8 progress;
         QString title;
         QString query;

@@ -45,9 +45,9 @@ WizardPageCreateDatabaseOperation::~WizardPageCreateDatabaseOperation()
 }
 
 void WizardPageCreateDatabaseOperation::addSql(QString &query,
-        const QString title, const quint8 &progress)
+        const QString title, const quint8 &progress, bool hidden)
 {
-    this->m_tasks.append({progress,title,query});
+    this->m_tasks.append({hidden,progress,title,query});
 }
 
 void WizardPageCreateDatabaseOperation::initializePage()
@@ -137,7 +137,9 @@ void WizardPageCreateDatabaseOperation::performNextTask()
 
 bool WizardPageCreateDatabaseOperation::performTask(QSqlQuery query)
 {
-    return query.exec();
+    bool x = query.exec();
+    qDebug() << query.executedQuery();
+    return x;
 }
 
 void WizardPageCreateDatabaseOperation::taskFinished()

@@ -85,6 +85,9 @@
               <property name="whatsThis">
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Host address of Database Management system. This can be either a hostname (e.g www.example.com) or an IP address (e.g. 127.0.0.1)&lt;/p&gt;&lt;p&gt;If you are not sure about this item, check the &lt;span style=&quot; font-weight:600;&quot;&gt;Local&lt;/span&gt; checkbox below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
+              <property name="locale">
+               <locale language="English" country="UnitedStates"/>
+              </property>
              </widget>
             </item>
             <item>
@@ -118,6 +121,9 @@
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
+              </property>
+              <property name="locale">
+               <locale language="English" country="UnitedStates"/>
               </property>
               <property name="minimum">
                <number>1</number>
@@ -228,14 +234,14 @@
            </spacer>
           </item>
           <item row="6" column="1">
-           <widget class="ChooseFile" name="chooseFileSSLCA">
+           <widget class="ChooseFile" name="chooseFileSSLCA" native="true">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
-            <property name="showLabel">
+            <property name="showLabel" stdset="0">
              <bool>false</bool>
             </property>
            </widget>
@@ -280,27 +286,27 @@
            </widget>
           </item>
           <item row="7" column="1">
-           <widget class="ChooseFile" name="chooseFileSSLCert">
+           <widget class="ChooseFile" name="chooseFileSSLCert" native="true">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
-            <property name="showLabel">
+            <property name="showLabel" stdset="0">
              <bool>false</bool>
             </property>
            </widget>
           </item>
           <item row="8" column="1">
-           <widget class="ChooseFile" name="chooseFileSSLKey">
+           <widget class="ChooseFile" name="chooseFileSSLKey" native="true">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
-            <property name="showLabel">
+            <property name="showLabel" stdset="0">
              <bool>false</bool>
             </property>
            </widget>
