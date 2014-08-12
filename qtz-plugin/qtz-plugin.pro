@@ -68,4 +68,3 @@ INSTALLS    += target
 
 OTHER_FILES += \
     qtz_plugin.json
-
