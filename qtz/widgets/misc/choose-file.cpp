@@ -1,29 +1,28 @@
 #include "choose-file.h"
 #include "ui_choose-file.h"
-
-#include <QFileDialog>
+#include <QCompleter>
 
 ChooseFile::ChooseFile(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ChooseFile)
+    ui(new Ui::ChooseFile),
+    m_dialog{new QFileDialog(this)},
+    m_filesystemModel{new QDirModel(this)},
+    m_completer{new QCompleter(m_filesystemModel,this)}
 {
     ui->setupUi(this);
+    ui->lineEditFileName->setCompleter(m_completer);
     connect(ui->toolButtonChoose, SIGNAL(clicked()), this, SLOT(chooseFile()));
+    setViewMode(QFileDialog::List);
+    setFileMode(QFileDialog::ExistingFile);
+    setAcceptMode(QFileDialog::AcceptOpen);
 }
 
 ChooseFile::~ChooseFile()
 {
     delete ui;
-}
-
-void ChooseFile::setLabelText(const QString &text)
-{
-    this->ui->label->setText(text);
-}
-
-QString ChooseFile::labelText()
-{
-    return this->ui->label->text();
+    delete m_dialog;
+    delete m_filesystemModel;
+    delete m_completer;
 }
 
 void ChooseFile::setText(const QString &text)
@@ -31,39 +30,79 @@ void ChooseFile::setText(const QString &text)
     this->ui->lineEditFileName->setText(text);
 }
 
-QString ChooseFile::text()
+QString ChooseFile::text() const
 {
     return this->ui->lineEditFileName->text();
 }
 
 void ChooseFile::setFilter(const QString &text)
 {
-    this->m_filter = text;
+    this->m_dialog->setNameFilter(text);
 }
 
-QString ChooseFile::filter()
+QString ChooseFile::filter() const
 {
-    return this->m_filter;
+    return this->m_dialog->nameFilters().join(";;");
 }
 
 void ChooseFile::setWindowTitle(const QString &text)
 {
-    this->m_windowTitle = text;
+    m_dialog->setWindowTitle(text);
 }
 
-QString ChooseFile::windowTitle()
+QString ChooseFile::windowTitle() const
 {
-    return this->m_windowTitle;
+    return this->m_dialog->windowTitle();
 }
 
-void ChooseFile::setShowLabel(const bool &show)
+void ChooseFile::setViewMode(QFileDialog::ViewMode mode)
 {
-    this->ui->label->setVisible(show);
+    this->m_dialog->setViewMode(mode);
 }
 
-bool ChooseFile::showLabel()
+void ChooseFile::setFileMode(QFileDialog::FileMode mode)
 {
-    return this->ui->label->isVisible();
+    this->m_dialog->setFileMode(mode);
+}
+
+void ChooseFile::setAcceptMode(QFileDialog::AcceptMode mode)
+{
+    this->m_dialog->setAcceptMode(mode);
+}
+
+QFileDialog::ViewMode ChooseFile::viewMode() const
+{
+    return m_dialog->viewMode();
+}
+
+QFileDialog::FileMode ChooseFile::fileMode() const
+{
+    return m_dialog->fileMode();
+}
+
+QFileDialog::AcceptMode ChooseFile::acceptMode() const
+{
+    return m_dialog->acceptMode();
+}
+
+void ChooseFile::setOption(QFileDialog::Option option, bool on)
+{
+    m_dialog->setOption(option,on);
+}
+
+bool ChooseFile::testOption(QFileDialog::Option option) const
+{
+    return m_dialog->testOption(option);
+}
+
+void ChooseFile::setOptions(QFileDialog::Options options)
+{
+    m_dialog->setOptions(options);
+}
+
+QFileDialog::Options ChooseFile::options() const
+{
+    return m_dialog->options();
 }
 
 QLineEdit *ChooseFile::lineEdit()
@@ -73,15 +112,8 @@ QLineEdit *ChooseFile::lineEdit()
 
 void ChooseFile::chooseFile()
 {
-    QFileDialog dialog;
-    dialog.setAcceptMode(
-        QFileDialog::AcceptOpen); // TODO: add more flexibility here
-    dialog.setFileMode(
-        QFileDialog::ExistingFile); // TODO: add more flexibility here
-    dialog.setNameFilter(this->m_filter);
-    dialog.setWindowTitle(this->m_windowTitle);
-    if(dialog.exec() == QDialog::Accepted) {
-        QString fileName = dialog.selectedFiles().at(0);
+    if(m_dialog->exec() == QDialog::Accepted) {
+        QString fileName = m_dialog->selectedFiles().at(0);
         ui->lineEditFileName->setText(fileName);
         emit fileSelected(fileName);
     }

@@ -1,6 +1,6 @@
 QT       += network sql xml gui testlib
 CONFIG += C++11
-lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
+lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=gnu++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = tst_qtz
@@ -55,4 +55,4 @@ SOURCES +=  \
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 DEFINES += QTZ_LIBRARY
 
-VERSION = 0.1.3
+VERSION = 0.2.0

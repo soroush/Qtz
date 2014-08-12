@@ -2,7 +2,7 @@ TEMPLATE = subdirs
 
 CONFIG += ordered
 CONFIG += C++11
-lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
+lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=gnu++11
 
 headers.files = $$HEADERS
 
@@ -12,7 +12,7 @@ SUBDIRS += \
     data \
     widgets
 
-VERSION = 0.1.3
+VERSION = 0.2.0
 
 DEFINES += QTZ_LIBRARY
 

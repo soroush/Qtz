@@ -1,6 +1,6 @@
 CONFIG      += plugin debug_and_release
-greaterThan(QT_MAJOR_VERSION, 4): QT += designer
-lessThan(QT_MAJOR_VERSION, 5): CONFIG += designer
+greaterThan(QT_MAJOR_VERSION, 4): QT += designer CONFIG += C++11
+lessThan(QT_MAJOR_VERSION, 5): CONFIG += designer QMAKE_CXXFLAGS += -std=gnu++11
 TARGET      = $$qtLibraryTarget(qtzplugin)
 TEMPLATE    = lib
 

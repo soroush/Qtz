@@ -3,12 +3,12 @@
 
 #include <QDesignerCustomWidgetInterface>
 
-class SexagesimalSpinboxPlugin : public QObject, public QDesignerCustomWidgetInterface {
+class SexagesimalSpinBoxPlugin : public QObject, public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 
 public:
-    SexagesimalSpinboxPlugin(QObject *parent = 0);
+    SexagesimalSpinBoxPlugin(QObject *parent = 0);
 
     bool isContainer() const;
     bool isInitialized() const;

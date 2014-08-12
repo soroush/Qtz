@@ -16,7 +16,7 @@ Qtz::Qtz(QObject *parent)
     m_widgets.append(new DateQueryPlugin(this));
     m_widgets.append(new TextEditorWindowPlugin(this));
     m_widgets.append(new EditableLabelPlugin(this));
-    m_widgets.append(new SexagesimalSpinboxPlugin(this));
+    m_widgets.append(new SexagesimalSpinBoxPlugin(this));
     m_widgets.append(new ChooseFilePlugin(this));
     m_widgets.append(new TableEditPlugin(this));
 }
