@@ -1,4 +1,4 @@
-﻿#ifndef NUMBERFORMATTER_H
+#ifndef NUMBERFORMATTER_H
 #define NUMBERFORMATTER_H
 
 #include <QObject>
@@ -26,7 +26,7 @@ public slots:
 private:
     void convertInt2Numeral();
     QString convertHundreds2Numeral(unsigned long long);
-    unsigned long long m_value;
+    int64_t m_value;
     QString m_numeral;
     // Statics
     static QString persianAnd;

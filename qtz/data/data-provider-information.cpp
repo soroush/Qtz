@@ -62,7 +62,7 @@ const DataProvider DataProviderInformation::getProviderInfo(
             return db;
         }
     }
-    // TODO: Handle error
+    throw std::logic_error("Database provider information does not exist for the given code.");
 }
 
 QVector<DataProvider> DataProviderInformation::getSupportedProviders()

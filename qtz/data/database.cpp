@@ -1,4 +1,4 @@
-﻿#include "database.h"
+#include "database.h"
 #include <qtz/core/settings.h>
 #include <qtz/core/auth-provider.h>
 #include <qtz/core/qio.h>
@@ -103,6 +103,7 @@ Database::FieldType Database::fieldFromString(const QString &name)
         return FieldType::DATE;
     else if(name=="TIME")
         return FieldType::TIME;
+    throw std::logic_error("There is no field specification for the given type name.");
 }
 
 void Database::readConnectionInfo()
@@ -642,7 +643,7 @@ void Database::restoreVN(QDataStream &in, const quint32 &totalRows,
                          quint32 &restoredRecords)
 {
     QString tableName;
-    int recordCount;
+    quint32 recordCount;
     in >> tableName;
     in >> recordCount;
     quint32 columnsCount = getNumberOfTableColumns(tableName);
@@ -688,7 +689,7 @@ void Database::restoreVB(QDataStream &in, const quint32 &totalRows,
                          quint32 &restoredRecords)
 {
     QString tableName;
-    int rowCount;
+    quint32 rowCount;
     in >> tableName;
     in >> rowCount;
     quint32 columnsCount = getNumberOfTableColumns(tableName);
