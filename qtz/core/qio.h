@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QTextStream>
-#include "library.h"
+#include "core.h"
 
-class QIO : public QObject {
+class QTZ_SHARED_EXPORT QIO : public QObject {
     Q_OBJECT
 public:
     explicit QIO(QObject *parent = 0);

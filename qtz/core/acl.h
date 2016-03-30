@@ -3,7 +3,7 @@
 
 #include <QMutex>
 #include <QSqlDatabase>
-#include "library.h"
+#include "core.h"
 #include "auth-provider.h"
 
 class QTZ_SHARED_EXPORT ACL {

@@ -2,7 +2,7 @@
 #define NUMERICQUERY_H
 
 #include <QWidget>
-#include <qtz/core/library.h>
+#include "qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -10,7 +10,7 @@ class NumericQuery;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT NumericQuery : public QWidget {
+class QTZ_WIDGETS_SHARED_EXPORT NumericQuery : public QWidget {
     Q_OBJECT
     Q_PROPERTY(double minimum READ min WRITE setMin USER true)
     Q_PROPERTY(double maximum READ max WRITE setMax USER true)

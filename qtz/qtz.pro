@@ -2,19 +2,19 @@ TEMPLATE = subdirs
 
 CONFIG += ordered
 CONFIG += C++11
-lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
+lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
 
 headers.files = $$HEADERS
 
 SUBDIRS += \
     core \
-#    vision \
     data \
     widgets
 
-VERSION = 0.1.3
+data.depends= core
+widgets.depends= data core
 
-DEFINES += QTZ_LIBRARY
+VERSION = 0.1.3
 
 unix {
     headers.path = /usr/include/qtz

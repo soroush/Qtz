@@ -6,7 +6,7 @@
 
 class QEvent;
 
-class QTZ_SHARED_EXPORT QzLineEditSearch : public QLineEdit
+class QTZ_WIDGETS_SHARED_EXPORT QzLineEditSearch : public QLineEdit
 {
     Q_OBJECT
     Q_PROPERTY(QString searchText READ searchText WRITE setSearchText NOTIFY searchTextChanged USER true)

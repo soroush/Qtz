@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QSettings>
-#include "library.h"
+#include "core.h"
 
 class QTZ_SHARED_EXPORT Settings {
 private:

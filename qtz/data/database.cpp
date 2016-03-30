@@ -1,7 +1,6 @@
 #include "database.h"
 #include <qtz/core/settings.h>
 #include <qtz/core/auth-provider.h>
-#include <qtz/core/qio.h>
 #include <QCoreApplication>
 #include <QStack>
 #include <QFile>
@@ -188,7 +187,7 @@ void Database::backupByVariant(const QString &filename)
         emit backupCompleted();
     }
     else {
-        QIO::cerr << tr("Unable to open backup file for writing.") << endl;
+        ////QIO::cerr << tr("Unable to open backup file for writing.") << endl;
         // TODO: Through exception
     }
 }
@@ -296,7 +295,7 @@ void Database::backupByRuntimeCheck(const QString &filename)
         emit backupCompleted();
     }
     else {
-        QIO::cerr << tr("Unable to open backup file for writing.") << endl;
+        //QIO::cerr << tr("Unable to open backup file for writing.") << endl;
         // TODO: Through exception
     }
 }
@@ -332,7 +331,7 @@ void Database::restore(const QString &filename)
         }
     }
     else {
-        QIO::cerr << tr("Unable to open backup file for reading.") << endl;
+        //QIO::cerr << tr("Unable to open backup file for reading.") << endl;
         // TODO: through exception
     }
 }
@@ -541,7 +540,7 @@ QMap<QString, QStringList> Database::getParents(const QStringList &tables)
     QSqlQuery getParentsQuery;
     QFile queryFile(":/en/resources/mysql_fk_fetch.sql");
     if(!queryFile.open(QFile::ReadOnly | QFile::Text)) {
-        QIO::cerr << tr("Unable to open SQL query file") << endl;
+        //QIO::cerr << tr("Unable to open SQL query file") << endl;
         // TODO: Through exception
     }
     QString genericQueryText = QString::fromUtf8(queryFile.readAll());
@@ -556,8 +555,8 @@ QMap<QString, QStringList> Database::getParents(const QStringList &tables)
             }
         }
         else {
-            QIO::cerr << tr("Unable to execute statement") << endl;
-            QIO::cerr << getParentsQuery.lastError().text() << endl;
+            //QIO::cerr << tr("Unable to execute statement") << endl;
+            //QIO::cerr << getParentsQuery.lastError().text() << endl;
             // TODO: throw new exception
         }
     }

@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QModelIndex>
 #include <QModelIndexList>
-#include <qtz/core/library.h>
+#include "qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 class QVBoxLayout;
@@ -13,7 +13,7 @@ QT_END_NAMESPACE
 class WidgetEditTable;
 class DialogInsertItem;
 
-class QTZ_SHARED_EXPORT DialogEditTable : public QDialog {
+class QTZ_WIDGETS_SHARED_EXPORT DialogEditTable : public QDialog {
     Q_OBJECT
 public:
     explicit DialogEditTable(QWidget *parent = 0);

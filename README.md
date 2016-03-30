@@ -33,6 +33,7 @@ To compile Qtz on *nix like environments type:
     
 The `default_key` passes the key
 `f9bf8a579d1fa38c4e20ee884e4096c054b57771153799f49fb674d1006caf52` to internal
+
 AES encryption algorithm. It's strongly recommended to
 use your own key instead. You can pass your private key to qmake by adding:
 
@@ -75,4 +76,4 @@ If build has been finished successfully, you may want to install it:
 On Linux platforms all files will go through correct path. On Windows you may
 need to define explicit paths.
 
-    sudo mingw32-make install INSTALL_ROOT=c:\mingw64
+    mingw32-make install INSTALL_ROOT=c:\mingw64

@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QMap>
-#include "library.h"
+#include "core.h"
 
 QT_BEGIN_NAMESPACE
 class QString;
@@ -50,7 +50,7 @@ public:
       This method returns a UTF8-encoded string form a hex-encoded encrypted message.
       Encryption schema is same as explained in @ref encryptPassword.
       */
-    QString decryptPassword(const QString &);
+    static QString decryptPassword(const QString &);
 
     /**
       This method returns a hex-encoded, encrypted message. The algorithm used for
@@ -59,7 +59,7 @@ public:
       as two numbers in hex encoding. The key is generated randomly using openssl with this command:
       openssl rand -hex 32
       */
-    QString encryptPassword(const QString &);
+    static QString encryptPassword(const QString &);
 
     /**
     This method hashes given password by message digest algorithm specified in @ref m_passwordHash.

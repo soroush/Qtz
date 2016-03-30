@@ -3,12 +3,13 @@
 
 #include <QAbstractSpinBox>
 #include <QWheelEvent>
-#include <qtz/core/library.h>
+#include <qtz/core/core.h>
+#include "qtz-widgets.h"
 
 // TODO: Add Q_PROPERTY to widget
 // TODO: Add Formatting options to this widget
 
-class QTZ_SHARED_EXPORT SexagesimalSpinBox : public QAbstractSpinBox {
+class QTZ_WIDGETS_SHARED_EXPORT SexagesimalSpinBox : public QAbstractSpinBox {
     Q_OBJECT
 public:
     explicit SexagesimalSpinBox(QWidget *parent = 0);

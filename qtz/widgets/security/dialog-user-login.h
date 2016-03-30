@@ -2,7 +2,7 @@
 #define DIALOGUSERLOGIN_H
 
 #include <QDialog>
-#include <qtz/core/library.h>
+#include "qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -10,7 +10,7 @@ class DialogUserLogin;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT DialogUserLogin : public QDialog {
+class QTZ_WIDGETS_SHARED_EXPORT DialogUserLogin : public QDialog {
     Q_OBJECT
 
 private:

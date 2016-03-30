@@ -5,8 +5,9 @@
 #include <QFutureWatcher>
 #include <QFuture>
 #include <QSqlDatabase>
-#include <qtz/core/library.h>
+#include <qtz/core/core.h>
 #include <qtz/data/database.h>
+#include "qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -14,7 +15,7 @@ class DialogDatabaseConfig;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT DialogDatabaseConfig : public QDialog {
+class QTZ_WIDGETS_SHARED_EXPORT DialogDatabaseConfig : public QDialog {
     Q_OBJECT
     friend class GuiTest;
 public:

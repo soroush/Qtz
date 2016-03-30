@@ -22,14 +22,14 @@ WizardPageCreateDatabaseOperation::WizardPageCreateDatabaseOperation(
 {
     ui->setupUi(this);
 #if QT_VERSION >= 0x050000
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(0,
-            QHeaderView::Stretch);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(1,
-            QHeaderView::ResizeToContents);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(2,
-            QHeaderView::ResizeToContents);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(3,
-            QHeaderView::ResizeToContents);
+//    ui->tableWidget->horizontalHeader()->setSectionResizeMode(0,
+//            QHeaderView::Stretch);
+//    ui->tableWidget->horizontalHeader()->setSectionResizeMode(1,
+//            QHeaderView::ResizeToContents);
+//    ui->tableWidget->horizontalHeader()->setSectionResizeMode(2,
+//            QHeaderView::ResizeToContents);
+//    ui->tableWidget->horizontalHeader()->setSectionResizeMode(3,
+//            QHeaderView::ResizeToContents);
 #else
     ui->tableWidget->horizontalHeader()->setResizeMode(0,
             QHeaderView::Stretch);

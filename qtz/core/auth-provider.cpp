@@ -1,13 +1,10 @@
 #include "auth-provider.h"
 #include "qio.h"
-#include <crypto++/aes.h>
-#include <crypto++/modes.h>
-#include <crypto++/filters.h>
-#include <crypto++/hex.h>
-#include <crypto++/sha.h>
-#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
-#include <crypto++/md5.h>
+#include <string.h>
 #include <string>
+#include <algorithm>
+#include <stdexcept>
+#include <openssl/aes.h>
 #include <iostream>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -15,9 +12,42 @@
 #include <QDebug>
 
 QT_USE_NAMESPACE
-using namespace std;
-using namespace CryptoPP;
 
+#define Q(x) #x
+#define QUOTE(x) Q(x)
+
+std::string string_to_hex(const unsigned char* input, size_t len)
+{
+    static const char* const lut = "0123456789ABCDEF";
+    std::string output;
+    output.reserve(2 * len);
+    for (size_t i = 0; i < len; ++i)
+    {
+        const unsigned char c = input[i];
+        output.push_back(lut[c >> 4]);
+        output.push_back(lut[c & 15]);
+    }
+    return output;
+}
+
+
+void hex_to_string(unsigned char* output, const unsigned char* input, size_t size)
+{
+    static const unsigned char* const lut = (const unsigned char*)("0123456789ABCDEF");
+
+    for (size_t i = 0; i < size; i += 2)
+    {
+        char a = input[i];
+        const unsigned char* p = std::lower_bound(lut, lut + 16, a);
+        if (*p != a) throw std::invalid_argument("not a hex digit");
+
+        char b = input[i + 1];
+        const unsigned char* q = std::lower_bound(lut, lut + 16, b);
+        if (*q != b) throw std::invalid_argument("not a hex digit");
+
+        output[i/2] = (((p - lut) << 4) | (q - lut));
+    }
+}
 
 AuthProvider *AuthProvider::m_instance = nullptr;
 
@@ -25,100 +55,80 @@ AuthProvider::AuthProvider()
 {
 }
 
-QString AuthProvider::decryptPassword(const QString &password)
-{
-    string plain;
-    string encrypted = password.toStdString();
-    // Hex decode symmetric key:
-    HexDecoder decoder;
-    decoder.Put( (byte *)PRIVATE_KEY,32*2 );
-    decoder.MessageEnd();
-    word64 size = decoder.MaxRetrievable();
-    char *decodedKey = new char[size];
-    decoder.Get((byte *)decodedKey, size);
-    // Generate Cipher, Key, and CBC
-    byte key[ AES::MAX_KEYLENGTH ], iv[ AES::BLOCKSIZE ];
-    StringSource( reinterpret_cast<const char *>(decodedKey), true,
-                  new HashFilter(*(new SHA256), new ArraySink(key, AES::MAX_KEYLENGTH)) );
-    memset( iv, 0x00, AES::BLOCKSIZE );
-    try {
-        CBC_Mode<AES>::Decryption Decryptor
-        ( key, sizeof(key), iv );
-        StringSource( encrypted, true,
-                      new HexDecoder(new StreamTransformationFilter( Decryptor,
-                                     new StringSink( plain ) ) ) );
-    }
-    catch (Exception &e) {
-        // TODO: Try a better one
-        //return e.what();
-    }
-    catch (...) {
-        // TODO: Try a better one
-        //return "Unknown Error";
-    }
-    return QString::fromStdString(plain);
+QString AuthProvider::decryptPassword(const QString &password) {
+    std::string cypher_hex_str = password.toStdString();
+    size_t size = cypher_hex_str.length();
+    unsigned char* cypher_hex = (unsigned char*)(cypher_hex_str.c_str());
+    unsigned char* cypher_data = new unsigned char[size/2];
+    unsigned char* plain_data = new unsigned char[size/2];
+    hex_to_string(cypher_data,cypher_hex,size);
+    const unsigned char pk[AES_BLOCK_SIZE] = PRIVATE_KEY;
+    AES_KEY key;
+    AES_set_decrypt_key(pk,128,&key);
+    unsigned char iv[AES_BLOCK_SIZE] = IV;
+    AES_ecb_encrypt(cypher_data,plain_data,&key,AES_DECRYPT);
+    QString result = QString::fromStdString((char*)(plain_data));
+    return result;
 }
 
 QString AuthProvider::encryptPassword(const QString &password)
 {
-    string plain = password.toStdString();
-    string ciphertext;
-    // Hex decode symmetric key:
-    HexDecoder decoder;
-    decoder.Put( (byte *)PRIVATE_KEY, 32*2 );
-    decoder.MessageEnd();
-    word64 size = decoder.MaxRetrievable();
-    char *decodedKey = new char[size];
-    decoder.Get((byte *)decodedKey, size);
-    // Generate Cipher, Key, and CBC
-    byte key[ AES::MAX_KEYLENGTH ], iv[ AES::BLOCKSIZE ];
-    StringSource( reinterpret_cast<const char *>(decodedKey), true,
-                  new HashFilter(*(new SHA256), new ArraySink(key, AES::MAX_KEYLENGTH)) );
-    memset( iv, 0x00, AES::BLOCKSIZE );
-    CBC_Mode<AES>::Encryption Encryptor( key, sizeof(key), iv );
-    StringSource( plain, true, new StreamTransformationFilter( Encryptor,
-                  new HexEncoder(new StringSink( ciphertext ) ) ) );
-    return QString::fromStdString(ciphertext);
+    std::string p_str = password.toStdString();
+    uint size = p_str.size();
+    uint padded_size = size + (16-(size%16));
+    unsigned char* plain = new unsigned char[padded_size];
+    unsigned char* cypher = new unsigned char[padded_size];
+    ::memset(plain,0x00,padded_size);
+    ::memcpy(plain,p_str.c_str(),size);
+    AES_KEY key;
+    const unsigned char pk[AES_BLOCK_SIZE] = PRIVATE_KEY;
+    unsigned char iv[AES_BLOCK_SIZE] = IV;
+    AES_set_encrypt_key(pk,128,&key);
+    AES_ecb_encrypt(plain,cypher,&key,AES_ENCRYPT);
+    QString result = QString::fromStdString(string_to_hex(cypher,padded_size));
+    delete[] plain;
+    delete[] cypher;
+    return result;
 }
 
 QString AuthProvider::hashPassword(const QString &password)
 {
-    std::string hashedPassword;
-    switch(this->m_passwordHash) {
-    case HashAlgorithm::MD5: {
-            CryptoPP::Weak1::MD5 hasher;
-            CryptoPP::StringSource source(password.toUtf8().data(), true,
-                                          new CryptoPP::HashFilter(hasher,
-                                                  new CryptoPP::HexEncoder (
-                                                          new CryptoPP::StringSink(hashedPassword))));
-            break;
-        }
-    case HashAlgorithm::SHA1: {
-            CryptoPP::SHA1 hasher;
-            CryptoPP::StringSource source(password.toUtf8().data(), true,
-                                          new CryptoPP::HashFilter(hasher,
-                                                  new CryptoPP::HexEncoder (
-                                                          new CryptoPP::StringSink(hashedPassword))));
-            break;
-        }
-    case HashAlgorithm::SHA256: {
-            CryptoPP::SHA256 hasher;
-            CryptoPP::StringSource source(password.toUtf8().data(), true,
-                                          new CryptoPP::HashFilter(hasher,
-                                                  new CryptoPP::HexEncoder (
-                                                          new CryptoPP::StringSink(hashedPassword))));
-            break;
-        }
-    case HashAlgorithm::SHA512: {
-            CryptoPP::SHA512 hasher;
-            CryptoPP::StringSource source(password.toUtf8().data(), true,
-                                          new CryptoPP::HashFilter(hasher,
-                                                  new CryptoPP::HexEncoder (
-                                                          new CryptoPP::StringSink(hashedPassword))));
-            break;
-        }
-    }
-    return QString::fromStdString(hashedPassword); // Convert from ASCII to UTF8.
+//    std::string hashedPassword;
+//    switch(this->m_passwordHash) {
+//    case HashAlgorithm::MD5: {
+//            CryptoPP::Weak1::MD5 hasher;
+//            CryptoPP::StringSource source(password.toUtf8().data(), true,
+//                                          new CryptoPP::HashFilter(hasher,
+//                                                  new CryptoPP::HexEncoder (
+//                                                          new CryptoPP::StringSink(hashedPassword))));
+//            break;
+//        }
+//    case HashAlgorithm::SHA1: {
+//            CryptoPP::SHA1 hasher;
+//            CryptoPP::StringSource source(password.toUtf8().data(), true,
+//                                          new CryptoPP::HashFilter(hasher,
+//                                                  new CryptoPP::HexEncoder (
+//                                                          new CryptoPP::StringSink(hashedPassword))));
+//            break;
+//        }
+//    case HashAlgorithm::SHA256: {
+//            CryptoPP::SHA256 hasher;
+//            CryptoPP::StringSource source(password.toUtf8().data(), true,
+//                                          new CryptoPP::HashFilter(hasher,
+//                                                  new CryptoPP::HexEncoder (
+//                                                          new CryptoPP::StringSink(hashedPassword))));
+//            break;
+//        }
+//    case HashAlgorithm::SHA512: {
+//            CryptoPP::SHA512 hasher;
+//            CryptoPP::StringSource source(password.toUtf8().data(), true,
+//                                          new CryptoPP::HashFilter(hasher,
+//                                                  new CryptoPP::HexEncoder (
+//                                                          new CryptoPP::StringSink(hashedPassword))));
+//            break;
+//        }
+//    }
+    return QString(); // Convert from ASCII to UTF8.
 }
 
 bool AuthProvider::authenticate(const QString &username,

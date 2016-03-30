@@ -7,13 +7,14 @@
 #include <QVector>
 #include <QSqlDatabase>
 #include <QMap>
-#include <qtz/core/library.h>
+#include <qtz/core/core.h>
+#include "data.h"
 
 QT_BEGIN_NAMESPACE
 //class QMap<QString, QStringList>;
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT Database : public QObject {
+class QTZ_DATA_SHARED_EXPORT Database : public QObject {
     Q_OBJECT
     friend class DatabaseTest;
 private:

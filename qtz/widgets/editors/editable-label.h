@@ -3,7 +3,8 @@
 
 #include <QWidget>
 #include <QLabel>
-#include <qtz/core/library.h>
+#include <qtz/core/core.h>
+#include "qtz-widgets.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -16,7 +17,7 @@ QT_END_NAMESPACE
 
 class TextEditorWindow;
 
-class QTZ_SHARED_EXPORT EditableLabel : public QWidget {
+class QTZ_WIDGETS_SHARED_EXPORT EditableLabel : public QWidget {
     Q_OBJECT
 
 public:

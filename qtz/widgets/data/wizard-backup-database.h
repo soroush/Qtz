@@ -2,7 +2,7 @@
 #define WIZARDBACKUPDATABASE_H
 
 #include <QWizard>
-#include <qtz/core/library.h>
+#include "qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -10,7 +10,7 @@ class WizardBackupDatabase;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT WizardBackupDatabase : public QWizard {
+class QTZ_WIDGETS_SHARED_EXPORT WizardBackupDatabase : public QWizard {
     Q_OBJECT
 
 public:

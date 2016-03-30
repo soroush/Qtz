@@ -2,7 +2,7 @@
 #define WIZARDPAGECREATEDATABASECONFIRM_H
 
 #include <QWizardPage>
-#include <qtz/core/library.h>
+#include "qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -10,7 +10,7 @@ class WizardPageCreateDatabaseConfirm;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT WizardPageCreateDatabaseConfirm : public QWizardPage {
+class QTZ_WIDGETS_SHARED_EXPORT WizardPageCreateDatabaseConfirm : public QWizardPage {
     Q_OBJECT
 
 public:

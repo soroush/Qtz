@@ -1,9 +1,11 @@
 QT += core gui sql xml
+CONFIG   += C++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
+
+DEFINES += QTZ_WIDGETS_LIBRARY
 
 TEMPLATE = lib
-CONFIG   += C++11
-lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
 VERSION = 0.1.3
 
 CONFIG(release, debug|release){
@@ -59,7 +61,13 @@ win32 {
 
 CONFIG(local){
     INCLUDEPATH += ../../
-    LIBS += -L"../data/$$BUILD" -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ} -L"../core/$$BUILD" -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
+    QMAKE_LIBDIR += $$absolute_path("../core/$$BUILD")
+    QMAKE_LIBDIR += $$absolute_path("../data/$$BUILD")
+    LIBS += -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
+}else {
+    LIBS += -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
 SOURCES += \
@@ -112,8 +120,8 @@ MISC_HEADERS += \
 SECURITY_HEADERS += \
     security/dialog-user-login.h
 
-HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS
-
+HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS \
+    qtz-widgets.h
 
 FORMS += \
     data/data-navigator.ui \

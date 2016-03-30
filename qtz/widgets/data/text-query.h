@@ -2,7 +2,7 @@
 #define TEXTQUERY_H
 
 #include <QWidget>
-#include <qtz/core/library.h>
+#include "qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -10,7 +10,7 @@ class TextQuery;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT TextQuery : public QWidget {
+class QTZ_WIDGETS_SHARED_EXPORT TextQuery : public QWidget {
     Q_OBJECT
     Q_PROPERTY(QString inputMask READ inputMask WRITE setInputMask USER true)
 

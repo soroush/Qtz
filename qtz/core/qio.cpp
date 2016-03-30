@@ -1,9 +1,9 @@
 #include "qio.h"
 #include <cstdio>
 
-QTextStream QIO::cout(stdout);
-QTextStream QIO::cin(stdin);
-QTextStream QIO::cerr(stderr);
+QTZ_SHARED_EXPORT QTextStream QIO::cout(stdout);
+QTZ_SHARED_EXPORT QTextStream QIO::cin(stdin);
+QTZ_SHARED_EXPORT QTextStream QIO::cerr(stderr);
 
 QIO::QIO(QObject *parent) :
     QObject(parent)

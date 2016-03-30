@@ -2,10 +2,11 @@
 #define DATAPROVIDER_H
 
 #include <QString>
-#include <qtz/core/library.h>
+#include <qtz/core/core.h>
 #include "database.h"
+#include "data.h"
 
-class QTZ_SHARED_EXPORT DataProvider {
+class QTZ_DATA_SHARED_EXPORT DataProvider {
     friend class DataProviderInformation;
 public:
     DataProvider();

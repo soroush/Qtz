@@ -2,7 +2,7 @@
 #define TEXTEDITORWINDOW_H
 
 #include <QMainWindow>
-#include <qtz/core/library.h>
+#include "qtz-widgets.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -14,7 +14,7 @@ class textEditorWindow;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT TextEditorWindow : public QMainWindow {
+class QTZ_WIDGETS_SHARED_EXPORT TextEditorWindow : public QMainWindow {
     Q_OBJECT
     Q_PROPERTY(QString text READ toHtml WRITE setText NOTIFY textChanged USER true)
 

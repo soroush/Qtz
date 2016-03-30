@@ -3,9 +3,9 @@
 
 #include <QSqlTableModel>
 #include <qtz/data/i-insert-record.h>
-#include <qtz/core/library.h>
+#include "qtz-widgets.h"
 
-class QTZ_SHARED_EXPORT IDialogInsertRecord : public IInsertRecord
+class QTZ_WIDGETS_SHARED_EXPORT IDialogInsertRecord : public IInsertRecord
 {
     Q_OBJECT
 public:

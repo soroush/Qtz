@@ -4,10 +4,10 @@
 #include <QtGlobal>
 #include <QString>
 #include <QVector>
-#include <qtz/core/library.h>
+#include "data.h"
 #include "data-provider.h"
 
-class QTZ_SHARED_EXPORT DataProviderInformation {
+class QTZ_DATA_SHARED_EXPORT DataProviderInformation {
     friend class QVector<DataProvider>;
 private:
     DataProviderInformation();

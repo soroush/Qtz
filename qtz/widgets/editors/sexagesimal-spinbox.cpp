@@ -119,7 +119,7 @@ void SexagesimalSpinBox::focusOutEvent(QFocusEvent *event)
 void SexagesimalSpinBox::wheelEvent(QWheelEvent *event)
 {
     //+000° 00′ 00″
-    int proposedChange = (event->delta()/120.0d);
+    int proposedChange = (event->delta()/120.0);
     this->stepBy(proposedChange);
     event->accept();
 }
@@ -184,11 +184,11 @@ void SexagesimalSpinBox::s2d()
 void SexagesimalSpinBox::d2s()
 {
     this->m_degree = static_cast<int>(floor(this->m_value));
-    double d_minute = (this->m_value-floor(this->m_value))*60.0d;
+    double d_minute = (this->m_value-floor(this->m_value))*60.0;
     qDebug() << d_minute;
     this->m_minute = static_cast<int>(floor(d_minute));
     qDebug() << m_minute;
-    this->m_second = static_cast<int>((d_minute-floor(d_minute))*60.0d);
+    this->m_second = static_cast<int>((d_minute-floor(d_minute))*60.0);
     qDebug() << m_second;
 }
 

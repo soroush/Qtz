@@ -13,6 +13,7 @@ void DialogInsertItem::setModel(QSqlRelationalTableModel *model_)
 
 bool DialogInsertItem::insert()
 {
+    return false;
 }
 
 void DialogInsertItem::accept()

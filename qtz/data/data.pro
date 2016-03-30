@@ -1,10 +1,11 @@
 QT       -= gui
 QT       += sql core
 CONFIG   += C++11
-lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
+lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
+
+DEFINES += QTZ_DATA_LIBRARY
 
 TEMPLATE = lib
-
 VERSION = 0.1.3
 
 CONFIG(release, debug|release){
@@ -54,7 +55,8 @@ win32 {
 
 CONFIG(local){
     INCLUDEPATH += ../../
-    LIBS += -L"../core/$$BUILD" -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
+    QMAKE_LIBDIR += $$absolute_path("../core/$$BUILD")
+    LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
 } else {
     LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
 }
@@ -63,7 +65,8 @@ HEADERS += database.h \
     table-node.h \
     data-provider-information.h \
     data-provider.h \
-    i-insert-record.h
+    i-insert-record.h \
+    data.h
 
 SOURCES += database.cpp \
     data-provider-information.cpp \

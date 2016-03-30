@@ -2,8 +2,9 @@
 #define TABLENODE_H
 
 #include <QList>
+#include "data.h"
 
-struct TableNode {
+struct QTZ_DATA_SHARED_EXPORT TableNode {
 public:
     TableNode(const QString &_name, const int &_freedom):
         name(_name), degreeOfFreedom(_freedom) {

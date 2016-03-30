@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QSqlTableModel>
-#include <qtz/core/library.h>
+#include "qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -11,7 +11,7 @@ class DataNavigator;
 }
 QT_END_NAMESPACE
 
-class QTZ_SHARED_EXPORT DataNavigator : public QWidget {
+class QTZ_WIDGETS_SHARED_EXPORT DataNavigator : public QWidget {
     Q_OBJECT
 
 public:

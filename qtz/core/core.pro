@@ -1,10 +1,10 @@
 QT       -= gui
 QT       += sql
 CONFIG   += C++11
-lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++0x
+lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
 
+DEFINES += QTZ_CORE_LIBRARY
 TEMPLATE = lib
-
 VERSION = 0.1.3
 
 CONFIG(release, debug|release){
@@ -39,7 +39,6 @@ INCLUDEPATH += .
 unix {
     target.path = /usr/lib
     headers.path = /usr/include/qtz/core
-    LIBS += -lcrypto++
     LINK_MAJ = ""
     CONFIG += create_pc create_prl no_install_prl
     QMAKE_PKGCONFIG_NAME = libqtz-core
@@ -52,7 +51,7 @@ unix {
 }
 
 win32 {
-    LIBS += -lcryptopp
+    LIBS += -llibeay32MD
     target.path = $$INSTALL_ROOT/lib
     headers.path = $$INSTALL_ROOT/include/qtz/core
     LINK_MAJ = "0"
@@ -64,13 +63,13 @@ CONFIG(local){
 }
 
 HEADERS += \
-    library.h \
     settings.h \
     acl.h \
     auth-provider.h \
     qio.h \
     person.h \
-    user.h
+    user.h \
+    core.h
 
 SOURCES += \
     settings.cpp \

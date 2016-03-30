@@ -2,7 +2,7 @@
 #define USER_H
 
 #include "person.h"
-#include "library.h"
+#include "core.h"
 
 class User : public Person {
     Q_OBJECT
