@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <qtz/core/core.h>
-#include "qtz-widgets.h"
+#include "../qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

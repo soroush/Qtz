@@ -1,6 +1,4 @@
 ﻿#include "acl.h"
-#include <QSqlQuery>
-#include <QSqlError>
 #include <iostream>
 #include <QVariant>
 
@@ -49,29 +47,31 @@ ACL::ACL()
 
 bool ACL::acquireAccess(const QString &Class, const QString &Object)
 {
-    // TODO: add caching implementation
-    QSqlQuery accessQuery;
-    accessQuery.prepare("SELECT access FROM acl WHERE class=':className' AND object=':objectName'");
-    accessQuery.bindValue(":className", Class);
-    accessQuery.bindValue(":objectName", Object);
-    if (accessQuery.exec()) {
-        if (accessQuery.next()) {
-            return accessQuery.value(0).toBool();
-        }
-        else {
-            QIO::cerr << QObject::tr("Access control not defined for this item.") << endl;
-            return false;
-        }
-    }
-    else {
-        QIO::cerr << QObject::tr("Unable to execute statement.") << endl;
-        QIO::cerr << accessQuery.lastError().text() << endl;
-        return false;
-    }
+//    // TODO: add caching implementation
+//    QSqlQuery accessQuery;
+//    accessQuery.prepare("SELECT access FROM acl WHERE class=':className' AND object=':objectName'");
+//    accessQuery.bindValue(":className", Class);
+//    accessQuery.bindValue(":objectName", Object);
+//    if (accessQuery.exec()) {
+//        if (accessQuery.next()) {
+//            return accessQuery.value(0).toBool();
+//        }
+//        else {
+//            QIO::cerr << QObject::tr("Access control not defined for this item.") << endl;
+//            return false;
+//        }
+//    }
+//    else {
+//        QIO::cerr << QObject::tr("Unable to execute statement.") << endl;
+//        QIO::cerr << accessQuery.lastError().text() << endl;
+//        return false;
+//    }
+    return false;
 }
 
 bool ACL::acquireAccess(const QString &Object, AuthProvider *const auth)
 {
+    throw std::exception("ACL::acquireAccess is not implemented.");
     if (auth != nullptr) {
         // return acquireAccess(Object,auth->)
     }

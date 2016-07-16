@@ -2,8 +2,7 @@
 #define TEXTEDITORWINDOW_H
 
 #include <QMainWindow>
-#include "qtz-widgets.h"
-
+#include "../qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 class QFontComboBox;

@@ -86,9 +86,9 @@ void Database::readConnectionInfo()
         Settings::getInstance()->value("db:database").toString());
     instance->m_database.setUserName(
         Settings::getInstance()->value("db:user").toString());
-    instance->m_database.setPassword(
-        AuthProvider::instance()->decryptPassword(
-            Settings::getInstance()->value("db:password").toString()));
+//    instance->m_database.setPassword(
+//        AuthProvider::instance()->decryptPassword(
+//            Settings::getInstance()->value("db:password").toString()));
 }
 
 void Database::writeConnectionInfo()
@@ -100,9 +100,9 @@ void Database::writeConnectionInfo()
     Settings::getInstance()->setValue("db:database",
                                       instance->m_database.databaseName());
     Settings::getInstance()->setValue("db:user", instance->m_database.userName());
-    Settings::getInstance()->setValue(
-        "db:password", AuthProvider::instance()->encryptPassword(
-            instance->m_database.password()));
+//    Settings::getInstance()->setValue(
+//        "db:password", AuthProvider::instance()->encryptPassword(
+//            instance->m_database.password()));
 }
 
 void Database::setBlockSize(const unsigned int &size)
@@ -607,7 +607,7 @@ void Database::restoreVN(QDataStream &in, const quint32 &totalRows,
                          quint32 &restoredRecords)
 {
     QString tableName;
-    int recordCount;
+    quint32 recordCount;
     in >> tableName;
     in >> recordCount;
     quint32 columnsCount = getNumberOfTableColumns(tableName);
@@ -652,8 +652,12 @@ void Database::restoreVN(QDataStream &in, const quint32 &totalRows,
 void Database::restoreVB(QDataStream &in, const quint32 &totalRows,
                          quint32 &restoredRecords)
 {
+    // TODO: Check this:
+    Q_UNUSED(totalRows);
+    Q_UNUSED(restoredRecords);
+
     QString tableName;
-    int rowCount;
+    quint32 rowCount;
     in >> tableName;
     in >> rowCount;
     quint32 columnsCount = getNumberOfTableColumns(tableName);

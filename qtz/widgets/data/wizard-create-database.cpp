@@ -48,4 +48,6 @@ void WizardCreateDatabase::setSqlFile(const QString &filename)
 
 void WizardCreateDatabase::setSqlContent(const QString &filename)
 {
+    // TODO: Implement
+    Q_UNUSED(filename);
 }

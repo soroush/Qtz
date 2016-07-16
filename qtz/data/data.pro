@@ -55,7 +55,7 @@ win32 {
 
 CONFIG(local){
     INCLUDEPATH += ../../
-    QMAKE_LIBDIR += $$absolute_path("../core/$$BUILD")
+    QMAKE_LIBDIR += "$$OUT_PWD/../core/$$BUILD"
     LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
 } else {
     LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
@@ -66,12 +66,14 @@ HEADERS += database.h \
     data-provider-information.h \
     data-provider.h \
     i-insert-record.h \
+    database-pool.hpp \
     data.h
 
 SOURCES += database.cpp \
     data-provider-information.cpp \
     data-provider.cpp \
-    i-insert-record.cpp
+    i-insert-record.cpp \
+    database-pool.cpp
 
 RESOURCES += \
     QtzData.qrc

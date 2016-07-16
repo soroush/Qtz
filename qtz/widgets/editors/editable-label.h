@@ -4,8 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <qtz/core/core.h>
-#include "qtz-widgets.h"
-
+#include "../qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 class QVBoxLayout;

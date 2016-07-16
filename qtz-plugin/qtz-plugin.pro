@@ -1,3 +1,4 @@
+QT          += uiplugin
 CONFIG      += plugin debug_and_release
 greaterThan(QT_MAJOR_VERSION, 4): QT += designer
 lessThan(QT_MAJOR_VERSION, 5): CONFIG += designer
@@ -39,6 +40,7 @@ DEFINES += QTZ_LIBRARY
 VERSION = 0.1.3
 
 HEADERS     =   \
+    qtz.h \
     global.h \
     date-query_plugin.h \
     numeric-query_plugin.h \
@@ -47,10 +49,10 @@ HEADERS     =   \
     editable-label_plugin.h \
     sexagesimal-spinbox_plugin.h \
     text-editor-window_plugin.h \
-    choose-file_plugin.h \
-    qtz.h
+    choose-file_plugin.h
 
 SOURCES     =   \
+    qtz.cpp \
     date-query_plugin.cpp \
     numeric-query_plugin.cpp \
     text-query_plugin.cpp \
@@ -58,8 +60,7 @@ SOURCES     =   \
     editable-label_plugin.cpp \
     sexagesimal-spinbox_plugin.cpp \
     text-editor-window_plugin.cpp \
-    choose-file_plugin.cpp \
-    qtz.cpp
+    choose-file_plugin.cpp
 
 RESOURCES   = icons.qrc
 

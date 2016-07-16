@@ -61,8 +61,8 @@ win32 {
 
 CONFIG(local){
     INCLUDEPATH += ../../
-    QMAKE_LIBDIR += $$absolute_path("../core/$$BUILD")
-    QMAKE_LIBDIR += $$absolute_path("../data/$$BUILD")
+    QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../core/$$BUILD")
+    QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../data/$$BUILD")
     LIBS += -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
     LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
 }else {
@@ -81,6 +81,7 @@ SOURCES += \
     editors/editable-label.cpp \
     editors/sexagesimal-spinbox.cpp \
     misc/choose-file.cpp \
+    misc/color-button.cpp \
     security/dialog-user-login.cpp \
     data/widget-edit-table.cpp \
     data/dialog-insert-item.cpp \
@@ -115,7 +116,8 @@ EDITORS_HEADERS += \
     editors/editable-label.h \
     editors/sexagesimal-spinbox.h
 MISC_HEADERS += \
-    misc/choose-file.h
+    misc/choose-file.h \
+    misc/color-button.hpp
 
 SECURITY_HEADERS += \
     security/dialog-user-login.h

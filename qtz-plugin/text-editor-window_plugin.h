@@ -1,9 +1,10 @@
 #ifndef TEXTEDITORWINDOWPLUGIN_H
 #define TEXTEDITORWINDOWPLUGIN_H
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
+#include "global.h"
 
-class TextEditorWindowPlugin : public QObject,
+class QTZ_PLUGIN_SHARED_EXPORT TextEditorWindowPlugin : public QObject,
     public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)

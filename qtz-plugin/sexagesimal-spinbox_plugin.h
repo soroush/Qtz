@@ -1,9 +1,10 @@
 #ifndef SexagesimalSpinboxPlugin_H
 #define SexagesimalSpinboxPlugin_H
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
+#include "global.h"
 
-class SexagesimalSpinboxPlugin : public QObject, public QDesignerCustomWidgetInterface {
+class QTZ_PLUGIN_SHARED_EXPORT SexagesimalSpinboxPlugin : public QObject, public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 

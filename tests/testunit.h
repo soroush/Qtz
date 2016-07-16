@@ -1,6 +1,7 @@
 #ifndef TESTUNIT_H
 #define TESTUNIT_H
 
+#include <QObject>
 #include <QStringList>
 
 class TestUnit : public QObject {

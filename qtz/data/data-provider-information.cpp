@@ -63,6 +63,7 @@ const DataProvider DataProviderInformation::getProviderInfo(
         }
     }
     // TODO: Handle error
+    return DataProvider();
 }
 
 QVector<DataProvider> DataProviderInformation::getSupportedProviders()

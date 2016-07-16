@@ -5,7 +5,7 @@
 #include <QSqlRelationalTableModel>
 #include "dialog-insert-item.h"
 #include "dialog-edit-item.h"
-#include "qtz-widgets.h"
+#include "../qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -13,7 +13,7 @@ class EditTableWidget;
 }
 QT_END_NAMESPACE
 
-class WidgetEditTable : public QWidget {
+class QTZ_WIDGETS_SHARED_EXPORT WidgetEditTable : public QWidget {
     Q_OBJECT
 
 public:

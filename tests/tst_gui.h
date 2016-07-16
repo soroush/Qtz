@@ -9,7 +9,7 @@ class GuiTest : public TestUnit
     Q_OBJECT
 public:
     explicit GuiTest(QObject *parent = nullptr);
-    QStringList parseArguments(int argc, char *argv[]){}
+    QStringList parseArguments(int argc, char *argv[]);
     void parseArguments(QStringList& arguments){}
     
 private slots:

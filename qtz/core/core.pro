@@ -1,5 +1,4 @@
 QT       -= gui
-QT       += sql
 CONFIG   += C++11
 lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
 
@@ -64,20 +63,32 @@ CONFIG(local){
 
 HEADERS += \
     settings.h \
-    acl.h \
+#    acl.h \
     auth-provider.h \
     qio.h \
-    person.h \
-    user.h \
-    core.h
+    core.h \
+    identity.hpp \
+    token.hpp \
+    authenticator.hpp
+#    authorizer.hpp \
+#    authorization-adapter.hpp \
+#    authentication-adapter.hpp \
+#    user.hpp
+#    authentication-token.hpp
 
 SOURCES += \
     settings.cpp \
-    acl.cpp \
+#    acl.cpp \
     auth-provider.cpp \
     qio.cpp \
-    person.cpp \
-    user.cpp
+    identity.cpp \
+    token.cpp \
+    authenticator.cpp
+#    authorizer.cpp \
+#    authorization-adapter.cpp \
+#    authentication-adapter.cpp \
+#    user.cpp
+#    authentication-token.cpp
 
 headers.files = $$HEADERS
 

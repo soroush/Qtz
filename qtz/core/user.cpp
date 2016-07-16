@@ -1,26 +1,21 @@
-#include "user.h"
+#include "user.hpp"
 
-User::User(QObject *parent) :
-    Person(parent)
+User::User()
 {
+
 }
 
-QString User::username()
+User::User(const QString &)
 {
-    return this->username_;
+
 }
 
-QString User::password()
+void User::setUsername(const QString &username)
 {
-    return this->password_;
+    this->m_username=username;
 }
 
-void User::username(const QString &newUsername)
+QString User::getUsername()
 {
-    this->username_ = newUsername;
-}
-
-void User::password(const QString &newPassword)
-{
-    this->password_ = newPassword;
+    return this->m_username;
 }

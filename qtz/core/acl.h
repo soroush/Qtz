@@ -2,7 +2,6 @@
 #define ACL_H
 
 #include <QMutex>
-#include <QSqlDatabase>
 #include "core.h"
 #include "auth-provider.h"
 

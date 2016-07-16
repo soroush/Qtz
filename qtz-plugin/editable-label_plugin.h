@@ -1,9 +1,10 @@
 #ifndef EDITABLELABELPLUGIN_H
 #define EDITABLELABELPLUGIN_H
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
+#include "global.h"
 
-class EditableLabelPlugin : public QObject,
+class QTZ_PLUGIN_SHARED_EXPORT EditableLabelPlugin : public QObject,
     public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)

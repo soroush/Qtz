@@ -7,7 +7,7 @@
 #include <QSqlDatabase>
 #include <qtz/core/core.h>
 #include <qtz/data/database.h>
-#include "qtz-widgets.h"
+#include "../qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

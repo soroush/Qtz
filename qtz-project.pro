@@ -3,5 +3,7 @@ CONFIG += ordered
 
 SUBDIRS += \
     qtz\
-    qtz-plugin \
-    tests
+    qtz-plugin
+#    tests
+
+DEFINES+=WIN32

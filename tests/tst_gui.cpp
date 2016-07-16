@@ -11,6 +11,10 @@ GuiTest::GuiTest(QObject *parent) :
 {
 }
 
+QStringList GuiTest::parseArguments(int argc, char *argv[]){
+    return QStringList();
+}
+
 void GuiTest::initTestCase()
 {
 }
