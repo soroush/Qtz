@@ -1,7 +1,7 @@
 #ifndef DATAPROVIDER_H
 #define DATAPROVIDER_H
 
-#include <QString>xcopy /y /v qtz\data\*.h* c:\sysroot\include\qtz\data
+#include <QString>
 #include "data.h"
 
 class QTZ_DATA_SHARED_EXPORT DataProvider {

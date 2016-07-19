@@ -21,7 +21,7 @@ void DataProviderInformation::initialize()
     QList<DataProvider::Type> availableSystems = getAvailableSystems();
     QFile providersFile(":/en/resources/database-providers.xml");
     if(! providersFile.open(QFile::ReadOnly)) {
-        return;
+        throw logic_error("Unable to open database providers information file.");
     }
     QXmlStreamReader xml(&providersFile);
     bool valid;

@@ -1,17 +1,30 @@
-#include "i-dialog-insert-record.h"
+﻿#include "i-dialog-insert-record.h"
 #include <QDialog>
 
-IDialogInsertRecord::IDialogInsertRecord(QSqlTableModel *model, QObject *parent)
-    :IInsertRecord(model,parent)
-{
+IDialogInsertRecord::IDialogInsertRecord(QWidget *parent, QSqlTableModel *model):
+    QDialog(parent), m_inserter(this,model){
+    connect(&this->m_inserter,SIGNAL(started()),this,SLOT(start()));
+    connect(&this->m_inserter,SIGNAL(finished()),this,SLOT(finish()));
 }
 
-void IDialogInsertRecord::startCallback()
-{
-    qobject_cast<QDialog *>(this->parent())->setEnabled(false);
+IDialogInsertRecord::~IDialogInsertRecord(){
 }
 
-void IDialogInsertRecord::finishCallback()
+void IDialogInsertRecord::start()
 {
-    qobject_cast<QDialog *>(this->parent())->setEnabled(true);
+    m_lastCursor = this->cursor();
+    QCursor waitingCursor{Qt::WaitCursor};
+    this->setCursor(waitingCursor);
+    this->setDisabled(true);
+}
+
+void IDialogInsertRecord::finish()
+{
+    this->setCursor(m_lastCursor);
+    this->setEnabled(true);
+}
+
+IInsertRecord& IDialogInsertRecord::getInserter()
+{
+    return this->m_inserter;
 }

@@ -1,10 +1,11 @@
 QT       -= gui
+QT       += sql
 CONFIG   += C++11
-lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
+lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=gnu++11
 
-DEFINES += QTZ_CORE_LIBRARY
 TEMPLATE = lib
-VERSION = 0.1.3
+
+VERSION = 0.2.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -38,6 +39,7 @@ INCLUDEPATH += .
 unix {
     target.path = /usr/lib
     headers.path = /usr/include/qtz/core
+    LIBS += -lcrypto++
     LINK_MAJ = ""
     CONFIG += create_pc create_prl no_install_prl
     QMAKE_PKGCONFIG_NAME = libqtz-core
