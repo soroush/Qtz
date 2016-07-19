@@ -3,6 +3,7 @@
 #include <QStringList>
 #include <QFile>
 #include <QXmlStreamReader>
+#include <QSqlDatabase>
 #include <iostream>
 #include <stdexcept>
 
@@ -17,7 +18,7 @@ DataProviderInformation::DataProviderInformation()
 void DataProviderInformation::initialize()
 {
     supportedSystems.clear();
-    QList<Database::Type> availableSystems = getAvailableSystems();
+    QList<DataProvider::Type> availableSystems = getAvailableSystems();
     QFile providersFile(":/en/resources/database-providers.xml");
     if(! providersFile.open(QFile::ReadOnly)) {
         return;
@@ -33,7 +34,7 @@ void DataProviderInformation::initialize()
         else if(xml.name() == "Code") {
             quint8 code = xml.readElementText().toUInt();
             if(code != 0) {
-                Database::Type type = static_cast<Database::Type>(code);
+                DataProvider::Type type = static_cast<DataProvider::Type>(code);
                 if(availableSystems.contains(type)) {
                     valid = true;
                     DataProvider provider;
@@ -54,8 +55,7 @@ void DataProviderInformation::initialize()
     }
 }
 
-const DataProvider DataProviderInformation::getProviderInfo(
-    const Database::Type &type) const
+const DataProvider DataProviderInformation::getProviderInfo(DataProvider::Type &type) const
 {
     foreach (DataProvider db, this->supportedSystems) {
         if(db.m_type == type) {
@@ -80,7 +80,7 @@ DataProviderInformation *DataProviderInformation::getInstance()
     return m_instance;
 }
 
-QList<Database::Type> DataProviderInformation::getAvailableSystems()
+QList<DataProvider::Type> DataProviderInformation::getAvailableSystems()
 {
     generateAvailableSystems();
     return availableSystems;
@@ -93,7 +93,7 @@ void DataProviderInformation::generateAvailableSystems()
     QStringList drivers = QSqlDatabase::drivers();
     foreach (QString driver, drivers) {
         if(driver=="QMYSQL" || driver == "QMYSQL3") {
-            m_instance->availableSystems.push_back(Database::Type::MySQL5);
+            m_instance->availableSystems.push_back(DataProvider::Type::MySQL5);
         }
         else if(driver=="QIBASE") {
             //TODO: implement
@@ -102,11 +102,7 @@ void DataProviderInformation::generateAvailableSystems()
             //TODO: implement
         }
         else if(driver=="QODBC"|| driver == "QODBC3") {
-            this->availableSystems.push_back(Database::Type::SQLServer);
-            this->availableSystems << Database::Type::SQLServer2005;
-            this->availableSystems << Database::Type::SQLServer2008;
-            this->availableSystems << Database::Type::SQLServer2010;
-            this->availableSystems << Database::Type::SQLServer2012;
+            //TODO: implement
         }
         else if(driver=="QPSQL") {
             // TODO: implement
@@ -115,7 +111,7 @@ void DataProviderInformation::generateAvailableSystems()
             // TODO: implement
         }
         else if(driver=="QSQLITE") {
-            this->availableSystems.append(Database::Type::SQLite);
+            this->availableSystems.append(DataProvider::Type::SQLite);
         }
 #if QT_VERSION <= 0x040700
         else if(driver=="QTDS") {
@@ -125,19 +121,13 @@ void DataProviderInformation::generateAvailableSystems()
     }
 }
 
-QString DataProviderInformation::getDriverName(const Database::Type &type)
+QString DataProviderInformation::getDriverName(DataProvider::Type type)
 {
     switch (type) {
-    case Database::Type::MySQL5:
+    case DataProvider::Type::MySQL5:
         return QString("QMYSQL");
-    case Database::Type::SQLServer:
-    case Database::Type::SQLServer2005:
-    case Database::Type::SQLServer2008:
-    case Database::Type::SQLServer2010:
-    case Database::Type::SQLServer2012:
-        return QString("QODBC");
         break;
-    case Database::Type::SQLite:
+    case DataProvider::Type::SQLite:
         return QString("QSQLITE");
     default:
         return QString("");

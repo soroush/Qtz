@@ -15,14 +15,14 @@ private:
     QVector<DataProvider> supportedSystems;
 
 public:
-    const DataProvider getProviderInfo(const Database::Type &) const;
+    const DataProvider getProviderInfo(DataProvider::Type &) const;
     static DataProviderInformation *getInstance();
     static DataProviderInformation *m_instance;
-    QList<Database::Type> availableSystems;
+    QList<DataProvider::Type> availableSystems;
     QVector<DataProvider> getSupportedProviders();
-    QList<Database::Type> getAvailableSystems();
+    QList<DataProvider::Type> getAvailableSystems();
     void generateAvailableSystems();
-    QString getDriverName(const Database::Type &);
+    QString getDriverName(DataProvider::Type);
 };
 
 #endif // DATAPROVIDERINFORMATION_H

@@ -9,6 +9,7 @@ headers.files = $$HEADERS
 SUBDIRS += \
     core \
     data \
+    security \
     widgets
 
 data.depends= core

@@ -1,9 +1,9 @@
 #ifndef QTZ_AUTHORIZER_HPP
 #define QTZ_AUTHORIZER_HPP
 
-#include "core.h"
+#include "qtz-security.hpp"
 
-class QTZ_SHARED_EXPORT Authorizer
+class QTZ_SECURITY_SHARED_EXPORT Authorizer
 {
 public:
     Authorizer();

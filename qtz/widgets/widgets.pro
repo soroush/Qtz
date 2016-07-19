@@ -75,7 +75,7 @@ SOURCES += \
     data/date-query.cpp \
     data/numeric-query.cpp \
     data/text-query.cpp \
-    data/wizard-backup-database.cpp \
+#    data/wizard-backup-database.cpp \
     data/dialog-database-config.cpp \
     editors/text-editor-window.cpp \
     editors/editable-label.cpp \
@@ -87,11 +87,11 @@ SOURCES += \
     data/dialog-insert-item.cpp \
     data/dialog-edit-item.cpp \
     data/dialog-edit-table.cpp \
-    data/wizard-create-database.cpp \
-    data/wizard-page-create-database-intro.cpp \
-    data/wizard-page-create-database-configure.cpp \
-    data/wizard-page-create-database-confirm.cpp \
-    data/wizard-page-create-database-operation.cpp \
+#    data/wizard-create-database.cpp \
+#    data/wizard-page-create-database-intro.cpp \
+#    data/wizard-page-create-database-configure.cpp \
+#    data/wizard-page-create-database-confirm.cpp \
+#    data/wizard-page-create-database-operation.cpp \
     data/i-dialog-insert-record.cpp
 
 DATA_HEADERS += \
@@ -99,17 +99,17 @@ DATA_HEADERS += \
     data/date-query.h \
     data/numeric-query.h \
     data/text-query.h \
-    data/wizard-backup-database.h \
+#    data/wizard-backup-database.h \
     data/dialog-database-config.h \
     data/widget-edit-table.h \
     data/dialog-edit-table.h \
     data/dialog-insert-item.h \
     data/dialog-edit-item.h \
-    data/wizard-create-database.h \
-    data/wizard-page-create-database-intro.h \
-    data/wizard-page-create-database-configure.h \
-    data/wizard-page-create-database-confirm.h \
-    data/wizard-page-create-database-operation.h \
+#    data/wizard-create-database.h \
+#    data/wizard-page-create-database-intro.h \
+#    data/wizard-page-create-database-configure.h \
+#    data/wizard-page-create-database-confirm.h \
+#    data/wizard-page-create-database-operation.h \
     data/i-dialog-insert-record.h
 EDITORS_HEADERS += \
     editors/text-editor-window.h \
@@ -130,18 +130,18 @@ FORMS += \
     data/date-query.ui \
     data/numeric-query.ui \
     data/text-query.ui \
-    data/wizard-backup-database.ui \
+#    data/wizard-backup-database.ui \
     data/dialog-database-config.ui \
     data/dialog-edit-table.ui \
     editors/text-editor-window.ui \
     editors/editable-label.ui \
     misc/choose-file.ui \
-    security/dialog-user-login.ui \
-    data/widget-edit-table.ui \
-    data/wizard-page-create-database-intro.ui \
-    data/wizard-page-create-database-configure.ui \
-    data/wizard-page-create-database-confirm.ui \
-    data/wizard-page-create-database-operation.ui
+    security/dialog-user-login.ui
+#    data/widget-edit-table.ui \
+#    data/wizard-page-create-database-intro.ui \
+#    data/wizard-page-create-database-configure.ui \
+#    data/wizard-page-create-database-confirm.ui \
+#    data/wizard-page-create-database-operation.ui
 
 headers_data.files = $$DATA_HEADERS
 headers_editors.files = $$EDITORS_HEADERS

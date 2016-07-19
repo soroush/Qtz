@@ -61,7 +61,7 @@ CONFIG(local){
     LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
-HEADERS += database.h \
+HEADERS += \
     table-node.h \
     data-provider-information.h \
     data-provider.h \
@@ -69,7 +69,7 @@ HEADERS += database.h \
     database-pool.hpp \
     data.h
 
-SOURCES += database.cpp \
+SOURCES += \
     data-provider-information.cpp \
     data-provider.cpp \
     i-insert-record.cpp \

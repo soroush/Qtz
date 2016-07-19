@@ -2,7 +2,7 @@
 #define WIZARDPAGECREATEDATABASECONFIGURE_H
 
 #include <QWizardPage>
-#include <qtz/data/database.h>
+#include <qtz/data/data-provider.h>
 #include "qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE
@@ -30,7 +30,7 @@ private:
     bool isComplete() const;
     bool validatePage();
 
-    Database::Type currentType;
+    DataProvider::Type currentType;
     QString lastCustomHost;
     quint32 lastCustomPort;
 

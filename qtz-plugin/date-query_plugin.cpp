@@ -8,7 +8,7 @@ DateQueryPlugin::DateQueryPlugin(QObject *parent)
 {
     m_initialized = false;
 #if QT_VERSION >= 0x050000
-    Q_PLUGIN_METADATA(IID "org.phemto.qtz.dateQueryPlugin")
+    Q_PLUGIN_METADATA(IID "org.Ametis.qtz.dateQueryPlugin")
 #endif
 }
 

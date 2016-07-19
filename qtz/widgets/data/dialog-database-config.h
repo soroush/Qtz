@@ -1,73 +1,72 @@
-#ifndef DIALOGDATABASECONFIG_H
-#define DIALOGDATABASECONFIG_H
+//#ifndef DIALOGDATABASECONFIG_H
+//#define DIALOGDATABASECONFIG_H
 
-#include <QDialog>
-#include <QFutureWatcher>
-#include <QFuture>
-#include <QSqlDatabase>
-#include <qtz/core/core.h>
-#include <qtz/data/database.h>
-#include "../qtz-widgets.h"
+//#include <QDialog>
+//#include <QFutureWatcher>
+//#include <QFuture>
+//#include <QSqlDatabase>
+//#include <qtz/data/data-provider.h>
+//#include "../qtz-widgets.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-class DialogDatabaseConfig;
-}
-QT_END_NAMESPACE
+//QT_BEGIN_NAMESPACE
+//namespace Ui {
+//class DialogDatabaseConfig;
+//}
+//QT_END_NAMESPACE
 
-class QTZ_WIDGETS_SHARED_EXPORT DialogDatabaseConfig : public QDialog {
-    Q_OBJECT
-    friend class GuiTest;
-public:
-    explicit DialogDatabaseConfig(QWidget *parent = 0);
-    ~DialogDatabaseConfig();
+//class QTZ_WIDGETS_SHARED_EXPORT DialogDatabaseConfig : public QDialog {
+//    Q_OBJECT
+//    friend class GuiTest;
+//public:
+//    explicit DialogDatabaseConfig(QWidget *parent = 0);
+//    ~DialogDatabaseConfig();
 
-protected:
-    void changeEvent(QEvent *e);
+//protected:
+//    void changeEvent(QEvent *e);
 
-private:
-    Ui::DialogDatabaseConfig *ui;
-    void initializeDatabaseSystems();
-    void createConnections();
-    bool testConnection();
-    void establishActualConnection();
-    void readConnectionInfo();
-    void writeConnectionInfo();
-    void clearConnectionInfo();
+//private:
+//    Ui::DialogDatabaseConfig *ui;
+//    void initializeDatabaseSystems();
+//    void createConnections();
+//    bool testConnection();
+//    void establishActualConnection();
+//    void readConnectionInfo();
+//    void writeConnectionInfo();
+//    void clearConnectionInfo();
 
-    Database::Type currentType;
-    bool tested;
-    bool connected;
-    QString lastCustomHost;
-    quint32 lastCustomPort;
-    QString lastSSLCA;
-    QString lastSSLCert;
-    QString lastSSLKey;
-    // TODO: Move data operations into another thread
-    QFutureWatcher<bool> FW_testDBOpen;
-    QFutureWatcher<bool> FW_mainDBOpen;
-    QFuture<bool> F_testDBOpen;
-    QFuture<bool> F_mainDBOpen;
+//    DataProvider::Type currentType;
+//    bool tested;
+//    bool connected;
+//    QString lastCustomHost;
+//    quint32 lastCustomPort;
+//    QString lastSSLCA;
+//    QString lastSSLCert;
+//    QString lastSSLKey;
+//    // TODO: Move data operations into another thread
+//    QFutureWatcher<bool> FW_testDBOpen;
+//    QFutureWatcher<bool> FW_mainDBOpen;
+//    QFuture<bool> F_testDBOpen;
+//    QFuture<bool> F_mainDBOpen;
 
-    QSqlDatabase testDB;
+//    QSqlDatabase testDB;
 
-public slots:
-    void accept();
+//public slots:
+//    void accept();
 
-private slots:
-    void updateDatabaseType(int);
-    void test();
-    void handleTestResult();
-    void handleActualConnection();
-    void updateLocalHostStatus(bool);
-    void updateDefaultPortStatus(bool);
-    void updateSecurityOption(int);
-    void modifyWindow();
-    void lockGUI();
-    void releaseGUI();
+//private slots:
+//    void updateDatabaseType(int);
+//    void test();
+//    void handleTestResult();
+//    void handleActualConnection();
+//    void updateLocalHostStatus(bool);
+//    void updateDefaultPortStatus(bool);
+//    void updateSecurityOption(int);
+//    void modifyWindow();
+//    void lockGUI();
+//    void releaseGUI();
 
-private:
-    bool testDBOpen();
-};
+//private:
+//    bool testDBOpen();
+//};
 
-#endif // DIALOGDATABASECONFIG_H
+//#endif // DIALOGDATABASECONFIG_H

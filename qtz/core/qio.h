@@ -3,12 +3,12 @@
 
 #include <QObject>
 #include <QTextStream>
-#include "core.h"
+#include "qtz-core.hpp"
 
 class QTZ_SHARED_EXPORT QIO : public QObject {
     Q_OBJECT
 public:
-    explicit QIO(QObject *parent = 0);
+    explicit QIO(QObject* parent = 0);
     static QTextStream cout;
     static QTextStream cin;
     static QTextStream cerr;

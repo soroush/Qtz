@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QLineEdit>
-#include <qtz/core/core.h>
+#include <qtz/core/qtz-core.hpp>
 #include "../qtz-widgets.h"
 
 QT_BEGIN_NAMESPACE

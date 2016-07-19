@@ -33,11 +33,11 @@ void WizardPageCreateDatabaseConfirm::changeEvent(QEvent *e)
 
 void WizardPageCreateDatabaseConfirm::initializePage()
 {
-    Database::Type providerType = static_cast<Database::Type>
+    DataProvider::Type providerType = static_cast<DataProvider::Type>
                                   (wizard()->property("providerCode").toUInt());
     QString providerText = DataProviderInformation::getInstance()->getProviderInfo(
                                providerType).providerName();
-    if(providerType != Database::Type::SQLite) {
+    if(providerType != DataProvider::Type::SQLite) {
         ui->stackedWidget->setCurrentIndex(0);
         ui->lineEditProvider->setText(providerText);
         ui->lineEditHost->setText(field("host").toString());

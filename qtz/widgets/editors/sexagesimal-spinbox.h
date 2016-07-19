@@ -3,7 +3,7 @@
 
 #include <QAbstractSpinBox>
 #include <QWheelEvent>
-#include <qtz/core/core.h>
+#include <qtz/core/qtz-core.hpp>
 #include "../qtz-widgets.h"
 
 // TODO: Add Q_PROPERTY to widget

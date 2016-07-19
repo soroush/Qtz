@@ -6,8 +6,6 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QMessageBox>
-#include <qtz/core/settings.h>
-#include <qtz/data/database.h>
 #include <qtz/data/data-provider-information.h>
 
 #include <QDebug>

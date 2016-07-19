@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     args = db_test->parseArguments(argc,argv);
     //QTest::qExec(db_test, testArgs);
     // GUI
-    Settings::initialize("Phemto Ltd.","QtzTest");
+    Settings::initialize("Ametis Ltd.","QtzTest");
     GuiTest *gui = new GuiTest(db_test);
     QTest::qExec(gui, testArgs);
     /*

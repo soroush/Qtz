@@ -50,7 +50,6 @@ unix {
 }
 
 win32 {
-    LIBS += -llibeay32MD
     target.path = $$INSTALL_ROOT/lib
     headers.path = $$INSTALL_ROOT/include/qtz/core
     LINK_MAJ = "0"
@@ -62,33 +61,13 @@ CONFIG(local){
 }
 
 HEADERS += \
-    settings.h \
-#    acl.h \
-    auth-provider.h \
+    settings.hpp \
     qio.h \
-    core.h \
-    identity.hpp \
-    token.hpp \
-    authenticator.hpp
-#    authorizer.hpp \
-#    authorization-adapter.hpp \
-#    authentication-adapter.hpp \
-#    user.hpp
-#    authentication-token.hpp
+    qtz-core.hpp
 
 SOURCES += \
     settings.cpp \
-#    acl.cpp \
-    auth-provider.cpp \
-    qio.cpp \
-    identity.cpp \
-    token.cpp \
-    authenticator.cpp
-#    authorizer.cpp \
-#    authorization-adapter.cpp \
-#    authentication-adapter.cpp \
-#    user.cpp
-#    authentication-token.cpp
+    qio.cpp
 
 headers.files = $$HEADERS
 
