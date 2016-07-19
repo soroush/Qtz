@@ -9,7 +9,7 @@ class QTZ_PLUGIN_SHARED_EXPORT SexagesimalSpinboxPlugin : public QObject, public
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 
 public:
-    SexagesimalSpinBoxPlugin(QObject *parent = 0);
+    SexagesimalSpinboxPlugin(QObject *parent = 0);
 
     bool isContainer() const;
     bool isInitialized() const;

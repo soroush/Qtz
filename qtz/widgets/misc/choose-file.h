@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QLineEdit>
+#include <QFileDialog>
+#include <QDirModel>
 #include <qtz/core/qtz-core.hpp>
 #include "../qtz-widgets.h"
 
