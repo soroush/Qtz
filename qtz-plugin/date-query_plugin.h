@@ -1,7 +1,7 @@
 #ifndef DATEQUERYPLUGIN_H
 #define DATEQUERYPLUGIN_H
 
-#include <QtUiPlugin/QDesignerCustomWidgetInterface>
+#include <QDesignerCustomWidgetInterface>
 #include "global.h"
 
 class QTZ_PLUGIN_SHARED_EXPORT DateQueryPlugin : public QObject, public QDesignerCustomWidgetInterface {

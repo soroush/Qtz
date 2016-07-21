@@ -1,7 +1,7 @@
 #ifndef TableEditPlugin_H
 #define TableEditPlugin_H
 
-#include <QtUiPlugin/QDesignerCustomWidgetInterface>
+#include <QDesignerCustomWidgetInterface>
 #include "global.h"
 
 class QTZ_PLUGIN_SHARED_EXPORT TableEditPlugin : public QObject, public QDesignerCustomWidgetInterface {
