@@ -1,11 +1,11 @@
 #ifndef NUMERICQUERYPLUGIN_H
 #define NUMERICQUERYPLUGIN_H
 
-#include <QtUiPlugin/QDesignerCustomWidgetInterface>
+#include <QDesignerCustomWidgetInterface>
+
 #include "global.h"
 
-class QTZ_PLUGIN_SHARED_EXPORT NumericQueryPlugin : public QObject,
-    public QDesignerCustomWidgetInterface {
+class QTZ_PLUGIN_SHARED_EXPORT NumericQueryPlugin : public QObject, public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 

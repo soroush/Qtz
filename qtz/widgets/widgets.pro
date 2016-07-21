@@ -1,5 +1,5 @@
-QT += core gui sql xml
-CONFIG   += C++11
+QT += core gui sql xml designer
+CONFIG += c++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
 
@@ -83,7 +83,7 @@ SOURCES += \
     misc/choose-file.cpp \
     misc/color-button.cpp \
     security/dialog-user-login.cpp \
-    data/widget-edit-table.cpp \
+#    data/widget-edit-table.cpp \
     data/dialog-insert-item.cpp \
     data/dialog-edit-item.cpp \
     data/dialog-edit-table.cpp \
@@ -101,7 +101,7 @@ DATA_HEADERS += \
     data/text-query.h \
 #    data/wizard-backup-database.h \
     data/dialog-database-config.h \
-    data/widget-edit-table.h \
+#    data/widget-edit-table.h \
     data/dialog-edit-table.h \
     data/dialog-insert-item.h \
     data/dialog-edit-item.h \
