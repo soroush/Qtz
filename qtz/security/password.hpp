@@ -1,5 +1,5 @@
-#ifndef PASSWORD_HPP
-#define PASSWORD_HPP
+#ifndef QTZ_PASSWORD_HPP
+#define QTZ_PASSWORD_HPP
 
 #include "token.hpp"
 #include <QString>
@@ -14,4 +14,4 @@ private:
     QString m_password;
 };
 
-#endif // PASSWORD_HPP
+#endif // QTZ_PASSWORD_HPP

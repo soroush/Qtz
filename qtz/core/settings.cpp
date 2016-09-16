@@ -1,18 +1,17 @@
 #include <QObject>
 #include <cstdlib>
 #include <iostream>
+#include <QtGlobal>
 #include "settings.hpp"
 #include "qio.h"
 
-QSettings* Settings::instance = NULL;
+QSettings* Settings::instance = Q_NULLPTR;
 bool Settings::set = false;
 
-Settings::Settings() {
-}
-
 void Settings::release() {
-    if(instance != NULL) {
+    if(instance != Q_NULLPTR) {
         delete instance;
+        instance = Q_NULLPTR;
     }
 }
 
@@ -23,26 +22,23 @@ void Settings::initialize(const QString& organization, const QString& program) {
 
 QSettings* Settings::getInstance() {
     if(!set) {
-        std::wcerr <<
-                   QObject::tr("Request for non-existing instance. Returning null.").toStdWString()
-                   << std::endl;
-        return NULL;
+        std::cerr << "Request for non-existing instance. Returning null."
+                  << std::endl;
+        return Q_NULLPTR;
     }
     return instance;
 }
 
 bool Settings::isFirstRun() {
-    if(!set) {
-        return true;    //TODO: add exception here
+    if(set) {
+        bool result = instance->value("first-run", true).toBool();
+        return result;
     }
-    bool result = instance->value("first-run", true).toBool();
-    return result;
+    return true;
 }
 
 void Settings::setFirstRun(const bool& value) {
-    if(!set) {
-        // TODO: add exception
-        return;
+    if(set) {
+        instance->setValue("first-run", QVariant(value));
     }
-    instance->setValue("first-run", QVariant(value));
 }

@@ -69,10 +69,8 @@ CONFIG(local){
 }
 
 SOURCES += \
-    authentication-token.cpp \
     authentication-source.cpp \
     authenticator.cpp \
-    authorization-adapter.cpp \
     authorizer.cpp \
     identity.cpp \
     password.cpp \
@@ -82,10 +80,8 @@ SOURCES += \
     crypto.cpp
 
 HEADERS += \
-    authentication-token.hpp \
     authentication-source.hpp \
     authenticator.hpp \
-    authorization-adapter.hpp \
     authorizer.hpp \
     identity.hpp \
     password.hpp \

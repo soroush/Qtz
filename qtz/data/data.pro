@@ -67,13 +67,15 @@ HEADERS += \
     data-provider.h \
     i-insert-record.h \
     database-pool.hpp \
-    data.h
+    data.h \
+    jalali-table-model.hpp
 
 SOURCES += \
     data-provider-information.cpp \
     data-provider.cpp \
     i-insert-record.cpp \
-    database-pool.cpp
+    database-pool.cpp \
+    jalali-table-model.cpp
 
 RESOURCES += \
     QtzData.qrc

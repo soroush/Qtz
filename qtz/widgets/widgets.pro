@@ -39,6 +39,7 @@ unix {
     headers_editors.path = /usr/include/qtz/widgets/editors
     headers_misc.path = /usr/include/qtz/widgets/misc
     headers_security.path = /usr/include/qtz/widgets/security
+    headers_i18n_security.path = /usr/include/qtz/widgets/i18n
     LINK_MAJ = ""
     CONFIG += create_pc create_prl no_install_prl
     QMAKE_PKGCONFIG_NAME = libqtz-widgets
@@ -55,6 +56,7 @@ win32 {
     headers_editors.path = $$INSTALL_ROOT/include/qtz/widgets/editors
     headers_misc.path = $$INSTALL_ROOT/include/qtz/widgets/misc
     headers_security.path = $$INSTALL_ROOT/include/qtz/widgets/security
+    headers_i18n_security.path = $$INSTALL_ROOT/include/qtz/widgets/i18n
     LINK_MAJ = "0"
     RC_FILE = QtzWidgets.rc
 }
@@ -63,15 +65,18 @@ CONFIG(local){
     INCLUDEPATH += ../../
     QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../core/$$BUILD")
     QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../data/$$BUILD")
+    QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../security/$$BUILD")
     LIBS += -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
     LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS += -lQtzSecurity$${BUILD_SUFFIX}$${LINK_MAJ}
 }else {
     LIBS += -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
     LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS += -lQtzSecurity$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
 SOURCES += \
-    data/data-navigator.cpp \
+    i18n/localizer.cpp \
     data/date-query.cpp \
     data/numeric-query.cpp \
     data/text-query.cpp \
@@ -80,31 +85,32 @@ SOURCES += \
     editors/text-editor-window.cpp \
     editors/editable-label.cpp \
     editors/sexagesimal-spinbox.cpp \
+    editors/jalali-date-edit.cpp \
     misc/choose-file.cpp \
     misc/color-button.cpp \
-    security/dialog-user-login.cpp \
+#    security/dialog-user-login.cpp \
 #    data/widget-edit-table.cpp \
-    data/dialog-insert-item.cpp \
-    data/dialog-edit-item.cpp \
-    data/dialog-edit-table.cpp \
+#    data/dialog-insert-item.cpp \
+#    data/dialog-edit-item.cpp \
+#    data/dialog-edit-table.cpp \
 #    data/wizard-create-database.cpp \
 #    data/wizard-page-create-database-intro.cpp \
 #    data/wizard-page-create-database-configure.cpp \
 #    data/wizard-page-create-database-confirm.cpp \
 #    data/wizard-page-create-database-operation.cpp \
-    data/i-dialog-insert-record.cpp
+    data/i-dialog-insert-record.cpp \
+    data/asynchronous-main-window.cpp
 
 DATA_HEADERS += \
-    data/data-navigator.h \
     data/date-query.h \
     data/numeric-query.h \
     data/text-query.h \
 #    data/wizard-backup-database.h \
     data/dialog-database-config.h \
 #    data/widget-edit-table.h \
-    data/dialog-edit-table.h \
-    data/dialog-insert-item.h \
-    data/dialog-edit-item.h \
+#    data/dialog-edit-table.h \
+#    data/dialog-insert-item.h \
+#    data/dialog-edit-item.h \
 #    data/wizard-create-database.h \
 #    data/wizard-page-create-database-intro.h \
 #    data/wizard-page-create-database-configure.h \
@@ -114,19 +120,23 @@ DATA_HEADERS += \
 EDITORS_HEADERS += \
     editors/text-editor-window.h \
     editors/editable-label.h \
+    editors/jalali-date-edit.hpp \
     editors/sexagesimal-spinbox.h
 MISC_HEADERS += \
-    misc/choose-file.h \
+    misc/choose-file.hpp \
     misc/color-button.hpp
 
 SECURITY_HEADERS += \
     security/dialog-user-login.h
 
-HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS \
-    qtz-widgets.h
+I18N_HEADERS += \
+    i18n/localizer.hpp
+
+HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS $$I18N_HEADERS \
+    qtz-widgets.h \
+    data/asynchronous-main-window.hpp
 
 FORMS += \
-    data/data-navigator.ui \
     data/date-query.ui \
     data/numeric-query.ui \
     data/text-query.ui \
@@ -147,9 +157,10 @@ headers_data.files = $$DATA_HEADERS
 headers_editors.files = $$EDITORS_HEADERS
 headers_misc.files = $$MISC_HEADERS
 headers_security.files = $$SECURITY_HEADERS
+headers_i18n.files = $$I18N_HEADERS
 
 INSTALLS += target
-INSTALLS += headers_data headers_editors headers_misc headers_security
+INSTALLS += headers_data headers_editors headers_misc headers_security headers_i18n
 
 RESOURCES += \
     QtzWidgets.qrc

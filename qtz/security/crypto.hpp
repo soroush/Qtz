@@ -19,7 +19,7 @@ public:
       This method returns a UTF8-encoded string form a hex-encoded encrypted message.
       Encryption schema is same as explained in @ref encryptPassword.
       */
-    static QString decrypt(const QString&);
+    static QString decrypt(const QString&input);
 
     /**
       This method returns a hex-encoded, encrypted message. The algorithm used for
@@ -28,7 +28,7 @@ public:
       as two numbers in hex encoding. The key is generated randomly using openssl with this command:
       openssl rand -hex 32
       */
-    static QString encrypt(const QString&);
+    static QString encrypt(const QString&input);
 
     /**
     This method hashes given password by message digest algorithm specified in @ref m_passwordHash.
@@ -37,21 +37,7 @@ public:
     hash is then encoded to UTF8. Doing this, we will give a penalty of doubled size in storage, but gain
     compatibility and ease of use.
     */
-    QString hash(const QString&);
-    /**
-     * @brief This method provides a mean to authenticate a user using given credentials.
-     * @param username ID of user
-     * @param password Password of user
-     * @return 'true' if authentication was successful and 'false' if not.
-     */
-//    bool authenticate(const QString& username, const QString& password);
-//    void initialize(const QString& _authTableName =
-//                        QString("credentials"),
-//                    const QString& _authIDFiled = QString("username"),
-//                    const QString& _authPassField = QString("password"),
-//                    const AuthenticationSource& _source = AuthenticationSource::Database,
-//                    const HashAlgorithm& _passwordHash = HashAlgorithm::SHA512);
-//    static AuthProvider* instance();
+    //QString hash(const QString&);
 };
 
 #endif // AUTHPROVIDER_H

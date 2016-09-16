@@ -3,6 +3,8 @@ QT       += sql
 CONFIG   += c++11
 lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
 
+DEFINES += QTZ_CORE_LIBRARY
+
 TEMPLATE = lib
 
 VERSION = 0.2.0
@@ -64,11 +66,13 @@ CONFIG(local){
 
 HEADERS += \
     settings.hpp \
+    jalali-date.hpp \
     qio.h \
     qtz-core.hpp
 
 SOURCES += \
     settings.cpp \
+    jalali-date.cpp \
     qio.cpp
 
 headers.files = $$HEADERS

@@ -2,49 +2,26 @@
 <DatabaseProviders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Provider>
         <Code>1</Code>
-        <Name>سرور سکوئل مایکروسافت نسخهٔ ۲۰۰۵</Name>
-        <DefaultHost>localhost</DefaultHost>
-        <DefaultPort>1433</DefaultPort>
-    </Provider>
-    <Provider>
-        <Code>2</Code>
-        <Name>سرور سکوئل مایکروسافت نسخهٔ ۲۰۰۸</Name>
-        <DefaultHost>localhost</DefaultHost>
-        <DefaultPort>1433</DefaultPort>
-    </Provider>
-    <Provider>
-        <Code>3</Code>
-        <Name>سرور سکوئل مایکروسافت نسخهٔ ۲۰۱۰</Name>
-        <DefaultHost>localhost</DefaultHost>
-        <DefaultPort>1433</DefaultPort>
-    </Provider>
-    <Provider>
-        <Code>4</Code>
-        <Name>سرور سکوئل مایکروسافت نسخهٔ ۲۰۱۲</Name>
-        <DefaultHost>localhost</DefaultHost>
-        <DefaultPort>1433</DefaultPort>
-    </Provider>
-    <Provider>
-        <Code>5</Code>
-        <Name>اوراکل مایسکوئل</Name>
+        <Name>MySQL</Name>
         <DefaultHost>localhost</DefaultHost>
         <DefaultPort>3306</DefaultPort>
         <DefaultUsername>root</DefaultUsername>
     </Provider>
     <Provider>
-        <Code>6</Code>
-        <Name>اسکیولایت</Name>
+        <Code>2</Code>
+        <Name>Oracle</Name>
+        <DefaultHost>localhost</DefaultHost>
+        <DefaultPort>1526</DefaultPort>
+        <DefaultUsername></DefaultUsername>
     </Provider>
     <Provider>
-        <Code>7</Code>
-        <Name>سرور سکوئل مایکروسافت</Name>
-        <DefaultHost>localhost</DefaultHost>
-        <DefaultPort>1433</DefaultPort>
+        <Code>2</Code>
+        <Name>SQLite 3</Name>
     </Provider>
     <Provider>
         <Code>0</Code>
-        <Name>نامعتبر</Name>
-        <DefaultHost>نامعتبر</DefaultHost>
+        <Name>INVALID</Name>
+        <DefaultHost>INVALID</DefaultHost>
         <DefaultPort>0</DefaultPort>
     </Provider>
 </DatabaseProviders>

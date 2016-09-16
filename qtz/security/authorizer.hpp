@@ -3,10 +3,10 @@
 
 #include "qtz-security.hpp"
 
-class QTZ_SECURITY_SHARED_EXPORT Authorizer
-{
+class QTZ_SECURITY_SHARED_EXPORT Authorizer {
 public:
     Authorizer();
+    ~Authorizer();
 };
 
 #endif // QTZ_AUTHORIZER_HPP

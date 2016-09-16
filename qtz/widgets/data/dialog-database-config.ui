@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>329</width>
-    <height>491</height>
+    <height>598</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -143,20 +143,20 @@
            </layout>
           </item>
           <item row="2" column="0">
-           <widget class="QLabel" name="labelDatabase">
+           <widget class="QLabel" name="labelSchema">
             <property name="text">
-             <string>&amp;Database:</string>
+             <string>Sche&amp;ma:</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
             <property name="buddy">
-             <cstring>lineEditDatabase</cstring>
+             <cstring>lineEditSchema</cstring>
             </property>
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QLineEdit" name="lineEditDatabase"/>
+           <widget class="QLineEdit" name="lineEditSchema"/>
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="labelUserName">
@@ -233,29 +233,13 @@
             </property>
            </spacer>
           </item>
-          <item row="6" column="1">
-           <widget class="ChooseFile" name="chooseFileSSLCA" native="true">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::StrongFocus</enum>
-            </property>
-            <property name="showLabel" stdset="0">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
           <item row="6" column="0">
            <widget class="QLabel" name="labelSSLCA">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>SSL &amp;CA:</string>
-            </property>
-            <property name="buddy">
-             <cstring>chooseFileSSLCA</cstring>
+             <string>SS&amp;L CA:</string>
             </property>
            </widget>
           </item>
@@ -267,9 +251,6 @@
             <property name="text">
              <string>Ce&amp;rtificate:</string>
             </property>
-            <property name="buddy">
-             <cstring>chooseFileSSLCert</cstring>
-            </property>
            </widget>
           </item>
           <item row="8" column="0">
@@ -279,35 +260,6 @@
             </property>
             <property name="text">
              <string>&amp;Key:</string>
-            </property>
-            <property name="buddy">
-             <cstring>chooseFileSSLKey</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="ChooseFile" name="chooseFileSSLCert" native="true">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::StrongFocus</enum>
-            </property>
-            <property name="showLabel" stdset="0">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="1">
-           <widget class="ChooseFile" name="chooseFileSSLKey" native="true">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::StrongFocus</enum>
-            </property>
-            <property name="showLabel" stdset="0">
-             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -401,25 +353,15 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>ChooseFile</class>
-   <extends>QWidget</extends>
-   <header>qtz/widgets/misc/choose-file.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>comboBoxDatabaseType</tabstop>
   <tabstop>lineEditHost</tabstop>
   <tabstop>spinBoxPort</tabstop>
   <tabstop>checkBoxDefaultPort</tabstop>
-  <tabstop>lineEditDatabase</tabstop>
+  <tabstop>lineEditSchema</tabstop>
   <tabstop>lineEditUser</tabstop>
   <tabstop>lineEditPassword</tabstop>
   <tabstop>comboBoxConnectionSecurity</tabstop>
-  <tabstop>chooseFileSSLCA</tabstop>
-  <tabstop>chooseFileSSLCert</tabstop>
-  <tabstop>chooseFileSSLKey</tabstop>
   <tabstop>pushButtonTest</tabstop>
   <tabstop>checkBoxRemember</tabstop>
   <tabstop>buttonBox</tabstop>

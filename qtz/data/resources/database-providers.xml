@@ -2,44 +2,21 @@
 <DatabaseProviders xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Provider>
         <Code>1</Code>
-        <Name>Microsoft SQL Server 2005</Name>
-        <DefaultHost>localhost</DefaultHost>
-        <DefaultPort>1433</DefaultPort>
-    </Provider>
-    <Provider>
-        <Code>2</Code>
-        <Name>Microsoft SQL Server 2008</Name>
-        <DefaultHost>localhost</DefaultHost>
-        <DefaultPort>1433</DefaultPort>
-    </Provider>
-    <Provider>
-        <Code>3</Code>
-        <Name>Microsoft SQL Server 2010</Name>
-        <DefaultHost>localhost</DefaultHost>
-        <DefaultPort>1433</DefaultPort>
-    </Provider>
-    <Provider>
-        <Code>4</Code>
-        <Name>Microsoft SQL Server 2012</Name>
-        <DefaultHost>localhost</DefaultHost>
-        <DefaultPort>1433</DefaultPort>
-    </Provider>
-    <Provider>
-        <Code>5</Code>
-        <Name>Oracle MySQL</Name>
+        <Name>MySQL</Name>
         <DefaultHost>localhost</DefaultHost>
         <DefaultPort>3306</DefaultPort>
         <DefaultUsername>root</DefaultUsername>
     </Provider>
     <Provider>
-        <Code>6</Code>
-        <Name>SQLite 3</Name>
+        <Code>2</Code>
+        <Name>Oracle</Name>
+        <DefaultHost>localhost</DefaultHost>
+        <DefaultPort>1526</DefaultPort>
+        <DefaultUsername></DefaultUsername>
     </Provider>
     <Provider>
-        <Code>7</Code>
-        <Name>Microsoft SQL Server</Name>
-        <DefaultHost>localhost</DefaultHost>
-        <DefaultPort>1433</DefaultPort>
+        <Code>2</Code>
+        <Name>SQLite 3</Name>
     </Provider>
     <Provider>
         <Code>0</Code>

@@ -11,6 +11,7 @@ using namespace std;
 
 DataProviderInformation *DataProviderInformation::m_instance = nullptr;
 
+
 DataProviderInformation::DataProviderInformation()
 {
 }
@@ -19,9 +20,9 @@ void DataProviderInformation::initialize()
 {
     supportedSystems.clear();
     QList<DataProvider::Type> availableSystems = getAvailableSystems();
-    QFile providersFile(":/en/resources/database-providers.xml");
+    QFile providersFile(":/resources/database-providers.xml");
     if(! providersFile.open(QFile::ReadOnly)) {
-        throw logic_error("Unable to open database providers information file.");
+        std::cerr << "Unable to open database providers information file.";
     }
     QXmlStreamReader xml(&providersFile);
     bool valid;

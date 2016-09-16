@@ -45,7 +45,7 @@ HEADERS     =   \
     date-query_plugin.h \
     numeric-query_plugin.h \
     text-query_plugin.h \
-    table-edit_plugin.h \
+#    table-edit_plugin.h \
     editable-label_plugin.h \
     sexagesimal-spinbox_plugin.h \
     text-editor-window_plugin.h \
@@ -56,7 +56,7 @@ SOURCES     =   \
     date-query_plugin.cpp \
     numeric-query_plugin.cpp \
     text-query_plugin.cpp \
-    table-edit_plugin.cpp \
+#    table-edit_plugin.cpp \
     editable-label_plugin.cpp \
     sexagesimal-spinbox_plugin.cpp \
     text-editor-window_plugin.cpp \

@@ -44,8 +44,11 @@ void hex_to_string(unsigned char* output, const unsigned char* input, size_t siz
 Crypto::Crypto() {
 }
 
-QString Crypto::decrypt(const QString& password) {
-    std::string cypher_hex_str = password.toStdString();
+QString Crypto::decrypt(const QString& input) {
+    if(input.isEmpty()){
+        return "";
+    }
+    std::string cypher_hex_str = input.toStdString();
     size_t size = cypher_hex_str.length();
     unsigned char* cypher_hex = (unsigned char*)(cypher_hex_str.c_str());
     size_t length = size/2;
@@ -61,8 +64,11 @@ QString Crypto::decrypt(const QString& password) {
     return result;
 }
 
-QString Crypto::encrypt(const QString& password) {
-    std::string p_str = password.toStdString();
+QString Crypto::encrypt(const QString& input) {
+    if(input.isEmpty()){
+        return "";
+    }
+    std::string p_str = input.toStdString();
     uint size = p_str.size();
     uint padded_size = size + (AES_BLOCK_SIZE-(size%AES_BLOCK_SIZE));
     unsigned char* plain = new unsigned char[padded_size];
@@ -79,69 +85,3 @@ QString Crypto::encrypt(const QString& password) {
     delete[] cypher;
     return result;
 }
-
-//QString AuthProvider::hashPassword(const QString& password) {
-    //    std::string hashedPassword;
-    //    switch(this->m_passwordHash) {
-    //    case HashAlgorithm::MD5: {
-    //            CryptoPP::Weak1::MD5 hasher;
-    //            CryptoPP::StringSource source(password.toUtf8().data(), true,
-    //                                          new CryptoPP::HashFilter(hasher,
-    //                                                  new CryptoPP::HexEncoder (
-    //                                                          new CryptoPP::StringSink(hashedPassword))));
-    //            break;
-    //        }
-    //    case HashAlgorithm::SHA1: {
-    //            CryptoPP::SHA1 hasher;
-    //            CryptoPP::StringSource source(password.toUtf8().data(), true,
-    //                                          new CryptoPP::HashFilter(hasher,
-    //                                                  new CryptoPP::HexEncoder (
-    //                                                          new CryptoPP::StringSink(hashedPassword))));
-    //            break;
-    //        }
-    //    case HashAlgorithm::SHA256: {
-    //            CryptoPP::SHA256 hasher;
-    //            CryptoPP::StringSource source(password.toUtf8().data(), true,
-    //                                          new CryptoPP::HashFilter(hasher,
-    //                                                  new CryptoPP::HexEncoder (
-    //                                                          new CryptoPP::StringSink(hashedPassword))));
-    //            break;
-    //        }
-    //    case HashAlgorithm::SHA512: {
-    //            CryptoPP::SHA512 hasher;
-    //            CryptoPP::StringSource source(password.toUtf8().data(), true,
-    //                                          new CryptoPP::HashFilter(hasher,
-    //                                                  new CryptoPP::HexEncoder (
-    //                                                          new CryptoPP::StringSink(hashedPassword))));
-    //            break;
-    //        }
-    //    }
-//    return QString(); // Convert from ASCII to UTF8.
-//}
-
-//bool AuthProvider::authenticate(const QString& username,
-//                                const QString& password) {
-    //    QSqlQuery loginQuery;
-    //    loginQuery.prepare("SELECT NULL FROM :authTableName WHERE :authIDFiled = :username AND authPassField = :pass LIMINT 1");
-    //    loginQuery.bindValue(":authTableName", this->authTableName);
-    //    loginQuery.bindValue(":authIDFiled", this->authIDFiled);
-    //    loginQuery.bindValue(":authPassField", this->authIDFiled);
-    //    loginQuery.bindValue(":username", username);
-    //    loginQuery.bindValue(":password", hashPassword(password));
-    //    if(loginQuery.exec()) {
-    //        if(loginQuery.next()) {
-    //            return true;
-    //        }
-    //        else {
-    //            QIO::cerr << QObject::tr("Unable to authenticate with provided credentials.") <<
-    //                      endl;
-    //            return false;
-    //        }
-    //    }
-    //    else {
-    //        QIO::cerr << QObject::tr("Unable to execute database query. Reason:") << endl;
-    //        QIO::cerr << loginQuery.lastError().text() << endl;
-    //        return false;
-    //    }
-//    return false;
-//}

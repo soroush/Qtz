@@ -9,9 +9,9 @@ class QTZ_DATA_SHARED_EXPORT DataProvider {
 
 public:
     enum class Type {
-        MySQL5,
-        SQLite,
-        Oracle
+        MySQL5 = 1,
+        Oracle = 2,
+        SQLite = 3,
     };
     DataProvider();
     DataProvider(const QString &, Type, const QString &, quint32,

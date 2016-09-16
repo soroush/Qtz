@@ -26,12 +26,8 @@ void SexagesimalSpinBox::setValue(const double &newValue)
 
 void SexagesimalSpinBox::setValue(const int &d, const int &m, const double &s)
 {
-    qDebug() << "setValue("<<d<<","<<m<<","<<s<<")";
-    qDebug() << "CurrentValues("<<m_degree<<","<<m_minute<<","<<m_second<<")";
     if(!(d==m_degree && m==m_minute && s==m_second)) {
-        qDebug() << "Test1";
         if(d>=0 && d<60 && m>=0 && m<60 && s>=0.0 && s<60.0) {
-            qDebug() << "Test";
             this->m_degree = d;
             this->m_minute= m;
             this->m_second= s;
@@ -60,7 +56,6 @@ void SexagesimalSpinBox::keyPressEvent(QKeyEvent *event)
 void SexagesimalSpinBox::focusInEvent(QFocusEvent *event)
 {
     if(event->reason()==Qt::TabFocusReason) {
-        qDebug() << "TabIn";
         lineEdit()->setSelection(0,4);
         setFocus();
         event->ignore();
@@ -78,7 +73,6 @@ void SexagesimalSpinBox::focusInEvent(QFocusEvent *event)
 void SexagesimalSpinBox::focusOutEvent(QFocusEvent *event)
 {
     if(event->reason()==Qt::TabFocusReason) {
-        qDebug() << "TabOut";
         int position = lineEdit()->cursorPosition();
         if(position < 5) {
             lineEdit()->setSelection(6,2);
@@ -95,7 +89,6 @@ void SexagesimalSpinBox::focusOutEvent(QFocusEvent *event)
         }
     }
     else if(event->reason()==Qt::BacktabFocusReason) {
-        qDebug() << "BackTab";
         int position = lineEdit()->cursorPosition();
         if(position < 5) {
             QAbstractSpinBox::focusOutEvent(event);
@@ -216,22 +209,17 @@ void SexagesimalSpinBox::setText(const QString &input)
 {
     //+000° 00′ 00″
     // TODO: Use a regular expression to parse all valid inputs
-    qDebug() << "setText("<<input<<")";
     int d,m,s;
     bool ok = false;
     d = input.mid(0,4).toInt(&ok);
-    qDebug() << "d ok";
     if(ok) {
         m = input.mid(6,2).toInt(&ok);
-        qDebug() << "m ok";
     }
     if(ok) {
         s = input.mid(10,2).toDouble(&ok);
-        qDebug() << "s ok";
     }
     if(ok) {
         this->setValue(d,m,s);
-        qDebug() << "final";
     }
 }
 
