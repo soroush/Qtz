@@ -1,10 +1,10 @@
-#ifndef EDITABLELABEL_H
-#define EDITABLELABEL_H
+#ifndef QTZ_EDITABLELABEL_HPP
+#define QTZ_EDITABLELABEL_HPP
 
 #include <QWidget>
 #include <QLabel>
 #include <qtz/core/qtz-core.hpp>
-#include "../qtz-widgets.h"
+#include "../qtz-widgets.hpp"
 
 QT_BEGIN_NAMESPACE
 class QVBoxLayout;
@@ -20,7 +20,7 @@ class QTZ_WIDGETS_SHARED_EXPORT EditableLabel : public QWidget {
     Q_OBJECT
 
 public:
-    explicit EditableLabel(QWidget *parent = 0);
+    explicit EditableLabel(QWidget* parent = 0);
     ~EditableLabel();
 
 signals:
@@ -30,15 +30,15 @@ public slots:
     void finishEditig();
 
 protected:
-    void changeEvent(QEvent *e);
+    void changeEvent(QEvent* e);
 
 private:
-    Ui::EditableLabel *ui;
+    Ui::EditableLabel* ui;
     enum Status_t {Normal = 0, Editing = 1};
     Status_t currentStatus;
-    QVBoxLayout *mainLayout;
+    QVBoxLayout* mainLayout;
     QLabel m_label;
-    TextEditorWindow *editor;
+    TextEditorWindow* editor;
 };
 
-#endif // EDITABLELABEL_H
+#endif // QTZ_EDITABLELABEL_HPP

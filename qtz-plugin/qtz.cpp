@@ -1,12 +1,12 @@
-#include "numeric-query_plugin.h"
-#include "text-query_plugin.h"
-#include "date-query_plugin.h"
+#include "numeric-query_plugin.hpp"
+#include "text-query_plugin.hpp"
+#include "date-query_plugin.hpp"
 #include "table-edit_plugin.h"
-#include "text-editor-window_plugin.h"
-#include "editable-label_plugin.h"
-#include "sexagesimal-spinbox_plugin.h"
-#include "choose-file_plugin.h"
-#include "qtz.h"
+#include "text-editor-window_plugin.hpp"
+#include "editable-label_plugin.hpp"
+#include "sexagesimal-spinbox_plugin.hpp"
+#include "choose-file_plugin.hpp"
+#include "qtz.hpp"
 
 Qtz::Qtz(QObject *parent)
     : QObject(parent)
@@ -18,7 +18,7 @@ Qtz::Qtz(QObject *parent)
     m_widgets.append(new EditableLabelPlugin(this));
     m_widgets.append(new SexagesimalSpinboxPlugin(this));
     m_widgets.append(new ChooseFilePlugin(this));
-    m_widgets.append(new TableEditPlugin(this));
+    //m_widgets.append(new TableEditPlugin(this));
 }
 
 QList<QDesignerCustomWidgetInterface *> Qtz::customWidgets() const

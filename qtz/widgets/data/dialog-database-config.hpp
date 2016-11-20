@@ -5,8 +5,8 @@
 #include <QFutureWatcher>
 #include <QFuture>
 #include <QSqlDatabase>
-#include <qtz/data/data-provider.h>
-#include "../qtz-widgets.h"
+#include <qtz/data/data-provider.hpp>
+#include "../qtz-widgets.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

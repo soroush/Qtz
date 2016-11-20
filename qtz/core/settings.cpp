@@ -3,7 +3,7 @@
 #include <iostream>
 #include <QtGlobal>
 #include "settings.hpp"
-#include "qio.h"
+#include "qio.hpp"
 
 QSettings* Settings::instance = Q_NULLPTR;
 bool Settings::set = false;

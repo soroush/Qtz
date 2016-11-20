@@ -1,4 +1,4 @@
-#include "data-provider.h"
+#include "data-provider.hpp"
 
 DataProvider::DataProvider() {
 }

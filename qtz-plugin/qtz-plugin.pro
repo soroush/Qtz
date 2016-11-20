@@ -40,16 +40,16 @@ DEFINES += QTZ_LIBRARY
 VERSION = 0.1.3
 
 HEADERS     =   \
-    qtz.h \
-    global.h \
-    date-query_plugin.h \
-    numeric-query_plugin.h \
-    text-query_plugin.h \
 #    table-edit_plugin.h \
-    editable-label_plugin.h \
-    sexagesimal-spinbox_plugin.h \
-    text-editor-window_plugin.h \
-    choose-file_plugin.h
+    choose-file_plugin.hpp \
+    date-query_plugin.hpp \
+    editable-label_plugin.hpp \
+    global.hpp \
+    numeric-query_plugin.hpp \
+    qtz.hpp \
+    sexagesimal-spinbox_plugin.hpp \
+    text-editor-window_plugin.hpp \
+    text-query_plugin.hpp
 
 SOURCES     =   \
     qtz.cpp \

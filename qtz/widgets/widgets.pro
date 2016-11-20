@@ -102,38 +102,38 @@ SOURCES += \
     data/asynchronous-main-window.cpp
 
 DATA_HEADERS += \
-    data/date-query.h \
-    data/numeric-query.h \
-    data/text-query.h \
-#    data/wizard-backup-database.h \
-    data/dialog-database-config.h \
-#    data/widget-edit-table.h \
-#    data/dialog-edit-table.h \
-#    data/dialog-insert-item.h \
-#    data/dialog-edit-item.h \
-#    data/wizard-create-database.h \
-#    data/wizard-page-create-database-intro.h \
-#    data/wizard-page-create-database-configure.h \
-#    data/wizard-page-create-database-confirm.h \
-#    data/wizard-page-create-database-operation.h \
-    data/i-dialog-insert-record.h
+    data/date-query.hpp \
+    data/numeric-query.hpp \
+    data/text-query.hpp \
+#    data/wizard-backup-database.hpp \
+    data/dialog-database-config.hpp \
+#    data/widget-edit-table.hpp \
+#    data/dialog-edit-table.hpp \
+#    data/dialog-insert-item.hpp \
+#    data/dialog-edit-item.hpp \
+#    data/wizard-create-database.hpp \
+#    data/wizard-page-create-database-intro.hpp \
+#    data/wizard-page-create-database-configure.hpp \
+#    data/wizard-page-create-database-confirm.hpp \
+#    data/wizard-page-create-database-operation.hpp \
+    data/i-dialog-insert-record.hpp
 EDITORS_HEADERS += \
-    editors/text-editor-window.h \
-    editors/editable-label.h \
+    editors/text-editor-window.hpp \
+    editors/editable-label.hpp \
     editors/jalali-date-edit.hpp \
-    editors/sexagesimal-spinbox.h
+    editors/sexagesimal-spinbox.hpp
 MISC_HEADERS += \
     misc/choose-file.hpp \
     misc/color-button.hpp
 
 SECURITY_HEADERS += \
-    security/dialog-user-login.h
+    security/dialog-user-login.hpp
 
 I18N_HEADERS += \
     i18n/localizer.hpp
 
 HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS $$I18N_HEADERS \
-    qtz-widgets.h \
+    qtz-widgets.hpp \
     data/asynchronous-main-window.hpp
 
 FORMS += \

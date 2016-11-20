@@ -15,7 +15,7 @@ std::string string_to_hex(const unsigned char* input, size_t len) {
     static const char* const lut = "0123456789ABCDEF";
     std::string output;
     output.reserve(2 * len);
-    for (size_t i = 0; i < len; ++i) {
+    for(size_t i = 0; i < len; ++i) {
         const unsigned char c = input[i];
         output.push_back(lut[c >> 4]);
         output.push_back(lut[c & 15]);
@@ -26,15 +26,15 @@ std::string string_to_hex(const unsigned char* input, size_t len) {
 
 void hex_to_string(unsigned char* output, const unsigned char* input, size_t size) {
     static const unsigned char* const lut = (const unsigned char*)("0123456789ABCDEF");
-    for (size_t i = 0; i < size; i += 2) {
+    for(size_t i = 0; i < size; i += 2) {
         char a = input[i];
         const unsigned char* p = std::lower_bound(lut, lut + 16, a);
-        if (*p != a) {
+        if(*p != a) {
             throw std::invalid_argument("not a hex digit");
         }
         char b = input[i + 1];
         const unsigned char* q = std::lower_bound(lut, lut + 16, b);
-        if (*q != b) {
+        if(*q != b) {
             throw std::invalid_argument("not a hex digit");
         }
         output[i/2] = (((p - lut) << 4) | (q - lut));
@@ -45,7 +45,7 @@ Crypto::Crypto() {
 }
 
 QString Crypto::decrypt(const QString& input) {
-    if(input.isEmpty()){
+    if(input.isEmpty()) {
         return "";
     }
     std::string cypher_hex_str = input.toStdString();
@@ -65,7 +65,7 @@ QString Crypto::decrypt(const QString& input) {
 }
 
 QString Crypto::encrypt(const QString& input) {
-    if(input.isEmpty()){
+    if(input.isEmpty()) {
         return "";
     }
     std::string p_str = input.toStdString();

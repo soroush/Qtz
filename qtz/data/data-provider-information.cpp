@@ -1,4 +1,4 @@
-#include "data-provider-information.h"
+#include "data-provider-information.hpp"
 #include <QObject>
 #include <QStringList>
 #include <QFile>
@@ -6,8 +6,6 @@
 #include <QSqlDatabase>
 #include <iostream>
 #include <stdexcept>
-
-using namespace std;
 
 DataProviderInformation* DataProviderInformation::m_instance = nullptr;
 

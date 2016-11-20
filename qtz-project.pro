@@ -2,8 +2,8 @@ TEMPLATE = subdirs
 CONFIG += ordered
 
 SUBDIRS += \
-    qtz
-#    qtz-plugin
+    qtz \
+    qtz-plugin
 #    tests
 
 DEFINES+=WIN32

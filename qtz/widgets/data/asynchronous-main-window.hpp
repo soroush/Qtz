@@ -1,7 +1,7 @@
 #ifndef QTZ_ASYNCHRONOUSMAINWINDOW_HPP
 #define QTZ_ASYNCHRONOUSMAINWINDOW_HPP
 
-#include "../qtz-widgets.h"
+#include "../qtz-widgets.hpp"
 #include <QMainWindow>
 #include <QFuture>
 #include <QFutureWatcher>

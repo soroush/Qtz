@@ -1,7 +1,7 @@
 #ifndef QTZ_DATABASE_POOL_HPP
 #define QTZ_DATABASE_POOL_HPP
 
-#include "data.h"
+#include "data.hpp"
 #include <QSqlDatabase>
 #include <QSemaphore>
 #include <QMutex>

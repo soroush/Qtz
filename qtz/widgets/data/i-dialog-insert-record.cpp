@@ -1,4 +1,4 @@
-﻿#include "i-dialog-insert-record.h"
+﻿#include "i-dialog-insert-record.hpp"
 #include <QDialog>
 
 //IDialogInsertRecord::IDialogInsertRecord(QWidget *parent, QSqlTableModel *model):
