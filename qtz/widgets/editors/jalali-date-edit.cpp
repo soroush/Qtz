@@ -6,7 +6,8 @@
 #include <QDebug>
 
 JalaliDateEdit::JalaliDateEdit(QWidget* parent):
-    QAbstractSpinBox(parent) {
+    QAbstractSpinBox(parent),
+    m_displayFormat("yyyy/MM/dd") {
     m_locale.setNumberOptions(QLocale::c().numberOptions());
     m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
     connect(this->lineEdit(),SIGNAL(textEdited(QString)),this,SLOT(updateDate()));
@@ -22,11 +23,11 @@ void JalaliDateEdit::stepBy(int input) {
         addYears(steps);
         updateText();
         lineEdit()->setSelection(0,4);
-    } else if (position > 4 && position < 8) { // Changing month
+    } else if(position > 4 && position < 8) {  // Changing month
         addMonths(steps);
         updateText();
         lineEdit()->setSelection(5,2);
-    } else if (position > 7 && position < 11) { // Changing day
+    } else if(position > 7 && position < 11) {  // Changing day
         addDays(steps);
         updateText();
         lineEdit()->setSelection(8,2);
@@ -43,13 +44,13 @@ void JalaliDateEdit::setDate(const QDate& date) {
 }
 
 void JalaliDateEdit::updateText() {
-    lineEdit()->setText(m_jdate.toString("yyyy/MM/dd"));
+    lineEdit()->setText(m_jdate.toString(m_displayFormat));
     updateDate();
     emit dateChanged(m_jdate.toGregorian());
 }
 
 void JalaliDateEdit::keyPressEvent(QKeyEvent* event) {
-    switch (event->key()) {
+    switch(event->key()) {
         case Qt::Key_Up:
             stepBy(1);
             event->ignore();
@@ -148,20 +149,20 @@ QAbstractSpinBox::StepEnabled JalaliDateEdit::stepEnabled() const {
     StepEnabled flags;
     int position = lineEdit()->cursorPosition();
     if(position < 5) { // Changing year
-        if(m_jdate.year() <= 1 ) {
+        if(m_jdate.year() <= 1) {
             flags = StepUpEnabled;
         } else {
             flags = StepUpEnabled | StepDownEnabled;
         }
-    } else if (position > 4 && position < 8) { // Changing month
+    } else if(position > 4 && position < 8) {  // Changing month
         if(m_jdate.month() == 1) {
             flags = StepUpEnabled;
-        } else if (m_jdate.month() == 12) {
+        } else if(m_jdate.month() == 12) {
             flags = StepDownEnabled;
         } else {
             flags = StepDownEnabled | StepUpEnabled;
         }
-    } else if (position > 7 && position < 11) { // Changing day
+    } else if(position > 7 && position < 11) {  // Changing day
         int upper;
         if(m_jdate.month()<=6) {
             upper = 31;
@@ -171,7 +172,7 @@ QAbstractSpinBox::StepEnabled JalaliDateEdit::stepEnabled() const {
         // TODO: Handle leap years too
         if(m_jdate.day()==upper) {
             flags = StepDownEnabled;
-        } else if (m_jdate.day()==1) {
+        } else if(m_jdate.day()==1) {
             flags = StepDownEnabled;
         } else {
             flags = StepDownEnabled | StepUpEnabled;
@@ -216,6 +217,14 @@ QSize JalaliDateEdit::sizeHint() const {
     return QSize(w, h);
 }
 
+QString JalaliDateEdit::displayFormat() const {
+    return m_displayFormat;
+}
+
+void JalaliDateEdit::setDisplayFormat(const QString& format) {
+    m_displayFormat = format;
+}
+
 void JalaliDateEdit::addYears(int years) {
     m_jdate = m_jdate.addYears(years);
 }
@@ -223,11 +232,11 @@ void JalaliDateEdit::addYears(int years) {
 void JalaliDateEdit::addMonths(int months) {
     int new_month = m_jdate.month() + months;
     JalaliDate::InvalidReason reason;
-    if(JalaliDate::isValid(m_jdate.year(),new_month,m_jdate.day(),&reason)){
+    if(JalaliDate::isValid(m_jdate.year(),new_month,m_jdate.day(),&reason)) {
         m_jdate.setDate(m_jdate.year(),new_month,m_jdate.day());
     } else {
-        if(reason==JalaliDate::BigDay){
-            if(JalaliDate::isValid(m_jdate.year(),new_month,m_jdate.day()-1)){
+        if(reason==JalaliDate::BigDay) {
+            if(JalaliDate::isValid(m_jdate.year(),new_month,m_jdate.day()-1)) {
                 m_jdate.setDate(m_jdate.year(),new_month,m_jdate.day()-1);
             }
         }
@@ -236,14 +245,14 @@ void JalaliDateEdit::addMonths(int months) {
 
 void JalaliDateEdit::addDays(int days) {
     int new_day = m_jdate.day() + days;
-    if(JalaliDate::isValid(m_jdate.year(),m_jdate.month(),new_day)){
+    if(JalaliDate::isValid(m_jdate.year(),m_jdate.month(),new_day)) {
         m_jdate.setDate(m_jdate.year(),m_jdate.month(),new_day);
     }
 }
 
 void JalaliDateEdit::processInput() {
     int position = lineEdit()->cursorPosition();
-    switch (position) {
+    switch(position) {
         case 4:
             lineEdit()->setSelection(5,2);
             break;
@@ -272,14 +281,14 @@ bool JalaliDateEdit::inputSanityCheck() {
         } else {
             return true;
         }
-    } else if (position > 4 && position < 8) {
+    } else if(position > 4 && position < 8) {
         if(parts.at(1).length() >= 2) {
             lineEdit()->setSelection(8,2);
             return false;
         } else {
             return true;
         }
-    } else if (position >8 && position < 11) {
+    } else if(position >8 && position < 11) {
         if(parts.at(2).length() >= 2) {
             return false;
         } else {

@@ -42,7 +42,7 @@ DialogDatabaseConfig::~DialogDatabaseConfig() {
 
 void DialogDatabaseConfig::changeEvent(QEvent* e) {
     QDialog::changeEvent(e);
-    switch (e->type()) {
+    switch(e->type()) {
         case QEvent::LanguageChange:
             ui->retranslateUi(this);
             break;
@@ -54,7 +54,7 @@ void DialogDatabaseConfig::changeEvent(QEvent* e) {
 void DialogDatabaseConfig::initializeDatabaseSystems() {
     QVector<DataProvider> systems =
         DataProviderInformation::getInstance()->getSupportedProviders();
-    foreach (DataProvider p, systems) {
+    foreach(DataProvider p, systems) {
         ui->comboBoxDatabaseType->addItem(p.providerName(),p.providerCode());
     }
     // Establish first valid state:
@@ -116,26 +116,27 @@ void DialogDatabaseConfig::readConnectionInfo() {
 }
 
 void DialogDatabaseConfig::writeConnectionInfo() {
-    Settings::getInstance()->setValue("database/type",
-                                      ui->comboBoxDatabaseType->currentData(Qt::UserRole).toInt());
-    Settings::getInstance()->setValue("database/host",
-                                      ui->lineEditHost->text());
-    Settings::getInstance()->setValue("database/port",
-                                      ui->spinBoxPort->value());
-    Settings::getInstance()->setValue("database/schema",
-                                      ui->lineEditSchema->text());
+    QSettings* s = Settings::getInstance();
+    s->setValue("database/type",
+                ui->comboBoxDatabaseType->currentData(Qt::UserRole).toInt());
+    s->setValue("database/host",
+                ui->lineEditHost->text());
+    s->setValue("database/port",
+                ui->spinBoxPort->value());
+    s->setValue("database/schema",
+                ui->lineEditSchema->text());
     QString usernameC = Crypto::encrypt(ui->lineEditUser->text());
-    Settings::getInstance()->setValue("database/username",
-                                      usernameC);
+    s->setValue("database/username",
+                usernameC);
     QString passwordC = Crypto::encrypt(ui->lineEditPassword->text());
-    Settings::getInstance()->setValue("database/password",
-                                      passwordC);
-    Settings::getInstance()->setValue("ui/data/dbconfig/local",
-                                      ui->checkBoxLocal->isChecked());
-    Settings::getInstance()->setValue("ui/data/dbconfig/defaultPort",
-                                      ui->checkBoxDefaultPort->isChecked());
-    Settings::getInstance()->setValue("ui/data/dbconfig/remember",
-                                      ui->checkBoxRemember->isChecked());
+    s->setValue("database/password",
+                passwordC);
+    s->setValue("ui/data/dbconfig/local",
+                ui->checkBoxLocal->isChecked());
+    s->setValue("ui/data/dbconfig/defaultPort",
+                ui->checkBoxDefaultPort->isChecked());
+    s->setValue("ui/data/dbconfig/remember",
+                ui->checkBoxRemember->isChecked());
 }
 
 void DialogDatabaseConfig::clearConnectionInfo() {
@@ -165,7 +166,7 @@ void DialogDatabaseConfig::accept() {
         int result = QMessageBox::question(this,tr("Connection Not Tested!"),
                                            tr("Your connection is not tested yet.\n"
                                               "Do you want to continue anyway?"));
-        switch (result) {
+        switch(result) {
             case QMessageBox::Yes:
                 QDialog::accept();
                 break;
@@ -256,22 +257,22 @@ void DialogDatabaseConfig::updateDefaultPortStatus(bool checked) {
 }
 
 void DialogDatabaseConfig::updateSecurityOption(int index) {
-    switch (index) {
+    switch(index) {
         case 0: // No encryption
             this->ui->labelSSLCA->hide();
             this->ui->labelSSLCert->hide();
             this->ui->labelSSLKey->hide();
-//            this->ui->chooseFileSSLCA->hide();
-//            this->ui->chooseFileSSLCert->hide();
-//            this->ui->chooseFileSSLKey->hide();
+            //            this->ui->chooseFileSSLCA->hide();
+            //            this->ui->chooseFileSSLCert->hide();
+            //            this->ui->chooseFileSSLKey->hide();
             break;
         case 1: // Encrypt over SSL
             this->ui->labelSSLCA->show();
             this->ui->labelSSLCert->show();
             this->ui->labelSSLKey->show();
-//            this->ui->chooseFileSSLCA->show();
-//            this->ui->chooseFileSSLCert->show();
-//            this->ui->chooseFileSSLKey->show();
+        //            this->ui->chooseFileSSLCA->show();
+        //            this->ui->chooseFileSSLCert->show();
+        //            this->ui->chooseFileSSLKey->show();
         default:
             break;
     }

@@ -15,6 +15,8 @@ public:
     virtual void stepBy(int steps);
     QDate date() const;
     QSize sizeHint() const;
+    QString displayFormat() const;
+    void setDisplayFormat(const QString& format);
 signals:
     void dateChanged(QDate);
 public slots:
@@ -37,6 +39,7 @@ private:
     bool inputSanityCheck();
     JalaliDate m_jdate;
     QLocale m_locale;
+    QString m_displayFormat;
 
 };
 

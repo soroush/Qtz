@@ -8,28 +8,28 @@ JalaliSqlTableModel::JalaliSqlTableModel(QObject* parent, QSqlDatabase db):
 QVariant JalaliSqlTableModel::data(const QModelIndex& idx, int role) const {
     QVariant v=QSqlTableModel::data(idx,role);
     if(role==Qt::DisplayRole) {
-        switch (v.type()) {
+        switch(v.type()) {
             case QVariant::DateTime: {
-                    JalaliDate j(v.toDate());
-                    if(m_formats.find(idx.column())!=m_formats.end()) {
-                        return QString("%1 %2")
-                                .arg(j.toString(m_formats[idx.column()]))
-                                .arg(m_locale.toString(v.toTime(),"HH:mm:ss"));
-                    } else {
-                        return j.toString() + ' ' +
-                               m_locale.toString(v.toTime(),"HH:mm:ss");
-                    }
+                JalaliDate j(v.toDate());
+                if(m_formats.find(idx.column())!=m_formats.end()) {
+                    return QString("%1 %2")
+                           .arg(j.toString(m_formats[idx.column()]))
+                           .arg(m_locale.toString(v.toTime(),"HH:mm:ss"));
+                } else {
+                    return j.toString() + ' ' +
+                           m_locale.toString(v.toTime(),"HH:mm:ss");
                 }
-                break;
+            }
+            break;
             case QVariant::Date: {
-                    JalaliDate j(v.toDate());
-                    if(m_formats.find(idx.column())!=m_formats.end()) {
-                        return j.toString(m_formats[idx.column()]);
-                    } else {
-                        return j.toString();
-                    }
+                JalaliDate j(v.toDate());
+                if(m_formats.find(idx.column())!=m_formats.end()) {
+                    return j.toString(m_formats[idx.column()]);
+                } else {
+                    return j.toString();
                 }
-                break;
+            }
+            break;
             default:
                 return v;
                 break;
