@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" lang="en">
+    <qresource prefix="/qtzdata">
         <file>resources/backup-grammer.txt</file>
         <file>resources/mysql_fetch_all_row_count.sql</file>
         <file>resources/mysql_fetch_all_rows_procedure.sql</file>
@@ -12,8 +12,5 @@
         <file>resources/sqlserver_fetch_tables.sql</file>
         <file>resources/sqlserver_fk_fetch.sql</file>
         <file>resources/database-providers.xml</file>
-    </qresource>
-    <qresource prefix="/" lang="fa">
-        <file alias="resources/database_providers.xml">resources/database-providers_fa.xml</file>
     </qresource>
 </RCC>
