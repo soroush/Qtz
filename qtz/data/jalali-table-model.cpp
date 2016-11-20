@@ -46,5 +46,5 @@ QString JalaliSqlTableModel::format(size_t index) {
     if(m_formats.find(index) != m_formats.end()) {
         return m_formats[index];
     }
-    return QString{};
+    return QString {};
 }

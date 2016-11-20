@@ -2,7 +2,7 @@
 #define NUMERICQUERY_H
 
 #include <QWidget>
-#include "../qtz-widgets.h"
+#include "../qtz-widgets.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,7 +16,7 @@ class QTZ_WIDGETS_SHARED_EXPORT NumericQuery : public QWidget {
     Q_PROPERTY(double maximum READ max WRITE setMax USER true)
     Q_PROPERTY(int decimals READ decimals WRITE setDecimals USER true)
 public:
-    explicit NumericQuery(QWidget *parent = 0);
+    explicit NumericQuery(QWidget* parent = 0);
     ~NumericQuery();
 
     QString statement();
@@ -36,10 +36,10 @@ signals:
     void statementChanged(QString);
 
 protected:
-    void changeEvent(QEvent *e);
+    void changeEvent(QEvent* e);
 
 private:
-    Ui::NumericQuery *ui;
+    Ui::NumericQuery* ui;
     QString fieldName;
     QString m_statement;
     double m_min;

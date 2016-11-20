@@ -1,4 +1,4 @@
-#include "text-editor-window.h"
+#include "text-editor-window.hpp"
 #include "ui_text-editor-window.h"
 
 #include <QFontComboBox>
@@ -6,10 +6,9 @@
 
 QT_USE_NAMESPACE
 
-TextEditorWindow::TextEditorWindow(QWidget *parent) :
+TextEditorWindow::TextEditorWindow(QWidget* parent) :
     QMainWindow(parent),
-    ui(new Ui::textEditorWindow)
-{
+    ui(new Ui::textEditorWindow) {
     ui->setupUi(this);
     this->setWindowFlags(this->windowFlags() & ~Qt::Window);
     setupToolbars();
@@ -46,35 +45,30 @@ TextEditorWindow::TextEditorWindow(QWidget *parent) :
             SLOT(setEnabled(bool)));
 }
 
-TextEditorWindow::~TextEditorWindow()
-{
+TextEditorWindow::~TextEditorWindow() {
     delete ui;
 }
 
-void TextEditorWindow::changeEvent(QEvent *e)
-{
+void TextEditorWindow::changeEvent(QEvent* e) {
     QMainWindow::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
+    switch(e->type()) {
+        case QEvent::LanguageChange:
+            ui->retranslateUi(this);
+            break;
+        default:
+            break;
     }
 }
 
-QString TextEditorWindow::toPlainText() const
-{
+QString TextEditorWindow::toPlainText() const {
     return ui->editor->toPlainText();
 }
 
-QString TextEditorWindow::toHtml() const
-{
+QString TextEditorWindow::toHtml() const {
     return ui->editor->toHtml();
 }
 
-void TextEditorWindow::loadIcons()
-{
+void TextEditorWindow::loadIcons() {
     // File toolbar:
     ui->actionLoad->setIcon(QIcon::fromTheme("document-open"));
     ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
@@ -101,70 +95,61 @@ void TextEditorWindow::loadIcons()
     ui->actionIndent_less->setIcon(QIcon::fromTheme("format-indent-less"));
 }
 
-void TextEditorWindow::setupToolbars()
-{
-    QLabel *labelFont = new QLabel(tr("&Font:"));
+void TextEditorWindow::setupToolbars() {
+    QLabel* labelFont = new QLabel(tr("&Font:"));
     fontCombo = new QFontComboBox();
     labelFont->setBuddy(fontCombo);
     ui->toolBarFormatting->insertWidget(ui->actionBold, labelFont);
     ui->toolBarFormatting->insertWidget(ui->actionBold, fontCombo);
 }
 
-void TextEditorWindow::setText(QString value)
-{
+void TextEditorWindow::setText(QString value) {
     ui->editor->setText(value);
 }
 
 // Formatting
 
 void TextEditorWindow::mergeFormatOnWordOrSelection(const QTextCharFormat
-        &format)
-{
+        &format) {
     QTextCursor cursor = ui->editor->textCursor();
-    if (!cursor.hasSelection()) {
+    if(!cursor.hasSelection()) {
         cursor.select(QTextCursor::WordUnderCursor);
     }
     cursor.mergeCharFormat(format);
     ui->editor->mergeCurrentCharFormat(format);
 }
 
-void TextEditorWindow::bold(bool state)
-{
+void TextEditorWindow::bold(bool state) {
     QTextCharFormat f;
     f.setFontWeight(state ? QFont::Bold : QFont::Normal);
     mergeFormatOnWordOrSelection(f);
 }
 
-void TextEditorWindow::italic(bool state)
-{
+void TextEditorWindow::italic(bool state) {
     QTextCharFormat f;
     f.setFontItalic(state);
     mergeFormatOnWordOrSelection(f);
 }
 
-void TextEditorWindow::underline(bool state)
-{
+void TextEditorWindow::underline(bool state) {
     QTextCharFormat f;
     f.setFontUnderline(state);
     mergeFormatOnWordOrSelection(f);
 }
 
-void TextEditorWindow::strickout(bool state)
-{
+void TextEditorWindow::strickout(bool state) {
     QTextCharFormat f;
     f.setFontStrikeOut(state);
     mergeFormatOnWordOrSelection(f);
 }
 
-void TextEditorWindow::changeFont(QFont font)
-{
+void TextEditorWindow::changeFont(QFont font) {
     QTextCharFormat format;
     format.setFontFamily(font.family());
     mergeFormatOnWordOrSelection(format);
 }
 
-void TextEditorWindow::updateStatus()
-{
+void TextEditorWindow::updateStatus() {
     QTextCharFormat format = ui->editor->currentCharFormat();
     QFont font = format.font();
     ui->actionBold->setChecked(font.bold());

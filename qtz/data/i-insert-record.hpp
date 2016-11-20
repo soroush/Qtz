@@ -1,5 +1,5 @@
-#ifndef IINSERTRECORD_H
-#define IINSERTRECORD_H
+#ifndef QTZ_IINSERTRECORD_HPP
+#define QTZ_IINSERTRECORD_HPP
 
 #include <QObject>
 #include <QString>
@@ -8,7 +8,7 @@
 #include <QSqlTableModel>
 #include <QFuture>
 #include <QFutureWatcher>
-#include "data.h"
+#include "data.hpp"
 
 //class QTZ_DATA_SHARED_EXPORT IInsertRecord: public QObject {
 //    Q_OBJECT
@@ -37,4 +37,4 @@
 //    QString m_validateMessage;
 //};
 
-#endif // IINSERTRECORD_H
+#endif // QTZ_IINSERTRECORD_HPP

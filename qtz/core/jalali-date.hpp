@@ -1,5 +1,5 @@
-#ifndef JALALIDATE_HPP
-#define JALALIDATE_HPP
+#ifndef QTZ_JALALIDATE_HPP
+#define QTZ_JALALIDATE_HPP
 
 #include <QDate>
 #include <QLocale>
@@ -77,4 +77,4 @@ private:
     QLocale m_locale;
 };
 
-#endif // JALALIDATE_HPP
+#endif // QTZ_JALALIDATE_HPP

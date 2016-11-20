@@ -1,7 +1,6 @@
 #ifndef QTZ_AUTHENTICATOR_H
 #define QTZ_AUTHENTICATOR_H
 
-
 #include "identity.hpp"
 #include "token.hpp"
 #include "authentication-source.hpp"

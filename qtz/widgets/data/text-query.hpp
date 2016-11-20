@@ -1,8 +1,8 @@
-﻿#ifndef TEXTQUERY_H
-#define TEXTQUERY_H
+﻿#ifndef QTZ_TEXTQUERY_HPP
+#define QTZ_TEXTQUERY_HPP
 
 #include <QWidget>
-#include "../qtz-widgets.h"
+#include "../qtz-widgets.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -15,7 +15,7 @@ class QTZ_WIDGETS_SHARED_EXPORT TextQuery : public QWidget {
     Q_PROPERTY(QString inputMask READ inputMask WRITE setInputMask USER true)
 
 public:
-    explicit TextQuery(QWidget *parent = 0);
+    explicit TextQuery(QWidget* parent = 0);
     ~TextQuery();
 
     QString statement();
@@ -34,10 +34,10 @@ signals:
     void returnPressed();
 
 protected:
-    void changeEvent(QEvent *e);
+    void changeEvent(QEvent* e);
 
 private:
-    Ui::TextQuery *ui;
+    Ui::TextQuery* ui;
     QString fieldName;
     QString m_statement;
     QString m_inputMask;

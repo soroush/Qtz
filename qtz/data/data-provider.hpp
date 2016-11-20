@@ -1,8 +1,8 @@
-#ifndef DATAPROVIDER_H
-#define DATAPROVIDER_H
+#ifndef QTZ_DATAPROVIDER_HPP
+#define QTZ_DATAPROVIDER_HPP
 
 #include <QString>
-#include "data.h"
+#include "data.hpp"
 
 class QTZ_DATA_SHARED_EXPORT DataProvider {
     friend class DataProviderInformation;
@@ -14,8 +14,8 @@ public:
         SQLite = 3,
     };
     DataProvider();
-    DataProvider(const QString &, Type, const QString &, quint32,
-                 const QString &, const QString &);
+    DataProvider(const QString&, Type, const QString&, quint32,
+                 const QString&, const QString&);
     QString providerName() const;
     quint8 providerCode() const;
     QString defaultHost() const;
@@ -31,4 +31,4 @@ private:
     QString m_defaultDatabase;
 };
 
-#endif // DATAPROVIDER_H
+#endif // QTZ_DATAPROVIDER_HPP

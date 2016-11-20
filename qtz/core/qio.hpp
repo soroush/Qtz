@@ -1,5 +1,5 @@
-#ifndef QIO_H
-#define QIO_H
+#ifndef QTZ_QIO_HPP
+#define QTZ_QIO_HPP
 
 #include <QObject>
 #include <QTextStream>
@@ -19,4 +19,4 @@ public slots:
 
 };
 
-#endif // QIO_H
+#endif // QTZ_QIO_HPP

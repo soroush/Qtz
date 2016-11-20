@@ -195,17 +195,17 @@ QString qt_readEscapedFormatString(const QString& format, int* idx) {
     int& i = *idx;
     Q_ASSERT(format.at(i) == QLatin1Char('\''));
     ++i;
-    if (i == format.size()) {
+    if(i == format.size()) {
         return QString();
     }
-    if (format.at(i).unicode() == '\'') { // "''" outside of a quoted stirng
+    if(format.at(i).unicode() == '\'') {  // "''" outside of a quoted stirng
         ++i;
         return QLatin1String("'");
     }
     QString result;
-    while (i < format.size()) {
-        if (format.at(i).unicode() == '\'') {
-            if (i + 1 < format.size() && format.at(i + 1).unicode() == '\'') {
+    while(i < format.size()) {
+        if(format.at(i).unicode() == '\'') {
+            if(i + 1 < format.size() && format.at(i + 1).unicode() == '\'') {
                 // "''" inside of a quoted string
                 result.append(QLatin1Char('\''));
                 i += 2;
@@ -216,7 +216,7 @@ QString qt_readEscapedFormatString(const QString& format, int* idx) {
             result.append(format.at(i++));
         }
     }
-    if (i < format.size()) {
+    if(i < format.size()) {
         ++i;
     }
     return result;
@@ -225,7 +225,7 @@ QString qt_readEscapedFormatString(const QString& format, int* idx) {
 int qt_repeatCount(const QString& s, int i) {
     QChar c = s.at(i);
     int j = i + 1;
-    while (j < s.size() && s.at(j) == c) {
+    while(j < s.size() && s.at(j) == c) {
         ++j;
     }
     return j - i;
@@ -234,29 +234,29 @@ int qt_repeatCount(const QString& s, int i) {
 QString JalaliDate::toString(const QString& format) const {
     QString result;
     int i = 0;
-    while (i < format.size()) {
-        if (format.at(i).unicode() == '\'') {
+    while(i < format.size()) {
+        if(format.at(i).unicode() == '\'') {
             result.append(qt_readEscapedFormatString(format, &i));
             continue;
         }
         const QChar c = format.at(i);
         int repeat = qt_repeatCount(format, i);
         bool used = false;
-        switch (c.unicode()) {
+        switch(c.unicode()) {
             case 'y':
                 used = true;
-                if (repeat >= 4) {
+                if(repeat >= 4) {
                     repeat = 4;
-                } else if (repeat >= 2) {
+                } else if(repeat >= 2) {
                     repeat = 2;
                 }
-                switch (repeat) {
+                switch(repeat) {
                     case 4: {
-                            const int yr = this->year();
-                            const int len = (yr < 0) ? 5 : 4;
-                            result.append(QString("%1").arg(m_locale.toString(this->year()),4,m_locale.toString(0).at(0)));
-                            break;
-                        }
+                        const int yr = this->year();
+                        const int len = (yr < 0) ? 5 : 4;
+                        result.append(QString("%1").arg(m_locale.toString(this->year()),4,m_locale.toString(0).at(0)));
+                        break;
+                    }
                     case 2:
                         result.append(QString("%1").arg(m_locale.toString(this->year() % 100),2,m_locale.toString(0).at(0)));
                         break;
@@ -269,7 +269,7 @@ QString JalaliDate::toString(const QString& format) const {
             case 'M':
                 used = true;
                 repeat = qMin(repeat, 4);
-                switch (repeat) {
+                switch(repeat) {
                     case 1:
                         result.append(m_locale.toString(this->month()));
                         break;
@@ -287,7 +287,7 @@ QString JalaliDate::toString(const QString& format) const {
             case 'd':
                 used = true;
                 repeat = qMin(repeat, 4);
-                switch (repeat) {
+                switch(repeat) {
                     case 1:
                         result.append(m_locale.toString(this->day()));
                         break;
@@ -305,7 +305,7 @@ QString JalaliDate::toString(const QString& format) const {
             default:
                 break;
         }
-        if (!used) {
+        if(!used) {
             result.append(QString(repeat, c));
         }
         i += repeat;
@@ -314,7 +314,7 @@ QString JalaliDate::toString(const QString& format) const {
 }
 
 QString JalaliDate::toString(Qt::DateFormat format) const {
-    switch (format) {
+    switch(format) {
         case Qt::TextDate:
             return toString("ddd MMM d yyyy");
         case Qt::ISODate:
@@ -417,7 +417,7 @@ bool JalaliDate::isLeapYear(int year) {
     double b = 266;
     int leapDays0;
     int leapDays1;
-    if (year > 0) {
+    if(year > 0) {
         leapDays0 = ((year + 38) % 2820)*0.24219 + a;  // 0.24219 ~ extra days of one year
         leapDays1 = ((year + 39) % 2820)*0.24219 + a;  // 38 days is the difference of epoch to 2820-year cycle
     } else if(year < 0) {
@@ -428,7 +428,7 @@ bool JalaliDate::isLeapYear(int year) {
     }
     int frac0 = (leapDays0 - static_cast<int>(leapDays0))*1000;
     int frac1 = (leapDays1 - static_cast<int>(leapDays1))*1000;
-    if (frac0 <= b && frac1 > b) {
+    if(frac0 <= b && frac1 > b) {
         return true;
     } else {
         return false;
@@ -440,7 +440,7 @@ bool JalaliDate::isValid(int year, int month, int day, InvalidReason* reason) {
         int mlimit;
         if(month<7) { // Months are 31 days
             mlimit=32;
-        } else if (month > 6  && month <12) { // Months are 30 days
+        } else if(month > 6  && month <12) {  // Months are 30 days
             mlimit=31;
         } else if(month==12) {
             if(isLeapYear(year)) {
@@ -477,7 +477,7 @@ bool JalaliDate::isValid(int year, int month, int day, InvalidReason* reason) {
 
 QString JalaliDate::longDayName(int weekday, QDate::MonthNameType type) {
     Q_UNUSED(type);
-    switch (weekday) {
+    switch(weekday) {
         case 1:
             return QObject::tr("Shanbe");
         case 2:
@@ -499,7 +499,7 @@ QString JalaliDate::longDayName(int weekday, QDate::MonthNameType type) {
 
 QString JalaliDate::longMonthName(int month, QDate::MonthNameType type) {
     Q_UNUSED(type);
-    switch (month) {
+    switch(month) {
         case 1:
             return QObject::tr("Farvardin");
         case 2:
@@ -531,7 +531,7 @@ QString JalaliDate::longMonthName(int month, QDate::MonthNameType type) {
 
 QString JalaliDate::shortMonthName(int month, QDate::MonthNameType type) {
     Q_UNUSED(type);
-    switch (month) {
+    switch(month) {
         case 1:
             return QObject::tr("Frv");
         case 2:
@@ -563,7 +563,7 @@ QString JalaliDate::shortMonthName(int month, QDate::MonthNameType type) {
 
 QString JalaliDate::shortDayName(int weekday, QDate::MonthNameType type) {
     Q_UNUSED(type);
-    switch (weekday) {
+    switch(weekday) {
         case 1:
             return QObject::tr("Sha");
         case 2:
@@ -594,10 +594,10 @@ void JalaliDate::gregorianToJalali() {
     int j_np;
     int i;
     g_day_no = 365*gy+(gy+3)/4-(gy+99)/100+(gy+399)/400;
-    for (i=0; i<gm; ++i) {
+    for(i=0; i<gm; ++i) {
         g_day_no += g_days_in_month[i];
     }
-    if (gm>1 && ((gy%4==0 && gy%100!=0) || (gy%400==0)))
+    if(gm>1 && ((gy%4==0 && gy%100!=0) || (gy%400==0)))
         /* leap and after Feb */
     {
         ++g_day_no;
@@ -608,11 +608,11 @@ void JalaliDate::gregorianToJalali() {
     j_day_no %= 12053;
     m_jdate.year = 979+33*j_np+4*(j_day_no/1461);
     j_day_no %= 1461;
-    if (j_day_no >= 366) {
+    if(j_day_no >= 366) {
         m_jdate.year += (j_day_no-1)/365;
         j_day_no = (j_day_no-1)%365;
     }
-    for (i = 0; i < 11 && j_day_no >= j_days_in_month[i]; ++i) {
+    for(i = 0; i < 11 && j_day_no >= j_days_in_month[i]; ++i) {
         j_day_no -= j_days_in_month[i];
     }
     m_jdate.month = i+1;
@@ -625,10 +625,10 @@ JalaliDate JalaliDate::gregorianToJalali(int gy, int gm, int gd) {
     int i;
     int jyear;
     g_day_no = 365*gy+(gy+3)/4-(gy+99)/100+(gy+399)/400;
-    for (i=0; i<gm; ++i) {
+    for(i=0; i<gm; ++i) {
         g_day_no += g_days_in_month[i];
     }
-    if (gm>1 && ((gy%4==0 && gy%100!=0) || (gy%400==0)))
+    if(gm>1 && ((gy%4==0 && gy%100!=0) || (gy%400==0)))
         /* leap and after Feb */
     {
         ++g_day_no;
@@ -639,11 +639,11 @@ JalaliDate JalaliDate::gregorianToJalali(int gy, int gm, int gd) {
     j_day_no %= 12053;
     jyear = 979+33*j_np+4*(j_day_no/1461);
     j_day_no %= 1461;
-    if (j_day_no >= 366) {
+    if(j_day_no >= 366) {
         jyear += (j_day_no-1)/365;
         j_day_no = (j_day_no-1)%365;
     }
-    for (i = 0; i < 11 && j_day_no >= j_days_in_month[i]; ++i) {
+    for(i = 0; i < 11 && j_day_no >= j_days_in_month[i]; ++i) {
         j_day_no -= j_days_in_month[i];
     }
     return JalaliDate(jyear,i+1,j_day_no+1);
@@ -658,7 +658,7 @@ void JalaliDate::jalaliToGregorian() {
     int j_m = m_jdate.month-1;
     int j_d = m_jdate.day-1;
     j_day_no = 365*j_y + (j_y/33)*8 + (j_y%33+3)/4;
-    for (i=0; i < j_m; ++i) {
+    for(i=0; i < j_m; ++i) {
         j_day_no += j_days_in_month[i];
     }
     j_day_no += j_d;
@@ -666,11 +666,11 @@ void JalaliDate::jalaliToGregorian() {
     gy = 1600 + 400*(g_day_no/146097); /* 146097 = 365*400 + 400/4 - 400/100 + 400/400 */
     g_day_no = g_day_no % 146097;
     leap = 1;
-    if (g_day_no >= 36525) { /* 36525 = 365*100 + 100/4 */
+    if(g_day_no >= 36525) {  /* 36525 = 365*100 + 100/4 */
         g_day_no--;
         gy += 100*(g_day_no/36524); /* 36524 = 365*100 + 100/4 - 100/100 */
         g_day_no = g_day_no % 36524;
-        if (g_day_no >= 365) {
+        if(g_day_no >= 365) {
             g_day_no++;
         } else {
             leap = 0;
@@ -678,13 +678,13 @@ void JalaliDate::jalaliToGregorian() {
     }
     gy += 4*(g_day_no/1461); /* 1461 = 365*4 + 4/4 */
     g_day_no %= 1461;
-    if (g_day_no >= 366) {
+    if(g_day_no >= 366) {
         leap = 0;
         g_day_no--;
         gy += g_day_no/365;
         g_day_no = g_day_no % 365;
     }
-    for (i = 0; g_day_no >= g_days_in_month[i] + (i == 1 && leap); i++) {
+    for(i = 0; g_day_no >= g_days_in_month[i] + (i == 1 && leap); i++) {
         g_day_no -= g_days_in_month[i] + (i == 1 && leap);
     }
     gm = i+1;

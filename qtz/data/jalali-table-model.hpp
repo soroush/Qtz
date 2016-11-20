@@ -3,7 +3,7 @@
 
 #include <QSqlTableModel>
 #include <QLocale>
-#include "data.h"
+#include "data.hpp"
 
 class QTZ_DATA_SHARED_EXPORT JalaliSqlTableModel : public QSqlTableModel {
 public:

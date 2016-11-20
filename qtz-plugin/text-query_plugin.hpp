@@ -1,15 +1,15 @@
-#ifndef CHOOSEFILE_PLUGIN_H
-#define CHOOSEFILE_PLUGIN_H
+#ifndef QTZ_TEXTQUERYPLUGIN_HPP
+#define QTZ_TEXTQUERYPLUGIN_HPP
 
 #include <QDesignerCustomWidgetInterface>
-#include "global.h"
+#include "global.hpp"
 
-class QTZ_PLUGIN_SHARED_EXPORT ChooseFilePlugin : public QObject, public QDesignerCustomWidgetInterface {
+class QTZ_PLUGIN_SHARED_EXPORT TextQueryPlugin : public QObject, public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 
 public:
-    ChooseFilePlugin(QObject *parent = 0);
+    TextQueryPlugin(QObject* parent = 0);
 
     bool isContainer() const;
     bool isInitialized() const;
@@ -20,11 +20,11 @@ public:
     QString name() const;
     QString toolTip() const;
     QString whatsThis() const;
-    QWidget *createWidget(QWidget *parent);
-    void initialize(QDesignerFormEditorInterface *core);
+    QWidget* createWidget(QWidget* parent);
+    void initialize(QDesignerFormEditorInterface* core);
 
 private:
     bool m_initialized;
 };
 
-#endif // CHOOSEFILE_PLUGIN_H
+#endif

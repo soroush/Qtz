@@ -1,7 +1,7 @@
 #ifndef QTZ_LOCALIZER_HPP
 #define QTZ_LOCALIZER_HPP
 
-#include "qtz-widgets.h"
+#include "qtz-widgets.hpp"
 #include <QLocale>
 #include <QLatin1String>
 
@@ -13,4 +13,4 @@ private:
 
 };
 
-#endif // LOCALIZER_HPP
+#endif // QTZ_LOCALIZER_HPP

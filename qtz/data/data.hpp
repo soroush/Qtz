@@ -1,5 +1,5 @@
-#ifndef DATA_H
-#define DATA_H
+#ifndef QTZ_DATA_HPP
+#define QTZ_DATA_HPP
 #include <QtCore/qglobal.h>
 
 #if defined(QTZ_DATA_LIBRARY)
@@ -8,4 +8,4 @@
 #  define QTZ_DATA_SHARED_EXPORT Q_DECL_IMPORT
 #endif
 
-#endif // DATA_H
+#endif // QTZ_DATA_HPP

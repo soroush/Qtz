@@ -1,5 +1,5 @@
-#ifndef SETTING_H
-#define SETTING_H
+#ifndef QTZ_SETTING_HPP
+#define QTZ_SETTING_HPP
 
 #include <QObject>
 #include <QSettings>
@@ -19,4 +19,4 @@ public:
     void setFirstRun(const bool& value);
 };
 
-#endif // SETTING_H
+#endif // QTZ_SETTING_HPP

@@ -1,4 +1,4 @@
-#include "dialog-database-config.h"
+#include "dialog-database-config.hpp"
 #include "ui_dialog-database-config.h"
 
 #include <QSet>
@@ -13,7 +13,7 @@
     #include <QtConcurrentRun>
 #endif
 
-#include <qtz/data/data-provider-information.h>
+#include <qtz/data/data-provider-information.hpp>
 
 #include <QDebug>
 

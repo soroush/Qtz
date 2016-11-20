@@ -1,16 +1,15 @@
-#ifndef NUMERICQUERYPLUGIN_H
-#define NUMERICQUERYPLUGIN_H
+#ifndef QTZ_TEXTEDITORWINDOWPLUGIN_HPP
+#define QTZ_TEXTEDITORWINDOWPLUGIN_HPP
 
 #include <QDesignerCustomWidgetInterface>
+#include "global.hpp"
 
-#include "global.h"
-
-class QTZ_PLUGIN_SHARED_EXPORT NumericQueryPlugin : public QObject, public QDesignerCustomWidgetInterface {
+class QTZ_PLUGIN_SHARED_EXPORT TextEditorWindowPlugin : public QObject,
+    public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
-
 public:
-    NumericQueryPlugin(QObject *parent = 0);
+    TextEditorWindowPlugin(QObject* parent = 0);
 
     bool isContainer() const;
     bool isInitialized() const;
@@ -21,11 +20,10 @@ public:
     QString name() const;
     QString toolTip() const;
     QString whatsThis() const;
-    QWidget *createWidget(QWidget *parent);
-    void initialize(QDesignerFormEditorInterface *core);
-
+    QWidget* createWidget(QWidget* parent);
+    void initialize(QDesignerFormEditorInterface* core);
 private:
     bool m_initialized;
 };
 
-#endif
+#endif // QTZ_TEXTEDITORWINDOWPLUGIN_HPP

@@ -5,7 +5,7 @@ lessThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
 DEFINES += QTZ_SECURITY_LIBRARY
 
 TEMPLATE = lib
-VERSION = 0.1.0
+VERSION = 0.1.1
 
 CONFIG(release, debug|release){
     DESTDIR = ./release

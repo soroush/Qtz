@@ -35,7 +35,7 @@ AsynchronousMainWindow::Mode AsynchronousMainWindow::mode() const {
 void AsynchronousMainWindow::enableUI() {
     this->setCursor(m_lastCursor);
     this->setEnabled(true);
-    switch (m_mode) {
+    switch(m_mode) {
         case Mode::StatusBar:
             if(statusBar()!=Q_NULLPTR) {
                 statusBar()->removeWidget(m_progressBar);
@@ -51,10 +51,10 @@ void AsynchronousMainWindow::enableUI() {
 
 void AsynchronousMainWindow::disableUI() {
     m_lastCursor = this->cursor();
-    QCursor waitingCursor{Qt::WaitCursor};
+    QCursor waitingCursor {Qt::WaitCursor};
     this->setCursor(waitingCursor);
     this->setDisabled(true);
-    switch (m_mode) {
+    switch(m_mode) {
         case Mode::StatusBar:
             if(statusBar()!=Q_NULLPTR) {
                 if((m_progressBar)==Q_NULLPTR) {
@@ -65,7 +65,7 @@ void AsynchronousMainWindow::disableUI() {
                 statusBar()->addWidget(m_progressBar);
                 m_progressBar->show();
             }
-        break;
+            break;
         case Mode::Dialog:
             m_progressDialog->show();
             break;

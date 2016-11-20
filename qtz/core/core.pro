@@ -7,7 +7,7 @@ DEFINES += QTZ_CORE_LIBRARY
 
 TEMPLATE = lib
 
-VERSION = 0.2.0
+VERSION = 0.3.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -67,8 +67,8 @@ CONFIG(local){
 HEADERS += \
     settings.hpp \
     jalali-date.hpp \
-    qio.h \
-    qtz-core.hpp
+    qtz-core.hpp \
+    qio.hpp
 
 SOURCES += \
     settings.cpp \

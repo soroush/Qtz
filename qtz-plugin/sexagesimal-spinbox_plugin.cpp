@@ -1,73 +1,61 @@
-#include <qtz/widgets/editors/sexagesimal-spinbox.h>
-#include "sexagesimal-spinbox_plugin.h"
+#include <qtz/widgets/editors/sexagesimal-spinbox.hpp>
+#include "sexagesimal-spinbox_plugin.hpp"
 
 #include <QtCore/QtPlugin>
 
-SexagesimalSpinboxPlugin::SexagesimalSpinboxPlugin(QObject *parent)
-    : QObject(parent)
-{
+SexagesimalSpinboxPlugin::SexagesimalSpinboxPlugin(QObject* parent)
+    : QObject(parent) {
     m_initialized = false;
-#if QT_VERSION >= 0x050000
-    Q_PLUGIN_METADATA(IID "org.Ametis.qtz.sexagesimalSpinboxPlugin")
-#endif
+    #if QT_VERSION >= 0x050000
+    Q_PLUGIN_METADATA(IID "org.ametis.qtz.sexagesimalSpinboxPlugin")
+    #endif
 }
 
-void SexagesimalSpinboxPlugin::initialize(QDesignerFormEditorInterface * /* core */)
-{
-    if (m_initialized) {
+void SexagesimalSpinboxPlugin::initialize(QDesignerFormEditorInterface* /* core */) {
+    if(m_initialized) {
         return;
     }
     // Add extension registrations, etc. here
     m_initialized = true;
 }
 
-bool SexagesimalSpinboxPlugin::isInitialized() const
-{
+bool SexagesimalSpinboxPlugin::isInitialized() const {
     return m_initialized;
 }
 
-QWidget *SexagesimalSpinboxPlugin::createWidget(QWidget *parent)
-{
+QWidget* SexagesimalSpinboxPlugin::createWidget(QWidget* parent) {
     return new SexagesimalSpinBox(parent);
 }
 
-QString SexagesimalSpinboxPlugin::name() const
-{
+QString SexagesimalSpinboxPlugin::name() const {
     return QLatin1String("SexagesimalSpinBox");
 }
 
-QString SexagesimalSpinboxPlugin::group() const
-{
+QString SexagesimalSpinboxPlugin::group() const {
     return QLatin1String("Qtz Editors");
 }
 
-QIcon SexagesimalSpinboxPlugin::icon() const
-{
+QIcon SexagesimalSpinboxPlugin::icon() const {
     return QIcon(":/icons/images/ssb.png");
 }
 
-QString SexagesimalSpinboxPlugin::toolTip() const
-{
+QString SexagesimalSpinboxPlugin::toolTip() const {
     return QLatin1String("Sexagesimal Spin Box");
 }
 
-QString SexagesimalSpinboxPlugin::whatsThis() const
-{
+QString SexagesimalSpinboxPlugin::whatsThis() const {
     return QLatin1String("This widget implements a spin box to edit and view sexagesimal values");
 }
 
-bool SexagesimalSpinboxPlugin::isContainer() const
-{
+bool SexagesimalSpinboxPlugin::isContainer() const {
     return false;
 }
 
-QString SexagesimalSpinboxPlugin::domXml() const
-{
+QString SexagesimalSpinboxPlugin::domXml() const {
     return QLatin1String("<widget class=\"SexagesimalSpinBox\" name=\"sexagesimalSpinBox\">\n</widget>\n");
 }
 
-QString SexagesimalSpinboxPlugin::includeFile() const
-{
+QString SexagesimalSpinboxPlugin::includeFile() const {
     return QLatin1String("qtz/widgets/editors/sexagesimal-spinbox.h");
 }
 

@@ -1,9 +1,9 @@
-#ifndef IDIALOGINSERTRECORD_H
-#define IDIALOGINSERTRECORD_H
+#ifndef QTZ_IDIALOGINSERTRECORD_HPP
+#define QTZ_IDIALOGINSERTRECORD_HPP
 
 #include <QSqlTableModel>
-#include <qtz/data/i-insert-record.h>
-#include "qtz-widgets.h"
+#include <qtz/data/i-insert-record.hpp>
+#include "qtz-widgets.hpp"
 
 //class QTZ_WIDGETS_SHARED_EXPORT IDialogInsertRecord : public IInsertRecord
 //{
@@ -16,4 +16,4 @@
 
 //};
 
-#endif // IDIALOGINSERTRECORD_H
+#endif // QTZ_IDIALOGINSERTRECORD_HPP

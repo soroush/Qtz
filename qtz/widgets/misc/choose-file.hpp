@@ -1,12 +1,12 @@
-#ifndef CHOOSEFILE_H
-#define CHOOSEFILE_H
+#ifndef QTZ_CHOOSEFILE_HPP
+#define QTZ_CHOOSEFILE_HPP
 
 #include <QWidget>
 #include <QLineEdit>
 #include <QFileDialog>
 #include <QDirModel>
 #include <qtz/core/qtz-core.hpp>
-#include "../qtz-widgets.h"
+#include "../qtz-widgets.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -74,4 +74,4 @@ signals:
     void fileSelected(QString);
 };
 
-#endif // CHOOSEFILE_H
+#endif // QTZ_CHOOSEFILE_HPP
