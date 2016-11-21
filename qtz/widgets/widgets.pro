@@ -35,11 +35,13 @@ INCLUDEPATH += .
 
 unix {
     target.path = /usr/lib
+    headers.path = /usr/include/qtz/widgets
+    headers_base.path = /usr/include/qtz/widgets
     headers_data.path = /usr/include/qtz/widgets/data
     headers_editors.path = /usr/include/qtz/widgets/editors
     headers_misc.path = /usr/include/qtz/widgets/misc
     headers_security.path = /usr/include/qtz/widgets/security
-    headers_i18n_security.path = /usr/include/qtz/widgets/i18n
+    headers_i18n.path = /usr/include/qtz/widgets/i18n
     LINK_MAJ = ""
     CONFIG += create_pc create_prl no_install_prl
     QMAKE_PKGCONFIG_NAME = libqtz-widgets
@@ -52,11 +54,12 @@ unix {
 }
 win32 {
     target.path = $$INSTALL_ROOT/lib
+    headers.path = $$INSTALL_ROOT/include/qtz/widgets
     headers_data.path = $$INSTALL_ROOT/include/qtz/widgets/data
     headers_editors.path = $$INSTALL_ROOT/include/qtz/widgets/editors
     headers_misc.path = $$INSTALL_ROOT/include/qtz/widgets/misc
     headers_security.path = $$INSTALL_ROOT/include/qtz/widgets/security
-    headers_i18n_security.path = $$INSTALL_ROOT/include/qtz/widgets/i18n
+    headers_i18n.path = $$INSTALL_ROOT/include/qtz/widgets/i18n
     LINK_MAJ = "0"
     RC_FILE = QtzWidgets.rc
 }
@@ -80,7 +83,6 @@ SOURCES += \
     data/date-query.cpp \
     data/numeric-query.cpp \
     data/text-query.cpp \
-#    data/wizard-backup-database.cpp \
     data/dialog-database-config.cpp \
     editors/text-editor-window.cpp \
     editors/editable-label.cpp \
@@ -88,6 +90,10 @@ SOURCES += \
     editors/jalali-date-edit.cpp \
     misc/choose-file.cpp \
     misc/color-button.cpp \
+    data/i-dialog-insert-record.cpp \
+    data/asynchronous-main-window.cpp
+
+#    data/wizard-backup-database.cpp \
 #    security/dialog-user-login.cpp \
 #    data/widget-edit-table.cpp \
 #    data/dialog-insert-item.cpp \
@@ -98,15 +104,7 @@ SOURCES += \
 #    data/wizard-page-create-database-configure.cpp \
 #    data/wizard-page-create-database-confirm.cpp \
 #    data/wizard-page-create-database-operation.cpp \
-    data/i-dialog-insert-record.cpp \
-    data/asynchronous-main-window.cpp
-
-DATA_HEADERS += \
-    data/date-query.hpp \
-    data/numeric-query.hpp \
-    data/text-query.hpp \
 #    data/wizard-backup-database.hpp \
-    data/dialog-database-config.hpp \
 #    data/widget-edit-table.hpp \
 #    data/dialog-edit-table.hpp \
 #    data/dialog-insert-item.hpp \
@@ -116,51 +114,69 @@ DATA_HEADERS += \
 #    data/wizard-page-create-database-configure.hpp \
 #    data/wizard-page-create-database-confirm.hpp \
 #    data/wizard-page-create-database-operation.hpp \
+
+HEADERS_DATA += \
+    data/date-query.hpp \
+    data/numeric-query.hpp \
+    data/text-query.hpp \
+    data/dialog-database-config.hpp \
+    data/asynchronous-main-window.hpp \
     data/i-dialog-insert-record.hpp
-EDITORS_HEADERS += \
+HEADERS_EDITORS += \
     editors/text-editor-window.hpp \
     editors/editable-label.hpp \
     editors/jalali-date-edit.hpp \
     editors/sexagesimal-spinbox.hpp
-MISC_HEADERS += \
+HEADERS_MISC = \
     misc/choose-file.hpp \
     misc/color-button.hpp
-
-SECURITY_HEADERS += \
+HEADERS_SECURITY = \
     security/dialog-user-login.hpp
-
-I18N_HEADERS += \
+HEADERS_I18N = \
     i18n/localizer.hpp
 
-HEADERS = $$DATA_HEADERS $$EDITORS_HEADERS $$MISC_HEADERS $$SECURITY_HEADERS $$I18N_HEADERS \
-    qtz-widgets.hpp \
-    data/asynchronous-main-window.hpp
+HEADERS_BASE = qtz-widgets.hpp
+
+HEADERS += $$HEADERS_BASE \
+    $$HEADERS_DATA \
+    $$HEADERS_EDITORS \
+    $$HEADERS_MISC \
+    $$HEADERS_SECURITY \
+    $$HEADERS_I18N
 
 FORMS += \
     data/date-query.ui \
     data/numeric-query.ui \
     data/text-query.ui \
-#    data/wizard-backup-database.ui \
     data/dialog-database-config.ui \
     data/dialog-edit-table.ui \
     editors/text-editor-window.ui \
     editors/editable-label.ui \
     misc/choose-file.ui \
     security/dialog-user-login.ui
+
+#    data/wizard-backup-database.ui \
 #    data/widget-edit-table.ui \
 #    data/wizard-page-create-database-intro.ui \
 #    data/wizard-page-create-database-configure.ui \
 #    data/wizard-page-create-database-confirm.ui \
 #    data/wizard-page-create-database-operation.ui
 
-headers_data.files = $$DATA_HEADERS
-headers_editors.files = $$EDITORS_HEADERS
-headers_misc.files = $$MISC_HEADERS
-headers_security.files = $$SECURITY_HEADERS
-headers_i18n.files = $$I18N_HEADERS
+
+headers_data.files = $$HEADERS_DATA
+headers_editors.files = $$HEADERS_EDITORS
+headers_misc.files = $$HEADERS_MISC
+headers_security.files = $$HEADERS_SECURITY
+headers_i18n.files = $$HEADERS_I18N
+headers_base.files = $$HEADERS_BASE
 
 INSTALLS += target
-INSTALLS += headers_data headers_editors headers_misc headers_security headers_i18n
+INSTALLS += headers_base \
+    headers_data \
+    headers_editors \
+    headers_misc \
+    headers_security \
+    headers_i18n
 
 RESOURCES += \
     QtzWidgets.qrc

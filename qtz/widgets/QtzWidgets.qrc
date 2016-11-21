@@ -1,26 +1,11 @@
 <RCC>
-    <qresource prefix="/images">
-        <file>images/system-lock-screen.png</file>
-        <file>images/preferences-desktop-cryptography.png</file>
-        <file alias="images/database-backup.png">images/Misc-Download-Database-icon.png</file>
-        <file>images/list-add.png</file>
-        <file>images/list-remove.png</file>
-        <file>images/story-editor.png</file>
-        <file>images/edit-undo.png</file>
-        <file>images/view-refresh.png</file>
-        <file>images/document-save.png</file>
-        <file>images/table_16x16.png</file>
-        <file>images/list-add-all.png</file>
-        <file>images/network-connect_48x48.png</file>
-        <file>images/network-disconnect_48x48.png</file>
-        <file>images/database-add-192x192.png</file>
-        <file>images/mail-mark-task_128x131.png</file>
-        <file>images/encrypted_128x128.png</file>
-        <file>images/application-vnd.oasis.opendocument.database-64x64.png</file>
-        <file>images/loader.gif</file>
-        <file>images/task-ongoing.png</file>
-        <file>images/dialog-error.png</file>
-        <file>images/mail-task.png</file>
-        <file>images/task-complete.png</file>
+    <qresource prefix="/qtz_widgets">
+        <file>images/minus.png</file>
+        <file>images/plus.png</file>
+        <file>images/redo.png</file>
+        <file>images/refresh.png</file>
+        <file>images/save.png</file>
+        <file>images/undo.png</file>
+        <file>images/edit.png</file>
     </qresource>
 </RCC>

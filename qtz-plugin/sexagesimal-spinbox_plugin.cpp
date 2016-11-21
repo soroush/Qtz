@@ -36,7 +36,7 @@ QString SexagesimalSpinboxPlugin::group() const {
 }
 
 QIcon SexagesimalSpinboxPlugin::icon() const {
-    return QIcon(":/icons/images/ssb.png");
+    return QIcon(":/qtz_plugin/images/compass.png");
 }
 
 QString SexagesimalSpinboxPlugin::toolTip() const {
@@ -56,7 +56,7 @@ QString SexagesimalSpinboxPlugin::domXml() const {
 }
 
 QString SexagesimalSpinboxPlugin::includeFile() const {
-    return QLatin1String("qtz/widgets/editors/sexagesimal-spinbox.h");
+    return QLatin1String("qtz/widgets/editors/sexagesimal-spinbox.hpp");
 }
 
 //#if QT_VERSION < 0x050000

@@ -36,7 +36,7 @@ QString ChooseFilePlugin::group() const {
 }
 
 QIcon ChooseFilePlugin::icon() const {
-    return QIcon(":/icons/images/dq.png");
+    return QIcon(":/qtz_plugin/images/folder-open-o.png");
 }
 
 QString ChooseFilePlugin::toolTip() const {
@@ -56,7 +56,7 @@ QString ChooseFilePlugin::domXml() const {
 }
 
 QString ChooseFilePlugin::includeFile() const {
-    return QLatin1String("qtz/widgets/misc/choose-file.h");
+    return QLatin1String("qtz/widgets/misc/choose-file.hpp");
 }
 
 //#if QT_VERSION < 0x050000

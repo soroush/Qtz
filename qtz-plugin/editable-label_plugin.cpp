@@ -36,7 +36,7 @@ QString EditableLabelPlugin::group() const {
 }
 
 QIcon EditableLabelPlugin::icon() const {
-    return QIcon(":/icons/images/dq.png");
+    return QIcon(":/qtz_plugin/images/pencil.png");
 }
 
 QString EditableLabelPlugin::toolTip() const {
@@ -44,7 +44,7 @@ QString EditableLabelPlugin::toolTip() const {
 }
 
 QString EditableLabelPlugin::whatsThis() const {
-    return QLatin1String("This widget...");
+    return QLatin1String("This widget is an editable label/line edit widget");
 }
 
 bool EditableLabelPlugin::isContainer() const {
@@ -56,7 +56,7 @@ QString EditableLabelPlugin::domXml() const {
 }
 
 QString EditableLabelPlugin::includeFile() const {
-    return QLatin1String("qtz/widgets/editors/editable-label.h");
+    return QLatin1String("qtz/widgets/editors/editable-label.hpp");
 }
 
 //#if QT_VERSION < 0x050000

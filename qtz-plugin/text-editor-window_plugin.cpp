@@ -37,7 +37,7 @@ QString TextEditorWindowPlugin::group() const {
 }
 
 QIcon TextEditorWindowPlugin::icon() const {
-    return QIcon(":/icons/images/qtzplaintextedit.png");
+    return QIcon(":/qtz_plugin/images/edit.png");
 }
 
 QString TextEditorWindowPlugin::toolTip() const {
@@ -57,7 +57,7 @@ QString TextEditorWindowPlugin::domXml() const {
 }
 
 QString TextEditorWindowPlugin::includeFile() const {
-    return QLatin1String("qtz/widgets/editors/text-editor-window.h");
+    return QLatin1String("qtz/widgets/editors/text-editor-window.hpp");
 }
 
 //#if QT_VERSION < 0x050000

@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/qtz_plugin">
+        <file>images/calendar.png</file>
+        <file>images/compass.png</file>
+        <file>images/folder-open-o.png</file>
+        <file>images/numeric-query.png</file>
+        <file>images/text-query.png</file>
+        <file>images/date-query.png</file>
+        <file>images/edit.png</file>
+        <file>images/pencil.png</file>
+    </qresource>
+</RCC>

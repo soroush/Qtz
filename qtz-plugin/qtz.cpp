@@ -6,11 +6,11 @@
 #include "editable-label_plugin.hpp"
 #include "sexagesimal-spinbox_plugin.hpp"
 #include "choose-file_plugin.hpp"
+#include "jalali-date-edit_plugin.hpp"
 #include "qtz.hpp"
 
-Qtz::Qtz(QObject *parent)
-    : QObject(parent)
-{
+Qtz::Qtz(QObject* parent)
+    : QObject(parent) {
     m_widgets.append(new NumericQueryPlugin(this));
     m_widgets.append(new TextQueryPlugin(this));
     m_widgets.append(new DateQueryPlugin(this));
@@ -18,16 +18,16 @@ Qtz::Qtz(QObject *parent)
     m_widgets.append(new EditableLabelPlugin(this));
     m_widgets.append(new SexagesimalSpinboxPlugin(this));
     m_widgets.append(new ChooseFilePlugin(this));
+    m_widgets.append(new JalaliDateEditPlugin(this));
     //m_widgets.append(new TableEditPlugin(this));
 }
 
-QList<QDesignerCustomWidgetInterface *> Qtz::customWidgets() const
-{
+QList<QDesignerCustomWidgetInterface*> Qtz::customWidgets() const {
     return m_widgets;
 }
 
 #if QT_VERSION >= 0x050000
-Q_PLUGIN_METADATA (Qtz)
+Q_PLUGIN_METADATA(Qtz)
 #endif
 
 #if QT_VERSION < 0x050000

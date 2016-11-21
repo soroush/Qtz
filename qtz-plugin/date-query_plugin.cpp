@@ -36,7 +36,7 @@ QString DateQueryPlugin::group() const {
 }
 
 QIcon DateQueryPlugin::icon() const {
-    return QIcon(":/icons/images/dq.png");
+    return QIcon(":/qtz_plugin/images/date-query.png");
 }
 
 QString DateQueryPlugin::toolTip() const {
@@ -56,7 +56,7 @@ QString DateQueryPlugin::domXml() const {
 }
 
 QString DateQueryPlugin::includeFile() const {
-    return QLatin1String("qtz/widgets/data/date-query.h");
+    return QLatin1String("qtz/widgets/data/date-query.hpp");
 }
 
 //#if QT_VERSION < 0x050000

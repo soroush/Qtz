@@ -37,6 +37,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 
 unix {
+    LIBS += -lssl -lcrypto
     target.path = /usr/lib
     headers.path = /usr/include/qtz/security
     LINK_MAJ = ""

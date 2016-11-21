@@ -14,7 +14,7 @@
    <string notr="true"/>
   </property>
   <property name="windowIcon">
-   <iconset resource="../QtzWidgets.qrc">
+   <iconset>
     <normaloff>:/images/images/table_16x16.png</normaloff>:/images/images/table_16x16.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -31,12 +31,9 @@
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QToolButton" name="toolButtonAdd">
-         <property name="text">
-          <string/>
-         </property>
          <property name="icon">
           <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/images/images/list-add.png</normaloff>:/images/images/list-add.png</iconset>
+           <normaloff>:/qtz_widgets/images/plus.png</normaloff>:/qtz_widgets/images/plus.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -48,12 +45,9 @@
        </item>
        <item>
         <widget class="QToolButton" name="toolButtonRemove">
-         <property name="text">
-          <string/>
-         </property>
          <property name="icon">
           <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/images/images/list-remove.png</normaloff>:/images/images/list-remove.png</iconset>
+           <normaloff>:/qtz_widgets/images/minus.png</normaloff>:/qtz_widgets/images/minus.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -65,12 +59,9 @@
        </item>
        <item>
         <widget class="QToolButton" name="toolButtonEdit">
-         <property name="text">
-          <string/>
-         </property>
          <property name="icon">
           <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/images/images/story-editor.png</normaloff>:/images/images/story-editor.png</iconset>
+           <normaloff>:/qtz_widgets/images/edit.png</normaloff>:/qtz_widgets/images/edit.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -82,12 +73,9 @@
        </item>
        <item>
         <widget class="QToolButton" name="toolButtonRefresh">
-         <property name="text">
-          <string/>
-         </property>
          <property name="icon">
           <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/images/images/view-refresh.png</normaloff>:/images/images/view-refresh.png</iconset>
+           <normaloff>:/qtz_widgets/images/refresh.png</normaloff>:/qtz_widgets/images/refresh.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -99,12 +87,9 @@
        </item>
        <item>
         <widget class="QToolButton" name="toolButtonRevert">
-         <property name="text">
-          <string/>
-         </property>
          <property name="icon">
           <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/images/images/edit-undo.png</normaloff>:/images/images/edit-undo.png</iconset>
+           <normaloff>:/qtz_widgets/images/undo.png</normaloff>:/qtz_widgets/images/undo.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -116,12 +101,9 @@
        </item>
        <item>
         <widget class="QToolButton" name="toolButtonSave">
-         <property name="text">
-          <string/>
-         </property>
          <property name="icon">
           <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/images/images/document-save.png</normaloff>:/images/images/document-save.png</iconset>
+           <normaloff>:/qtz_widgets/images/save.png</normaloff>:/qtz_widgets/images/save.png</iconset>
          </property>
          <property name="iconSize">
           <size>

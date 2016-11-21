@@ -36,7 +36,7 @@ QString NumericQueryPlugin::group() const {
 }
 
 QIcon NumericQueryPlugin::icon() const {
-    return QIcon(":/icons/images/nq.png");
+    return QIcon(":/qtz_plugin/images/numeric-query.png");
 }
 
 QString NumericQueryPlugin::toolTip() const {
@@ -56,7 +56,7 @@ QString NumericQueryPlugin::domXml() const {
 }
 
 QString NumericQueryPlugin::includeFile() const {
-    return QLatin1String("qtz/widgets/data/numeric-query.h");
+    return QLatin1String("qtz/widgets/data/numeric-query.hpp");
 }
 
 //#if QT_VERSION <= 0x050000

@@ -36,7 +36,7 @@ QString TextQueryPlugin::group() const {
 }
 
 QIcon TextQueryPlugin::icon() const {
-    return QIcon(":/icons/images/tq.png");
+    return QIcon(":/qtz_plugin/images/text-query.png");
 }
 
 QString TextQueryPlugin::toolTip() const {
@@ -56,7 +56,7 @@ QString TextQueryPlugin::domXml() const {
 }
 
 QString TextQueryPlugin::includeFile() const {
-    return QLatin1String("qtz/widgets/data/text-query.h");
+    return QLatin1String("qtz/widgets/data/text-query.hpp");
 }
 
 //#if QT_VERSION < 0x050000

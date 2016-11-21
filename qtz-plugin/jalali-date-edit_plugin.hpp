@@ -1,15 +1,15 @@
-#ifndef QTZ_NUMERICQUERYPLUGIN_HPP
-#define QTZ_NUMERICQUERYPLUGIN_HPP
+#ifndef QTZ_JALALIDATEEDIT_PLUGIN_HPP
+#define QTZ_JALALIDATEEDIT_PLUGIN_HPP
 
 #include <QDesignerCustomWidgetInterface>
 #include "global.hpp"
 
-class QTZ_PLUGIN_SHARED_EXPORT NumericQueryPlugin : public QObject, public QDesignerCustomWidgetInterface {
+class QTZ_PLUGIN_SHARED_EXPORT JalaliDateEditPlugin : public QObject, public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 
 public:
-    NumericQueryPlugin(QObject* parent = 0);
+    JalaliDateEditPlugin(QObject* parent = 0);
 
     bool isContainer() const;
     bool isInitialized() const;
@@ -27,4 +27,4 @@ private:
     bool m_initialized;
 };
 
-#endif // QTZ_NUMERICQUERYPLUGIN_HPP
+#endif // QTZ_JALALIDATEEDIT_PLUGIN_HPP

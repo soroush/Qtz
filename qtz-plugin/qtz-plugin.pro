@@ -41,6 +41,7 @@ VERSION = 0.1.3
 
 HEADERS     =   \
 #    table-edit_plugin.h \
+    jalali-date-edit_plugin.hpp \
     choose-file_plugin.hpp \
     date-query_plugin.hpp \
     editable-label_plugin.hpp \
@@ -54,6 +55,7 @@ HEADERS     =   \
 SOURCES     =   \
     qtz.cpp \
     date-query_plugin.cpp \
+    jalali-date-edit_plugin.cpp \
     numeric-query_plugin.cpp \
     text-query_plugin.cpp \
 #    table-edit_plugin.cpp \
@@ -62,11 +64,12 @@ SOURCES     =   \
     text-editor-window_plugin.cpp \
     choose-file_plugin.cpp
 
-RESOURCES   = icons.qrc
+RESOURCES = \
+    qtz_plugins_resources.qrc
+
 
 target.path = $$[QT_INSTALL_PLUGINS]/designer
-INSTALLS    += target
+INSTALLS += target
 
 OTHER_FILES += \
     qtz_plugin.json
-
