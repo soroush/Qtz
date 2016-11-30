@@ -117,8 +117,13 @@ void DialogDatabaseConfig::readConnectionInfo() {
 
 void DialogDatabaseConfig::writeConnectionInfo() {
     QSettings* s = Settings::getInstance();
+#if QT_VERSION >= 0x050200
     s->setValue("database/type",
                 ui->comboBoxDatabaseType->currentData(Qt::UserRole).toInt());
+#else
+    s->setValue("database/type",
+                ui->comboBoxDatabaseType->itemData(ui->comboBoxDatabaseType->currentIndex()));
+#endif
     s->setValue("database/host",
                 ui->lineEditHost->text());
     s->setValue("database/port",

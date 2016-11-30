@@ -5,6 +5,14 @@
 #include <QLocale>
 #include "qtz-core.hpp"
 
+#ifndef Q_NULLPTR
+#if __cplusplus >= 201103L
+#define Q_NULLPTR nullptr
+#else
+#define Q_NULLPTR NULL
+#endif
+#endif
+
 class QTZ_SHARED_EXPORT JalaliDate {
 public:
     enum InvalidReason {

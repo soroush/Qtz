@@ -1,7 +1,7 @@
 #include "numeric-query_plugin.hpp"
 #include "text-query_plugin.hpp"
 #include "date-query_plugin.hpp"
-#include "table-edit_plugin.h"
+//#include "table-edit_plugin.hpp"
 #include "text-editor-window_plugin.hpp"
 #include "editable-label_plugin.hpp"
 #include "sexagesimal-spinbox_plugin.hpp"
