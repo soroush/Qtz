@@ -54,6 +54,8 @@ unix {
 }
 win32 {
     target.path = $$INSTALL_ROOT/lib
+    headers.path = $$INSTALL_ROOT/qtz/widgets
+    headers_base.path = $$INSTALL_ROOT/qtz/widgets
     headers.path = $$INSTALL_ROOT/include/qtz/widgets
     headers_data.path = $$INSTALL_ROOT/include/qtz/widgets/data
     headers_editors.path = $$INSTALL_ROOT/include/qtz/widgets/editors
