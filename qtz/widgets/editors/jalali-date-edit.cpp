@@ -223,6 +223,7 @@ QString JalaliDateEdit::displayFormat() const {
 
 void JalaliDateEdit::setDisplayFormat(const QString& format) {
     m_displayFormat = format;
+    this->updateText();
 }
 
 void JalaliDateEdit::addYears(int years) {
