@@ -252,8 +252,6 @@ QString JalaliDate::toString(const QString& format) const {
                 }
                 switch(repeat) {
                     case 4: {
-                        const int yr = this->year();
-                        const int len = (yr < 0) ? 5 : 4;
                         result.append(QString("%1").arg(m_locale.toString(this->year()),4,m_locale.toString(0).at(0)));
                         break;
                     }
@@ -327,8 +325,10 @@ QString JalaliDate::toString(Qt::DateFormat format) const {
             return toString("M/d/yyyy");
         case Qt::DefaultLocaleLongDate:
             return toString("dddd, MMMM dd, yyyy");
+#if QT_VERSION >= 0x050000
         case Qt::RFC2822Date:
             return toString("ddd MMM dd yyyy");
+#endif
         default:
             return toString("ddd MMM d yyyy");
     }

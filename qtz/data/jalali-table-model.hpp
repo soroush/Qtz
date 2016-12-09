@@ -5,6 +5,14 @@
 #include <QLocale>
 #include "data.hpp"
 
+#ifndef Q_NULLPTR
+#if __cplusplus >= 201103L
+#define Q_NULLPTR nullptr
+#else
+#define Q_NULLPTR NULL
+#endif
+#endif
+
 class QTZ_DATA_SHARED_EXPORT JalaliSqlTableModel : public QSqlTableModel {
 public:
     JalaliSqlTableModel(QObject* parent = Q_NULLPTR, QSqlDatabase db = QSqlDatabase());

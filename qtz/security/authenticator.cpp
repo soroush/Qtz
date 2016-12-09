@@ -7,9 +7,9 @@ Authenticator::Authenticator() {
 Authenticator::~Authenticator() {
 }
 
-void Authenticator::installAuthenticationSource(const AuthenticationSource* source) {
+void Authenticator::installAuthenticationSource(const AuthenticationSource*) {
 }
 
-bool Authenticator::authenticate(const Identity* id, const Token* token) {
+bool Authenticator::authenticate(const Identity*, const Token*) {
     return false;
 }

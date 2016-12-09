@@ -5,6 +5,14 @@
 #include "settings.hpp"
 #include "qio.hpp"
 
+#ifndef Q_NULLPTR
+#if __cplusplus >= 201103L
+#define Q_NULLPTR nullptr
+#else
+#define Q_NULLPTR NULL
+#endif
+#endif
+
 QSettings* Settings::instance = Q_NULLPTR;
 bool Settings::set = false;
 

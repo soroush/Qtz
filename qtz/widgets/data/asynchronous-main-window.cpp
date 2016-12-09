@@ -1,6 +1,14 @@
 #include "asynchronous-main-window.hpp"
 #include <QStatusBar>
 
+#ifndef Q_NULLPTR
+#if __cplusplus >= 201103L
+#define Q_NULLPTR nullptr
+#else
+#define Q_NULLPTR NULL
+#endif
+#endif
+
 AsynchronousMainWindow::AsynchronousMainWindow(QWidget* parent) :
     QMainWindow(parent),
     m_progressBar(new QProgressBar),

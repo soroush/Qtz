@@ -8,6 +8,14 @@
 #include <qtz/core/qtz-core.hpp>
 #include "../qtz-widgets.hpp"
 
+#ifndef Q_NULLPTR
+#if __cplusplus >= 201103L
+#define Q_NULLPTR nullptr
+#else
+#define Q_NULLPTR NULL
+#endif
+#endif
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class ChooseFile;
@@ -32,7 +40,7 @@ class QTZ_WIDGETS_SHARED_EXPORT ChooseFile : public QWidget {
 
 public:
 
-    explicit ChooseFile(QWidget *parent = nullptr);
+    explicit ChooseFile(QWidget *parent = Q_NULLPTR);
     ~ChooseFile();
 
     QString text() const;
