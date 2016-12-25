@@ -46,6 +46,7 @@ unix {
     headers_misc.path = /usr/include/qtz/widgets/misc
     headers_security.path = /usr/include/qtz/widgets/security
     headers_i18n.path = /usr/include/qtz/widgets/i18n
+    headers_viewers.path = /usr/include/qtz/widgets/viewer
     LINK_MAJ = ""
     CONFIG += create_pc create_prl no_install_prl
     QMAKE_PKGCONFIG_NAME = libqtz-widgets
@@ -66,6 +67,7 @@ win32 {
     headers_misc.path = $$INSTALL_ROOT/include/qtz/widgets/misc
     headers_security.path = $$INSTALL_ROOT/include/qtz/widgets/security
     headers_i18n.path = $$INSTALL_ROOT/include/qtz/widgets/i18n
+    headers_viewers.path = $$INSTALL_ROOT/include/qtz/widgets/viewer
     LINK_MAJ = "0"
     RC_FILE = QtzWidgets.rc
 }
@@ -91,6 +93,13 @@ CONFIG(local){
     LIBS += -lQtzSecurity$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
+# Add OpenCV dependency
+CONFIG( debug, debug|release ) {
+    LIBS+= -lopencv_world310d
+} else {
+    LIBS+= -lopencv_world310
+}
+
 SOURCES += \
     i18n/localizer.cpp \
     data/date-query.cpp \
@@ -101,8 +110,10 @@ SOURCES += \
     editors/editable-label.cpp \
     editors/sexagesimal-spinbox.cpp \
     editors/jalali-date-edit.cpp \
+    viewers/image-viewer.cpp \
     misc/choose-file.cpp \
     misc/color-button.cpp \
+    misc/font-button.cpp \
     data/i-dialog-insert-record.cpp \
     data/asynchronous-main-window.cpp
 
@@ -142,11 +153,14 @@ HEADERS_EDITORS += \
     editors/sexagesimal-spinbox.hpp
 HEADERS_MISC = \
     misc/choose-file.hpp \
-    misc/color-button.hpp
+    misc/color-button.hpp \
+    misc/font-button.hpp
 HEADERS_SECURITY = \
     security/dialog-user-login.hpp
 HEADERS_I18N = \
     i18n/localizer.hpp
+HEADERS_VIEWERS = \
+    viewers/image-viewer.hpp
 
 HEADERS_BASE = qtz-widgets.hpp
 
@@ -155,7 +169,8 @@ HEADERS += $$HEADERS_BASE \
     $$HEADERS_EDITORS \
     $$HEADERS_MISC \
     $$HEADERS_SECURITY \
-    $$HEADERS_I18N
+    $$HEADERS_I18N \
+    $$HEADERS_VIEWERS
 
 FORMS += \
     data/date-query.ui \
@@ -182,6 +197,7 @@ headers_misc.files = $$HEADERS_MISC
 headers_security.files = $$HEADERS_SECURITY
 headers_i18n.files = $$HEADERS_I18N
 headers_base.files = $$HEADERS_BASE
+headers_base.viewers = $$HEADERS_VIEWERS
 
 INSTALLS += target
 INSTALLS += headers_base \
@@ -189,7 +205,8 @@ INSTALLS += headers_base \
     headers_editors \
     headers_misc \
     headers_security \
-    headers_i18n
+    headers_i18n \
+    headers_viewers
 
 RESOURCES += \
     QtzWidgets.qrc

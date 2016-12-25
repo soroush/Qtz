@@ -51,7 +51,7 @@ unix {
     QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 }
 win32 {
-    LIBS += -llibeay32MD
+    LIBS += -llibeay32MD -lIphlpapi
     target.path = $$INSTALL_ROOT/lib
     headers.path = $$INSTALL_ROOT/include/qtz/security
     LINK_MAJ = "0"
@@ -84,7 +84,8 @@ SOURCES += \
     simple-authenticator.cpp \
     token.cpp \
     username.cpp \
-    crypto.cpp
+    crypto.cpp \
+    unique-machine-id.cpp
 
 HEADERS += \
     authentication-source.hpp \
@@ -96,7 +97,8 @@ HEADERS += \
     token.hpp \
     username.hpp \
     qtz-security.hpp \
-    crypto.hpp
+    crypto.hpp \
+    unique-machine-id.hpp
 
 headers.files = $$HEADERS
 
