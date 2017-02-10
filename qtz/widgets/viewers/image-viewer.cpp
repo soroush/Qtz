@@ -3,7 +3,12 @@
 #include <QGraphicsPixmapItem>
 #include <QWheelEvent>
 #include <QDebug>
+#include <opencv2/core/version.hpp>
+#if   (CV_VERSION_EPOCH==2)
+#include <opencv2/imgproc/imgproc.hpp>
+#elif (CV_VERSION_EPOCH==3)
 #include <opencv2/imgproc.hpp>
+#endif
 
 ImageViewer::ImageViewer(QWidget* parent) : QGraphicsView(parent)
     ,m_fitInView(false)

@@ -95,9 +95,18 @@ CONFIG(local){
 
 # Add OpenCV dependency
 CONFIG( debug, debug|release ) {
-    LIBS+= -lopencv_world310d
+    win32 {
+        LIBS+= -lopencv_world310d
+    }
 } else {
-    LIBS+= -lopencv_world310
+    win32 {
+        LIBS+= -lopencv_world310
+    }
+}
+
+unix {
+    CONFIG += link_pkgconfig
+    PKGCONFIG += opencv
 }
 
 SOURCES += \

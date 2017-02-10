@@ -3,7 +3,14 @@
 
 #include <QGraphicsView>
 #include <QPointF>
+// Don't know why?
+#include <opencv2/core/version.hpp>
+#if   (CV_VERSION_EPOCH==2)
+#include <opencv2/highgui/highgui.hpp>
+#elif (CV_VERSION_EPOCH==3)
 #include <opencv2/highgui.hpp>
+#endif
+
 
 #include "../qtz-widgets.hpp"
 
