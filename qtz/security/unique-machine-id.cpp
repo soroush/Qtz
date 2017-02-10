@@ -14,8 +14,8 @@ QByteArray& operator<<(QByteArray& l, quint32 r) {
     return l<<quint16(r>>16)<<quint16(r);
 }
 
+#ifdef Q_OS_WIN
 // UniqueMachineID
-
 QString UniqueMachineID::getMachineID() {
     m_machineID.clear();
     appendMacHash();
@@ -87,3 +87,4 @@ void UniqueMachineID::appendMachineName() {
     QByteArray ba = QByteArray::fromRawData(computerName,::strlen(computerName));
     m_machineID+=ba;
 }
+#endif
