@@ -96,11 +96,6 @@ void DataProviderInformation::generateAvailableSystems() {
         } else if(driver=="QSQLITE") {
             this->availableSystems.append(DataProvider::Type::SQLite);
         }
-        #if QT_VERSION <= 0x040700
-        else if(driver=="QTDS") {
-            // TODO: implement
-        }
-        #endif
     }
 }
 

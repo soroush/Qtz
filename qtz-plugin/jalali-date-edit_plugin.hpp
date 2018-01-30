@@ -1,7 +1,7 @@
 #ifndef QTZ_JALALIDATEEDIT_PLUGIN_HPP
 #define QTZ_JALALIDATEEDIT_PLUGIN_HPP
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
 #include "global.hpp"
 
 class QTZ_PLUGIN_SHARED_EXPORT JalaliDateEditPlugin : public QObject, public QDesignerCustomWidgetInterface {

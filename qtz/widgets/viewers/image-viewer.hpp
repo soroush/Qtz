@@ -3,14 +3,23 @@
 
 #include <QGraphicsView>
 #include <QPointF>
-// Don't know why?
-#include <opencv2/core/version.hpp>
-#if   (CV_VERSION_EPOCH==2)
-#include <opencv2/highgui/highgui.hpp>
-#elif (CV_VERSION_EPOCH==3)
-#include <opencv2/highgui.hpp>
-#endif
 
+#include <opencv2/core/version.hpp>
+#ifdef CV_VERSION_EPOCH
+#   if   (CV_VERSION_EPOCH==2)
+#       include <opencv2/highgui/highgui.hpp>
+#   elif (CV_VERSION_EPOCH==3)
+#       include <opencv2/highgui.hpp>
+#   endif
+#elif defined(CV_VERSION_MAJOR)
+#   ifdef CV_VERSION_MAJOR
+#       if   (CV_VERSION_MAJOR==2)
+#           include <opencv2/highgui/highgui.hpp>
+#       elif (CV_VERSION_MAJOR==3)
+#           include <opencv2/highgui.hpp>
+#       endif
+#   endif
+#endif
 
 #include "../qtz-widgets.hpp"
 
@@ -27,7 +36,7 @@ class QTZ_WIDGETS_SHARED_EXPORT ImageViewer : public QGraphicsView {
     public slots:
         void setImage(const QString& filePath);
         void setImage(const QPixmap& image);
-        void setImage(const cv::Mat& image);
+        void setImage(const cv::Mat& image, QImage::Format format = QImage::Format_BGR30);
         void setFitInView(bool);
         void setZoomFactor(qreal factor);
     protected:

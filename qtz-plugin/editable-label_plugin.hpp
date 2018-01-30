@@ -1,7 +1,7 @@
 #ifndef QTZ_EDITABLELABELPLUGIN_HPP
 #define QTZ_EDITABLELABELPLUGIN_HPP
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
 #include "global.hpp"
 
 class QTZ_PLUGIN_SHARED_EXPORT EditableLabelPlugin : public QObject,

@@ -1,7 +1,7 @@
 #ifndef QTZ_CHOOSEFILE_PLUGIN_HPP
 #define QTZ_CHOOSEFILE_PLUGIN_HPP
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
 #include "global.hpp"
 
 class QTZ_PLUGIN_SHARED_EXPORT ChooseFilePlugin : public QObject, public QDesignerCustomWidgetInterface {

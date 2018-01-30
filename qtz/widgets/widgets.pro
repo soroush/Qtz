@@ -1,11 +1,6 @@
 QT += core gui sql xml
 CONFIG += c++11
-greaterThan(QT_MAJOR_VERSION, 4){
-    QT += widgets designer
-}
-lessThan(QT_MAJOR_VERSION, 5){
-    QMAKE_CXXFLAGS += -std=c++11
-}
+QT += widgets designer
 
 DEFINES += QTZ_WIDGETS_LIBRARY
 
@@ -206,7 +201,7 @@ headers_misc.files = $$HEADERS_MISC
 headers_security.files = $$HEADERS_SECURITY
 headers_i18n.files = $$HEADERS_I18N
 headers_base.files = $$HEADERS_BASE
-headers_base.viewers = $$HEADERS_VIEWERS
+headers_viewers.files = $$HEADERS_VIEWERS
 
 INSTALLS += target
 INSTALLS += headers_base \

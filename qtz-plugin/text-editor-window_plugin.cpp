@@ -6,9 +6,7 @@
 TextEditorWindowPlugin::TextEditorWindowPlugin(QObject* parent)
     : QObject(parent) {
     m_initialized = false;
-    #if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.ametis.qtz.textEditorWindowPlugin")
-    #endif
 }
 
 void TextEditorWindowPlugin::initialize(QDesignerFormEditorInterface
@@ -60,6 +58,3 @@ QString TextEditorWindowPlugin::includeFile() const {
     return QLatin1String("qtz/widgets/editors/text-editor-window.hpp");
 }
 
-//#if QT_VERSION < 0x050000
-//Q_EXPORT_PLUGIN2(qtz, TextEditorWindowPlugin)
-//#endif

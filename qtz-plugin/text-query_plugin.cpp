@@ -6,9 +6,7 @@
 TextQueryPlugin::TextQueryPlugin(QObject* parent)
     : QObject(parent) {
     m_initialized = false;
-    #if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.ametis.qtz.textQueryPlugin")
-    #endif
 }
 
 void TextQueryPlugin::initialize(QDesignerFormEditorInterface* /* core */) {
@@ -58,7 +56,3 @@ QString TextQueryPlugin::domXml() const {
 QString TextQueryPlugin::includeFile() const {
     return QLatin1String("qtz/widgets/data/text-query.hpp");
 }
-
-//#if QT_VERSION < 0x050000
-//Q_EXPORT_PLUGIN2(qtz, TextQueryPlugin)
-//#endif

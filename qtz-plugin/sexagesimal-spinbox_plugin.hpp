@@ -1,7 +1,7 @@
 #ifndef QTZ_SEXAGESIMALSPINBOXPLUGIB_HPP
 #define QTZ_SEXAGESIMALSPINBOXPLUGIB_HPP
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
 #include "global.hpp"
 
 class QTZ_PLUGIN_SHARED_EXPORT SexagesimalSpinboxPlugin : public QObject, public QDesignerCustomWidgetInterface {

@@ -6,9 +6,7 @@
 SexagesimalSpinboxPlugin::SexagesimalSpinboxPlugin(QObject* parent)
     : QObject(parent) {
     m_initialized = false;
-    #if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.ametis.qtz.sexagesimalSpinboxPlugin")
-    #endif
 }
 
 void SexagesimalSpinboxPlugin::initialize(QDesignerFormEditorInterface* /* core */) {
@@ -58,7 +56,3 @@ QString SexagesimalSpinboxPlugin::domXml() const {
 QString SexagesimalSpinboxPlugin::includeFile() const {
     return QLatin1String("qtz/widgets/editors/sexagesimal-spinbox.hpp");
 }
-
-//#if QT_VERSION < 0x050000
-//Q_EXPORT_PLUGIN2(qtz, SexagesimalSpinboxPlugin)
-//#endif

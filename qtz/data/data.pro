@@ -1,11 +1,6 @@
 QT       -= gui
 QT       += sql core
-greaterThan(QT_MAJOR_VERSION, 4){
-    CONFIG   += C++11
-}
-lessThan(QT_MAJOR_VERSION, 5){
-    QMAKE_CXXFLAGS += -std=c++11
-}
+CONFIG   += C++11
 
 DEFINES += QTZ_DATA_LIBRARY
 

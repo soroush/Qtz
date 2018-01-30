@@ -46,10 +46,10 @@ void ImageViewer::setImage(const QPixmap& image) {
     scene()->addItem(item);
 }
 
-void ImageViewer::setImage(const cv::Mat& image) {
+void ImageViewer::setImage(const cv::Mat& image, QImage::Format format) {
     cv::Mat img = image.clone();
     //    cv::cvtColor(img,img,CV_BGR2RGB);
-    QImage im((uchar*) img.data, img.cols, img.rows, img.step, QImage::Format_BGR30);
+    QImage im((uchar*) img.data, img.cols, img.rows, img.step, format);
     if(!im.isNull()) {
         m_pixmap =QPixmap::fromImage(im);
         setImage(m_pixmap);

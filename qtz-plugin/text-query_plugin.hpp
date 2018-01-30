@@ -1,7 +1,7 @@
 #ifndef QTZ_TEXTQUERYPLUGIN_HPP
 #define QTZ_TEXTQUERYPLUGIN_HPP
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
 #include "global.hpp"
 
 class QTZ_PLUGIN_SHARED_EXPORT TextQueryPlugin : public QObject, public QDesignerCustomWidgetInterface {

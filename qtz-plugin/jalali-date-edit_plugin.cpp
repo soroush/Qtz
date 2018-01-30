@@ -6,9 +6,7 @@
 JalaliDateEditPlugin::JalaliDateEditPlugin(QObject* parent)
     : QObject(parent) {
     m_initialized = false;
-    #if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.ametis.qtz.jalaliDateEditPlugin")
-    #endif
 }
 
 void JalaliDateEditPlugin::initialize(QDesignerFormEditorInterface* /* core */) {
@@ -58,7 +56,3 @@ QString JalaliDateEditPlugin::domXml() const {
 QString JalaliDateEditPlugin::includeFile() const {
     return QLatin1String("qtz/widgets/editors/jalali-date-edit.hpp");
 }
-
-//#if QT_VERSION < 0x050000
-//Q_EXPORT_PLUGIN2(qtz, JalaliDateEditPlugin)
-//#endif

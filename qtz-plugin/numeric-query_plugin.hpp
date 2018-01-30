@@ -1,7 +1,7 @@
 #ifndef QTZ_NUMERICQUERYPLUGIN_HPP
 #define QTZ_NUMERICQUERYPLUGIN_HPP
 
-#include <QDesignerCustomWidgetInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetInterface>
 #include "global.hpp"
 
 class QTZ_PLUGIN_SHARED_EXPORT NumericQueryPlugin : public QObject, public QDesignerCustomWidgetInterface {

@@ -6,9 +6,7 @@
 ChooseFilePlugin::ChooseFilePlugin(QObject* parent)
     : QObject(parent) {
     m_initialized = false;
-    #if QT_VERSION >= 0x050000
     Q_PLUGIN_METADATA(IID "org.ametis.qtz.chooseFilePlugin")
-    #endif
 }
 
 void ChooseFilePlugin::initialize(QDesignerFormEditorInterface* /* core */) {
@@ -58,7 +56,3 @@ QString ChooseFilePlugin::domXml() const {
 QString ChooseFilePlugin::includeFile() const {
     return QLatin1String("qtz/widgets/misc/choose-file.hpp");
 }
-
-//#if QT_VERSION < 0x050000
-//Q_EXPORT_PLUGIN2(qtz, ChooseFilePlugin)
-//#endif
