@@ -4,7 +4,7 @@
 #include <QGraphicsView>
 #include <QPointF>
 
-#include <opencv2/core/version.hpp>
+#include <opencv2/opencv.hpp>
 #ifdef CV_VERSION_EPOCH
 #   if   (CV_VERSION_EPOCH==2)
 #       include <opencv2/highgui/highgui.hpp>
@@ -36,7 +36,7 @@ class QTZ_WIDGETS_SHARED_EXPORT ImageViewer : public QGraphicsView {
     public slots:
         void setImage(const QString& filePath);
         void setImage(const QPixmap& image);
-        void setImage(const cv::Mat& image, QImage::Format format = QImage::Format_BGR30);
+        void setImage(const cv::Mat& image);
         void setFitInView(bool);
         void setZoomFactor(qreal factor);
     protected:

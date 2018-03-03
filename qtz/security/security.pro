@@ -29,7 +29,8 @@ CONFIG(debug, debug|release){
 }
 
 default_key {
-    DEFINES+=PRIVATE_KEY=\\\"f9bf8a579d1fa38c4e20ee884e4096c054b57771153799f49fb674d1006caf52\\\"
+    DEFINES+=QTZ_PRIVATE_KEY={0x2b,0x5f,0xa3,0x5a,0xa5,0x1e,0xfa,0xc5,0x7e,0x84,0xb6,0x0f,0xb9,0xb4,0x89,0x28}
+    DEFINES+=QTZ_INITIALIZATION_VECTOR={0xce,0xaa,0x7c,0x4b,0x4a,0x05,0xc4,0x74,0x72,0xc3,0x6e,0xa2,0x58,0xde,0xf6,0x29}
 }
 
 DEPENDPATH += .
@@ -50,7 +51,8 @@ unix {
     QMAKE_PKGCONFIG_DESTDIR = pkgconfig
 }
 win32 {
-    LIBS += -llibeay32MD -lIphlpapi
+    LIBS += -llibsslMD -llibcryptoMD
+    LIBS += -lIphlpapi
     target.path = $$INSTALL_ROOT/lib
     headers.path = $$INSTALL_ROOT/include/qtz/security
     LINK_MAJ = "0"

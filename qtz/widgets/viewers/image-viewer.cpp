@@ -44,15 +44,25 @@ void ImageViewer::setImage(const QPixmap& image) {
     scene()->clear();
     scene()->setSceneRect(0,0,image.width(),image.height());
     scene()->addItem(item);
+    if(m_fitInView) {
+        fitInView(scene()->sceneRect(),Qt::KeepAspectRatio);
+    } else {
+        resetMatrix();
+    }
 }
 
-void ImageViewer::setImage(const cv::Mat& image, QImage::Format format) {
-    cv::Mat img = image.clone();
-    //    cv::cvtColor(img,img,CV_BGR2RGB);
-    QImage im((uchar*) img.data, img.cols, img.rows, img.step, format);
-    if(!im.isNull()) {
-        m_pixmap =QPixmap::fromImage(im);
-        setImage(m_pixmap);
+void ImageViewer::setImage(const cv::Mat& image) {
+    if(image.empty()) {
+        resetMatrix();
+        scene()->clear();
+        return;
+    }
+    std::vector<uchar> buffer;
+    cv::imencode(".jpeg", image, buffer);
+    if(buffer.size() != 0) {
+        if(m_pixmap.loadFromData(buffer.data(), buffer.size(), "JPEG")) {
+            setImage(m_pixmap);
+        }
     }
 }
 

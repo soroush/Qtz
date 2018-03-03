@@ -91,11 +91,11 @@ CONFIG(local){
 # Add OpenCV dependency
 CONFIG( debug, debug|release ) {
     win32 {
-        LIBS+= -lopencv_world310d
+        LIBS+= -lopencv_core340d -lopencv_imgproc340d -lopencv_imgcodecs340d
     }
 } else {
     win32 {
-        LIBS+= -lopencv_world310
+        LIBS+= -lopencv_core340  -lopencv_imgproc340  -lopencv_imgcodecs340
     }
 }
 
