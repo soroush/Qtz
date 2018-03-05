@@ -29,13 +29,13 @@
 // version without notice, or may even be removed.
 //
 
-#ifndef QtzSingleApplication_P_H
-#define QtzSingleApplication_P_H
+#ifndef QTZ_SINGLE_APPLICATION_P_HPP
+#define QTZ_SINGLE_APPLICATION_P_HPP
 
 #include <QtCore/QSharedMemory>
 #include <QtNetwork/QLocalServer>
 #include <QtNetwork/QLocalSocket>
-#include "qtz-single-application.hpp"
+#include "qtz-single-core-application.hpp"
 
 struct InstancesInfo {
     bool primary;
@@ -43,7 +43,7 @@ struct InstancesInfo {
     qint64 primaryPid;
 };
 
-class QtzSingleApplicationPrivate : public QObject {
+class QtzSingleCoreApplicationPrivate : public QObject {
 Q_OBJECT
 public:
     enum ConnectionType : quint8 {
@@ -52,10 +52,10 @@ public:
         SecondaryInstance = 2,
         Reconnect = 3
     };
-    Q_DECLARE_PUBLIC(QtzSingleApplication)
+    Q_DECLARE_PUBLIC(QtzSingleCoreApplication)
 
-    QtzSingleApplicationPrivate( QtzSingleApplication *q_ptr );
-     ~QtzSingleApplicationPrivate();
+    QtzSingleCoreApplicationPrivate( QtzSingleCoreApplication *q_ptr );
+     ~QtzSingleCoreApplicationPrivate();
 
     void genBlockServerName( int msecs );
     void startPrimary( bool resetMemory );
@@ -69,17 +69,17 @@ public:
 #endif
 
     QSharedMemory *memory;
-    QtzSingleApplication *q_ptr;
+    QtzSingleCoreApplication *q_ptr;
     QLocalSocket *socket;
     QLocalServer *server;
     quint32 instanceNumber;
     QString blockServerName;
-    QtzSingleApplication::Options options;
+    QtzSingleCoreApplication::Options options;
 
-public Q_SLOTS:
+public slots:
     void slotConnectionEstablished();
     void slotDataAvailable( QLocalSocket*, quint32 );
     void slotClientConnectionClosed( QLocalSocket*, quint32 );
 };
 
-#endif // QtzSingleApplication_P_H
+#endif // QTZ_SINGLE_APPLICATION_P_HPP

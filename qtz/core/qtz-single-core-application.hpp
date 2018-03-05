@@ -20,30 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef QTZ_SINGLE_APPLICATION_HPP
-#define QTZ_SINGLE_APPLICATION_HPP
+#ifndef QTZ_SINGLE_CORE_APPLICATION_HPP
+#define QTZ_SINGLE_CORE_APPLICATION_HPP
 
 #include <QtCore/QtGlobal>
 #include <QtNetwork/QLocalSocket>
+#include "qtz-core.hpp"
 
-#ifndef QAPPLICATION_CLASS
-  #define QAPPLICATION_CLASS QCoreApplication
-#endif
+#include QT_STRINGIFY(QCoreApplication)
 
-#include QT_STRINGIFY(QAPPLICATION_CLASS)
-
-class QtzSingleApplicationPrivate;
+class QtzSingleCoreApplicationPrivate;
 
 /**
  * @brief The SingleApplication class handles multipe instances of the same
  * Application
  * @see QCoreApplication
  */
-class QtzSingleApplication : public QAPPLICATION_CLASS
+class QTZ_SHARED_EXPORT QtzSingleCoreApplication : public QCoreApplication
 {
     Q_OBJECT
-
-    typedef QAPPLICATION_CLASS app_t;
 
 public:
     /**
@@ -85,8 +80,8 @@ public:
      * Usually 4*timeout would be the worst case (fail) scenario.
      * @see See the corresponding QAPPLICATION_CLASS constructor for reference
      */
-    explicit QtzSingleApplication( int &argc, char *argv[], bool allowSecondary = false, Options options = Mode::User, int timeout = 100 );
-    ~QtzSingleApplication();
+    explicit QtzSingleCoreApplication( int &argc, char *argv[], bool allowSecondary = false, Options options = Mode::User, int timeout = 100 );
+    ~QtzSingleCoreApplication();
 
     /**
      * @brief Returns if the instance is the primary instance
@@ -126,10 +121,10 @@ signals:
     void receivedMessage( quint32 instanceId, QByteArray message );
 
 private:
-    QtzSingleApplicationPrivate *d_ptr;
-    Q_DECLARE_PRIVATE(QtzSingleApplication)
+    QtzSingleCoreApplicationPrivate *d_ptr;
+    Q_DECLARE_PRIVATE(QtzSingleCoreApplication)
 };
 
-Q_DECLARE_OPERATORS_FOR_FLAGS(QtzSingleApplication::Options)
+Q_DECLARE_OPERATORS_FOR_FLAGS(QtzSingleCoreApplication::Options)
 
 #endif // QTZ_SINGLE_APPLICATION_HPP

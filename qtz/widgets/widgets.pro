@@ -1,4 +1,4 @@
-QT += core gui sql xml
+QT += core gui sql xml network
 CONFIG += c++11
 QT += widgets designer
 
@@ -42,6 +42,7 @@ unix {
     headers_security.path = /usr/include/qtz/widgets/security
     headers_i18n.path = /usr/include/qtz/widgets/i18n
     headers_viewers.path = /usr/include/qtz/widgets/viewer
+    headers_application.path = /usr/include/qtz/widgets/application
     LINK_MAJ = ""
     CONFIG += create_pc create_prl no_install_prl
     QMAKE_PKGCONFIG_NAME = libqtz-widgets
@@ -63,8 +64,11 @@ win32 {
     headers_security.path = $$INSTALL_ROOT/include/qtz/widgets/security
     headers_i18n.path = $$INSTALL_ROOT/include/qtz/widgets/i18n
     headers_viewers.path = $$INSTALL_ROOT/include/qtz/widgets/viewer
+    headers_application.path = $$INSTALL_ROOT/include/qtz/widgets/application
     LINK_MAJ = "0"
     RC_FILE = QtzWidgets.rc
+    msvc:LIBS += Advapi32.lib
+    gcc:LIBS += -lAdvapi32
 }
 
 CONFIG(local){
@@ -98,6 +102,7 @@ unix {
 }
 
 SOURCES += \
+    application/qtz-single-application.cpp \
     i18n/localizer.cpp \
     data/date-query.cpp \
     data/numeric-query.cpp \
@@ -158,6 +163,9 @@ HEADERS_I18N = \
     i18n/localizer.hpp
 HEADERS_VIEWERS = \
     viewers/image-viewer.hpp
+HEADERS_APPLICATION = \
+    application/qtz-single-application.hpp \
+    application/qtz-single-application_p.hpp
 
 HEADERS_BASE = qtz-widgets.hpp
 
@@ -167,7 +175,8 @@ HEADERS += $$HEADERS_BASE \
     $$HEADERS_MISC \
     $$HEADERS_SECURITY \
     $$HEADERS_I18N \
-    $$HEADERS_VIEWERS
+    $$HEADERS_VIEWERS \
+    $$HEADERS_APPLICATION
 
 FORMS += \
     data/date-query.ui \
@@ -195,6 +204,7 @@ headers_security.files = $$HEADERS_SECURITY
 headers_i18n.files = $$HEADERS_I18N
 headers_base.files = $$HEADERS_BASE
 headers_viewers.files = $$HEADERS_VIEWERS
+headers_application.files = $$HEADERS_APPLICATION
 
 INSTALLS += target
 INSTALLS += headers_base \
@@ -203,7 +213,8 @@ INSTALLS += headers_base \
     headers_misc \
     headers_security \
     headers_i18n \
-    headers_viewers
+    headers_viewers \
+    headers_application
 
 RESOURCES += \
     QtzWidgets.qrc

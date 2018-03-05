@@ -70,15 +70,15 @@ HEADERS += \
     number-formatter.hpp \
     jalali-date.hpp \
     qtz-core.hpp \
-    qtz-single-application.hpp \
+    qtz-single-core-application.hpp \
+    qtz-single-core-application_p.hpp \
     qio.hpp
 
 SOURCES += \
     settings.cpp \
     number-formatter.cpp \
     jalali-date.cpp \
-    qtz-single-application.cpp \
-    qtz-single-application_p.hpp \
+    qtz-single-core-application.cpp \
     qio.cpp
 
 headers.files = $$HEADERS
