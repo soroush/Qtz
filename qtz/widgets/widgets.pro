@@ -69,16 +69,9 @@ win32 {
 
 CONFIG(local){
     INCLUDEPATH += ../../
-    lessThan(QT_MAJOR_VERSION, 5):{
-        QMAKE_LIBDIR += "$$OUT_PWD/../core/$$BUILD"
-        QMAKE_LIBDIR += "$$OUT_PWD/../data/$$BUILD"
-        QMAKE_LIBDIR += "$$OUT_PWD/../security/$$BUILD"
-    }
-    greaterThan(QT_MAJOR_VERSION, 4): {
-        QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../core/$$BUILD")
-        QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../data/$$BUILD")
-        QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../security/$$BUILD")
-    }
+    QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../core/$$BUILD")
+    QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../data/$$BUILD")
+    QMAKE_LIBDIR += $$absolute_path("$$OUT_PWD/../security/$$BUILD")
     LIBS += -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
     LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
     LIBS += -lQtzSecurity$${BUILD_SUFFIX}$${LINK_MAJ}
