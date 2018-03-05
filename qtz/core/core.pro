@@ -67,6 +67,7 @@ CONFIG(local){
 
 HEADERS += \
     settings.hpp \
+    number-formatter.hpp \
     jalali-date.hpp \
     qtz-core.hpp \
     qtz-single-application.hpp \
@@ -74,6 +75,7 @@ HEADERS += \
 
 SOURCES += \
     settings.cpp \
+    number-formatter.cpp \
     jalali-date.cpp \
     qtz-single-application.cpp \
     qtz-single-application_p.hpp \
