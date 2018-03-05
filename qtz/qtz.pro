@@ -14,7 +14,7 @@ SUBDIRS += \
 data.depends= core
 widgets.depends= data core
 
-VERSION = 0.2
+VERSION = 0.3
 
 unix {
     headers.path = /usr/include/qtz
