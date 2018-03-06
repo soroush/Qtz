@@ -22,7 +22,7 @@ void DataProviderInformation::initialize() {
         std::cerr << "Unable to open database providers information file.";
     }
     QXmlStreamReader xml(&providersFile);
-    bool valid;
+    bool valid = true;
     while(!xml.atEnd() && !xml.hasError()) {
         xml.readNext();
         if(xml.name() == "Provider") {
