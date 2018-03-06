@@ -236,29 +236,29 @@ qint64 QtzSingleCoreApplicationPrivate::primaryPid()
 }
 
 #ifdef Q_OS_UNIX
-void QtzSingleApplicationPrivate::crashHandler()
+void QtzSingleCoreApplicationPrivate::crashHandler()
 {
     // Handle any further termination signals to ensure the
     // QSharedMemory block is deleted even if the process crashes
-    signal(SIGHUP,  QtzSingleApplicationPrivate::terminate);   // 1
-    signal(SIGINT,  QtzSingleApplicationPrivate::terminate);   // 2
-    signal(SIGQUIT, QtzSingleApplicationPrivate::terminate);   // 3
-    signal(SIGILL,  QtzSingleApplicationPrivate::terminate);   // 4
-    signal(SIGABRT, QtzSingleApplicationPrivate::terminate);   // 6
-    signal(SIGFPE,  QtzSingleApplicationPrivate::terminate);   // 8
-    signal(SIGBUS,  QtzSingleApplicationPrivate::terminate);   // 10
-    signal(SIGSEGV, QtzSingleApplicationPrivate::terminate);   // 11
-    signal(SIGSYS,  QtzSingleApplicationPrivate::terminate);   // 12
-    signal(SIGPIPE, QtzSingleApplicationPrivate::terminate);   // 13
-    signal(SIGALRM, QtzSingleApplicationPrivate::terminate);   // 14
-    signal(SIGTERM, QtzSingleApplicationPrivate::terminate);   // 15
-    signal(SIGXCPU, QtzSingleApplicationPrivate::terminate);   // 24
-    signal(SIGXFSZ, QtzSingleApplicationPrivate::terminate);   // 25
+    signal(SIGHUP,  QtzSingleCoreApplicationPrivate::terminate);   // 1
+    signal(SIGINT,  QtzSingleCoreApplicationPrivate::terminate);   // 2
+    signal(SIGQUIT, QtzSingleCoreApplicationPrivate::terminate);   // 3
+    signal(SIGILL,  QtzSingleCoreApplicationPrivate::terminate);   // 4
+    signal(SIGABRT, QtzSingleCoreApplicationPrivate::terminate);   // 6
+    signal(SIGFPE,  QtzSingleCoreApplicationPrivate::terminate);   // 8
+    signal(SIGBUS,  QtzSingleCoreApplicationPrivate::terminate);   // 10
+    signal(SIGSEGV, QtzSingleCoreApplicationPrivate::terminate);   // 11
+    signal(SIGSYS,  QtzSingleCoreApplicationPrivate::terminate);   // 12
+    signal(SIGPIPE, QtzSingleCoreApplicationPrivate::terminate);   // 13
+    signal(SIGALRM, QtzSingleCoreApplicationPrivate::terminate);   // 14
+    signal(SIGTERM, QtzSingleCoreApplicationPrivate::terminate);   // 15
+    signal(SIGXCPU, QtzSingleCoreApplicationPrivate::terminate);   // 24
+    signal(SIGXFSZ, QtzSingleCoreApplicationPrivate::terminate);   // 25
 }
 
-void QtzSingleApplicationPrivate::terminate(int signum)
+void QtzSingleCoreApplicationPrivate::terminate(int signum)
 {
-    delete((QtzSingleApplication *)QCoreApplication::instance())->d_ptr;
+    delete((QtzSingleCoreApplication *)QCoreApplication::instance())->d_ptr;
     ::exit(128 + signum);
 }
 #endif
