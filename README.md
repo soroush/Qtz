@@ -29,10 +29,17 @@ This library depends on Qt5, OpenSSL and OpenCV. You also need a modern C++
 compiler that implements C++11 specification. The library is built and tested
 on following envoirnments:
 
-| Operating System   | Versio            | Compiler                     |
-| ------------------ |-------------------| -----------------------------|
-| Linux              | Ubuntu 17.04, 16.10, 16.04 - Debian 8, 9| gcc 7.2, 6, 5                |
-| Windows            | 7-8-10            | MSVC-14.1, MSVC 14           |
+| Operating System      | Version / Distro     | Compiler                     |
+| ----------------------|----------------------|------------------------------|
+| Debian                | 8.0 jessie           | gcc 4.9.2                    |
+|                       | 9.0 stretch          | gcc 6.3.0                    |
+| Ubuntu                | 16.04 LTS xenial     | gcc 5.3.1                    |
+|                       | 16.10 yakkety        | gcc 6.1.1                    |
+|                       | 17.04 zesty          | gcc 6.3.0                    |
+|                       | 17.10 artful         | gcc 7.2.0                    |
+| Windows               | 7                    | MSVC 12.0 (Visual Studio 2013)  |
+|                       | 7                    | MSVC 14.0 (Visual Studio 2015)  |
+|                       | 7                    | MSVC 14.1 (Visual Studio 2017)  |
 
 ## Compile
 To compile Qtz on *nix like environments type:
