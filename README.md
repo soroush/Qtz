@@ -25,9 +25,16 @@ Qtz is a Qt-based Application Development Framework. Currently Qtz consists of t
 
 ## Dependencies
 
-This library depends on Qt5, OpenSSL and OpenCV. You also need a modern C++
-compiler that implements C++11 specification. The library is built and tested
-on following envoirnments:
+This library depends on Qt5, OpenSSL and OpenCV (version 3).
+
+| Dependency      | Version              |
+| ----------------|----------------------|
+| OpenSSL         | 1.0.2g               |
+| OpenCV          | 3.4.1                |
+
+
+You will also need a modern C++ compiler that implements C++11 specification.
+The library is built and tested on following envoirnments:
 
 | Operating System      | Version / Distro     | Compiler                     |
 | ----------------------|----------------------|------------------------------|
