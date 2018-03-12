@@ -15,7 +15,16 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
-    <property name="margin">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
      <number>0</number>
     </property>
     <item>
@@ -29,12 +38,12 @@
      <x>0</x>
      <y>0</y>
      <width>797</width>
-     <height>20</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Fi&amp;le</string>
     </property>
     <addaction name="actionLoad"/>
     <addaction name="actionSave"/>
@@ -58,7 +67,7 @@
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
-     <string>View</string>
+     <string>&amp;View</string>
     </property>
     <addaction name="actionMenu_Bar"/>
    </widget>
@@ -71,7 +80,7 @@
    </widget>
    <widget class="QMenu" name="menuFormat">
     <property name="title">
-     <string>Format</string>
+     <string>For&amp;mat</string>
     </property>
     <addaction name="actionFont"/>
     <addaction name="separator"/>
@@ -155,86 +164,122 @@
    <addaction name="actionJustify"/>
   </widget>
   <action name="actionLoad">
+   <property name="icon">
+    <iconset theme="document-open"/>
+   </property>
    <property name="text">
-    <string>Load</string>
+    <string>&amp;Load</string>
    </property>
   </action>
   <action name="actionSave">
+   <property name="icon">
+    <iconset theme="document-save"/>
+   </property>
    <property name="text">
-    <string>Save</string>
+    <string>&amp;Save</string>
    </property>
   </action>
   <action name="actionCut">
+   <property name="icon">
+    <iconset theme="edit-cut"/>
+   </property>
    <property name="text">
-    <string>Cut</string>
+    <string>&amp;Cut</string>
    </property>
   </action>
   <action name="actionCopy">
+   <property name="icon">
+    <iconset theme="edit-copy"/>
+   </property>
    <property name="text">
-    <string>Copy</string>
+    <string>C&amp;opy</string>
    </property>
   </action>
   <action name="actionPaste">
+   <property name="icon">
+    <iconset theme="edit-paste"/>
+   </property>
    <property name="text">
-    <string>Paste</string>
+    <string>&amp;Paste</string>
    </property>
   </action>
   <action name="actionUndo">
+   <property name="icon">
+    <iconset theme="edit-undo"/>
+   </property>
    <property name="text">
-    <string>Undo</string>
+    <string>&amp;Undo</string>
    </property>
   </action>
   <action name="actionRedo">
+   <property name="icon">
+    <iconset theme="edit-redo"/>
+   </property>
    <property name="text">
-    <string>Redo</string>
+    <string>&amp;Redo</string>
    </property>
   </action>
   <action name="actionSelect_all">
+   <property name="icon">
+    <iconset theme="edit-select-all"/>
+   </property>
    <property name="text">
-    <string>Select all</string>
+    <string>&amp;Select all</string>
    </property>
   </action>
   <action name="actionDelete">
+   <property name="icon">
+    <iconset theme="edit-delete"/>
+   </property>
    <property name="text">
-    <string>Delete</string>
+    <string>&amp;Delete</string>
    </property>
   </action>
   <action name="actionFind">
+   <property name="icon">
+    <iconset theme="edit-find"/>
+   </property>
    <property name="text">
-    <string>Find</string>
+    <string>&amp;Find</string>
    </property>
   </action>
   <action name="actionReplace">
+   <property name="icon">
+    <iconset theme="edit-find-replace"/>
+   </property>
    <property name="text">
-    <string>Replace</string>
+    <string>R&amp;eplace</string>
    </property>
   </action>
   <action name="actionKeyboar_Shotcuts">
    <property name="text">
-    <string>Keyboar Shotcuts</string>
+    <string>&amp;Keyboar Shotcuts</string>
    </property>
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>&amp;About</string>
    </property>
   </action>
   <action name="actionMenu_Bar">
    <property name="text">
-    <string>Menu Bar</string>
+    <string>&amp;Menu Bar</string>
    </property>
   </action>
   <action name="actionFont">
    <property name="text">
-    <string>Font...</string>
+    <string>&amp;Font...</string>
    </property>
   </action>
   <action name="actionBold">
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset theme="format-text-bold"/>
+   </property>
    <property name="text">
-    <string>Bold</string>
+    <string>&amp;Bold</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+B</string>
@@ -244,8 +289,11 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset theme="format-text-italic"/>
+   </property>
    <property name="text">
-    <string>Italic</string>
+    <string>&amp;Italic</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
@@ -255,49 +303,73 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset theme="format-text-underline"/>
+   </property>
    <property name="text">
-    <string>Underline</string>
+    <string>&amp;Underline</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+U</string>
    </property>
   </action>
   <action name="actionAlign_left">
+   <property name="icon">
+    <iconset theme="format-justify-left"/>
+   </property>
    <property name="text">
-    <string>Align left</string>
+    <string>&amp;Align left</string>
    </property>
   </action>
   <action name="actionAlign_Right">
+   <property name="icon">
+    <iconset theme="format-justify-right"/>
+   </property>
    <property name="text">
-    <string>Align Right</string>
+    <string>Align &amp;Right</string>
    </property>
   </action>
   <action name="actionAlign_Center">
+   <property name="icon">
+    <iconset theme="format-justify-center"/>
+   </property>
    <property name="text">
-    <string>Align Center</string>
+    <string>Align &amp;Center</string>
    </property>
   </action>
   <action name="actionJustify">
+   <property name="icon">
+    <iconset theme="format-justify-fill"/>
+   </property>
    <property name="text">
-    <string>Justify</string>
+    <string>&amp;Justify</string>
    </property>
   </action>
   <action name="actionIndent_more">
+   <property name="icon">
+    <iconset theme="format-indent-more"/>
+   </property>
    <property name="text">
-    <string>Indent more</string>
+    <string>Indent &amp;more</string>
    </property>
   </action>
   <action name="actionIndent_less">
+   <property name="icon">
+    <iconset theme="format-indent-less"/>
+   </property>
    <property name="text">
-    <string>Indent less</string>
+    <string>Indent &amp;less</string>
    </property>
   </action>
   <action name="actionStrickout">
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset theme="format-text-strikethrough"/>
+   </property>
    <property name="text">
-    <string>strickout</string>
+    <string>&amp;strickout</string>
    </property>
   </action>
  </widget>

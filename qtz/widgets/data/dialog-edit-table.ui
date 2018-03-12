@@ -32,8 +32,7 @@
        <item>
         <widget class="QToolButton" name="toolButtonAdd">
          <property name="icon">
-          <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/qtz_widgets/images/plus.png</normaloff>:/qtz_widgets/images/plus.png</iconset>
+          <iconset theme="list-add"/>
          </property>
          <property name="iconSize">
           <size>
@@ -46,8 +45,7 @@
        <item>
         <widget class="QToolButton" name="toolButtonRemove">
          <property name="icon">
-          <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/qtz_widgets/images/minus.png</normaloff>:/qtz_widgets/images/minus.png</iconset>
+          <iconset theme="list-remove"/>
          </property>
          <property name="iconSize">
           <size>
@@ -60,8 +58,7 @@
        <item>
         <widget class="QToolButton" name="toolButtonEdit">
          <property name="icon">
-          <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/qtz_widgets/images/edit.png</normaloff>:/qtz_widgets/images/edit.png</iconset>
+          <iconset theme="document-edit"/>
          </property>
          <property name="iconSize">
           <size>
@@ -74,8 +71,7 @@
        <item>
         <widget class="QToolButton" name="toolButtonRefresh">
          <property name="icon">
-          <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/qtz_widgets/images/refresh.png</normaloff>:/qtz_widgets/images/refresh.png</iconset>
+          <iconset theme="view-refresh"/>
          </property>
          <property name="iconSize">
           <size>
@@ -88,8 +84,7 @@
        <item>
         <widget class="QToolButton" name="toolButtonRevert">
          <property name="icon">
-          <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/qtz_widgets/images/undo.png</normaloff>:/qtz_widgets/images/undo.png</iconset>
+          <iconset theme="document-revert"/>
          </property>
          <property name="iconSize">
           <size>
@@ -102,8 +97,7 @@
        <item>
         <widget class="QToolButton" name="toolButtonSave">
          <property name="icon">
-          <iconset resource="../QtzWidgets.qrc">
-           <normaloff>:/qtz_widgets/images/save.png</normaloff>:/qtz_widgets/images/save.png</iconset>
+          <iconset theme="document-save"/>
          </property>
          <property name="iconSize">
           <size>
@@ -142,9 +136,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../QtzWidgets.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

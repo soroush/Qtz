@@ -216,8 +216,5 @@ INSTALLS += headers_base \
     headers_viewers \
     headers_application
 
-RESOURCES += \
-    QtzWidgets.qrc
-
 OTHER_FILES += \
     data/schema-specified.xsd
