@@ -1,29 +1,38 @@
 # Qtz Framework [![Build Status](https://travis-ci.org/soroush/Qtz.png?branch=master)](https://travis-ci.org/soroush/Qtz)
 
-Qtz is a Qt-based Rapid Application Development Framework. Currently Qtz
-consists of following libraries:
+Qtz is a Qt-based Application Development Framework. Currently Qtz consists of the following libraries:
 
 * QtzCore
-  - Authentication 
-  - Access Control Lists
-  - User Management System
+  - Solar Hijri (Jalali) Date and Time
+  - Persian Number Formatter (Numeral to String converter)
+  - Single Application Mechanism
   - Settings Backend
+* QtzSecurity
+  - Authentication
+  - Access Control Lists
+  - Simple Encription
 * QtzData
+  - Asynchronous Data Model (Thanks to [obeezzy](https://github.com/obeezzy/AsyncSql))
   - Database Integration Backend (multiple vendors)
-  - Data Management Utilities (cross-vendor backup, restore, encrypt tools)
+  - Data Management Utilities (vendor-agnostic backup, restore, encryption tools)
   - Data Analysis Tools
 * QtzWidgets
   - Advanced Editor Widgets
   - Data Management GUI
   - Security GUI Backend
+  - OpenCV Image Viewer
   - Miscellaneous 
 
 ## Dependencies
 
-This library depends on Qt4 or Qt5 and Crypto++. You also need a modern C++
-compiler that implements C++11 specification. Currently GCC >= 4.6 and Clang are
-supported. There is no guarantee to successful builds of Microsoft Visual C++
-compilers, and there is no plan to support them in the future.
+This library depends on Qt5, OpenSSL and OpenCV. You also need a modern C++
+compiler that implements C++11 specification. The library is built and tested
+on following envoirnments:
+
+| Operating System   | Versio            | Compiler                     |
+| ------------------ |-------------------| -----------------------------|
+| Linux              | Ubuntu 17.04, 16.10, 16.04 - Debian 8, 9| gcc 7.2, 6, 5                |
+| Windows            | 7-8-10            | MSVC-14.1, MSVC 14           |
 
 ## Compile
 To compile Qtz on *nix like environments type:
