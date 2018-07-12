@@ -49,9 +49,9 @@ QString Crypto::decrypt(const QString& input) {
         return "";
     }
     std::string cypher_hex_str = input.toStdString();
-    size_t size = cypher_hex_str.length();
+    const size_t size = cypher_hex_str.length();
+    const size_t length = size/2;
     unsigned char* cypher_hex = (unsigned char*)(cypher_hex_str.c_str());
-    size_t length = size/2;
     unsigned char* cypher_data = new unsigned char[length];
     unsigned char* plain_data = new unsigned char[length];
     hex_to_string(cypher_data,cypher_hex,size);
@@ -60,7 +60,10 @@ QString Crypto::decrypt(const QString& input) {
     AES_set_decrypt_key(pk,128,&key);
     unsigned char iv[AES_BLOCK_SIZE] = QTZ_INITIALIZATION_VECTOR;
     AES_cbc_encrypt(cypher_data,plain_data,length,&key,iv,AES_DECRYPT);
-    QString result = QString::fromStdString((char*)(plain_data));
+    //QString result = QString::fromStdString((char*)(plain_data));
+    QString result = QString::fromUtf8((const char*)(plain_data));
+    //delete[] cypher_hex;
+    //delete[] cypher_data;
     return result;
 }
 
@@ -69,8 +72,8 @@ QString Crypto::encrypt(const QString& input) {
         return "";
     }
     std::string p_str = input.toStdString();
-    uint size = p_str.size();
-    uint padded_size = size + (AES_BLOCK_SIZE-(size%AES_BLOCK_SIZE));
+    size_t size = p_str.size();
+    size_t padded_size = size + (AES_BLOCK_SIZE-(size%AES_BLOCK_SIZE));
     unsigned char* plain = new unsigned char[padded_size];
     unsigned char* cypher = new unsigned char[padded_size];
     ::memset(plain,0x00,padded_size);

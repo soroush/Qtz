@@ -1,29 +1,52 @@
 # Qtz Framework [![Build Status](https://travis-ci.org/soroush/Qtz.png?branch=master)](https://travis-ci.org/soroush/Qtz)
 
-Qtz is a Qt-based Rapid Application Development Framework. Currently Qtz
-consists of following libraries:
+Qtz is a Qt-based Application Development Framework. Currently Qtz consists of the following libraries:
 
 * QtzCore
-  - Authentication 
-  - Access Control Lists
-  - User Management System
+  - Solar Hijri (Jalali) Date and Time
+  - Persian Number Formatter (Numeral to String converter)
+  - Single Application Mechanism
   - Settings Backend
+* QtzSecurity
+  - Authentication
+  - Access Control Lists
+  - Simple Encription
 * QtzData
+  - Asynchronous Data Model (Thanks to [obeezzy](https://github.com/obeezzy/AsyncSql))
   - Database Integration Backend (multiple vendors)
-  - Data Management Utilities (cross-vendor backup, restore, encrypt tools)
+  - Data Management Utilities (vendor-agnostic backup, restore, encryption tools)
   - Data Analysis Tools
 * QtzWidgets
   - Advanced Editor Widgets
   - Data Management GUI
   - Security GUI Backend
+  - OpenCV Image Viewer
   - Miscellaneous 
 
 ## Dependencies
 
-This library depends on Qt4 or Qt5 and Crypto++. You also need a modern C++
-compiler that implements C++11 specification. Currently GCC >= 4.6 and Clang are
-supported. There is no guarantee to successful builds of Microsoft Visual C++
-compilers, and there is no plan to support them in the future.
+This library depends on Qt5, OpenSSL and OpenCV (version 3).
+
+| Dependency      | Version              |
+| ----------------|----------------------|
+| OpenSSL         | 1.0.2g               |
+| OpenCV          | 3.4.1                |
+
+
+You will also need a modern C++ compiler that implements C++11 specification.
+The library is built and tested on following envoirnments:
+
+| Operating System      | Version / Distro     | Compiler                     |
+| ----------------------|----------------------|------------------------------|
+| Debian                | 8.0 jessie           | gcc 4.9.2                    |
+|                       | 9.0 stretch          | gcc 6.3.0                    |
+| Ubuntu                | 16.04 LTS xenial     | gcc 5.3.1                    |
+|                       | 16.10 yakkety        | gcc 6.1.1                    |
+|                       | 17.04 zesty          | gcc 6.3.0                    |
+|                       | 17.10 artful         | gcc 7.2.0                    |
+| Windows               | 7                    | MSVC 12.0 (Visual Studio 2013)  |
+|                       | 7                    | MSVC 14.0 (Visual Studio 2015)  |
+|                       | 7                    | MSVC 14.1 (Visual Studio 2017)  |
 
 ## Compile
 To compile Qtz on *nix like environments type:

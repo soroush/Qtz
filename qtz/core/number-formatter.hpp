@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QString>
 #include <QStringList>
-#include "library.h"
+#include "qtz-core.hpp"
 
 class QTZ_SHARED_EXPORT NumberFormatter : public QObject
 {
@@ -19,24 +19,14 @@ signals:
     void numeralChanged(QString);
 
 public slots:
-    void setValue(int);
-    void setValue(unsigned long long);
+    void setValue(quint64);
     void setValue(QString);
 
 private:
     void convertInt2Numeral();
     QString convertHundreds2Numeral(unsigned long long);
-    int64_t m_value;
+    quint64 m_value;
     QString m_numeral;
-    // Statics
-    static QString persianAnd;
-    static QString persianE9;
-    static QString persianE6;
-    static QString persianE3;
-    static QStringList persian100to900;
-    static QStringList persian10to19;
-    static QStringList persian20to90;
-    static QStringList persian1to9;
 };
 
 #endif // NUMBERFORMATTER_H

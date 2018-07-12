@@ -28,7 +28,7 @@ CONFIG(local){
     LIBS    += -L"../qtz/data/$$BUILD" -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
     LIBS    += -L"../qtz/widgets/$$BUILD" -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
     QT      += sql gui
-    greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+    QT += widgets
 } else {
     CONFIG  += QTZ
     QTZ     += widgets

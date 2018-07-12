@@ -35,7 +35,6 @@ protected:
 
 private:
     Ui::textEditorWindow* ui;
-    void loadIcons();
     void setupToolbars();
     QFontComboBox* fontCombo;
 

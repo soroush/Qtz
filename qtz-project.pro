@@ -5,5 +5,3 @@ SUBDIRS += \
     qtz \
     qtz-plugin
 #    tests
-
-DEFINES+=WIN32

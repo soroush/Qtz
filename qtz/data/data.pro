@@ -5,7 +5,7 @@ CONFIG   += C++11
 DEFINES += QTZ_DATA_LIBRARY
 
 TEMPLATE = lib
-VERSION = 0.2.1
+VERSION = 0.3.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -34,7 +34,8 @@ INCLUDEPATH += .
 
 unix {
     target.path = /usr/lib
-    headers.path = /usr/include/qtz/data
+    headers_base.path = /usr/include/qtz/data
+    headers_async.path = /usr/include/qtz/data/async
     LINK_MAJ = ""
     CONFIG += create_pc create_prl no_install_prl
     QMAKE_PKGCONFIG_NAME = libqtz-data
@@ -47,7 +48,8 @@ unix {
 }
 win32 {
     target.path = $$INSTALL_ROOT/lib
-    headers.path = $$INSTALL_ROOT/include/qtz/data
+    headers_base.path = $$INSTALL_ROOT/include/qtz/data
+    headers_async.path = $$INSTALL_ROOT/include/qtz/data/async
     LINK_MAJ = "0"
     RC_FILE = QtzData.rc
 }
@@ -60,7 +62,17 @@ CONFIG(local){
     LIBS += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
-HEADERS += \
+HEADERS_ASYNC = \
+    async/database-connection.hpp \
+    async/database-exception.hpp \
+    async/model-register.hpp \
+    async/query-request.hpp \
+    async/query-result.hpp \
+    async/query-thread.hpp \
+    async/query-worker.hpp \
+    async/sql-table-model.hpp
+
+HEADERS_BASE = \
     database-pool.hpp \
     jalali-table-model.hpp \
     data-provider-information.hpp \
@@ -69,17 +81,33 @@ HEADERS += \
     i-insert-record.hpp \
     table-node.hpp
 
+HEADERS += \
+    $$HEADERS_BASE \
+    $$HEADERS_ASYNC
+
 SOURCES += \
     data-provider-information.cpp \
     data-provider.cpp \
     i-insert-record.cpp \
     database-pool.cpp \
-    jalali-table-model.cpp
+    jalali-table-model.cpp \
+    async/database-connection.cpp \
+    async/database-exception.cpp \
+    async/model-register.cpp \
+    async/query-request.cpp \
+    async/query-result.cpp \
+    async/query-thread.cpp \
+    async/query-worker.cpp \
+    async/sql-table-model.cpp
+
+
+headers_base.files = $$HEADERS_BASE
+headers_async.files = $$HEADERS_ASYNC
+
+INSTALLS += target
+INSTALLS += \
+    headers_base \
+    headers_async
 
 RESOURCES += \
     QtzData.qrc
-
-headers.files = $$HEADERS
-
-INSTALLS += target
-INSTALLS += headers

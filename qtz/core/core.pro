@@ -1,12 +1,12 @@
 QT       -= gui
-QT       += sql
+QT       += sql network
 CONFIG   += c++11
 
 DEFINES += QTZ_CORE_LIBRARY
 
 TEMPLATE = lib
 
-VERSION = 0.3.0
+VERSION = 0.4.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -57,6 +57,8 @@ win32 {
     headers.path = $$INSTALL_ROOT/include/qtz/core
     LINK_MAJ = "0"
     RC_FILE = QtzCore.rc
+    msvc:LIBS += Advapi32.lib
+    gcc:LIBS += -lAdvapi32
 }
 
 CONFIG(local){
@@ -65,13 +67,18 @@ CONFIG(local){
 
 HEADERS += \
     settings.hpp \
+    number-formatter.hpp \
     jalali-date.hpp \
     qtz-core.hpp \
+    qtz-single-core-application.hpp \
+    qtz-single-core-application_p.hpp \
     qio.hpp
 
 SOURCES += \
     settings.cpp \
+    number-formatter.cpp \
     jalali-date.cpp \
+    qtz-single-core-application.cpp \
     qio.cpp
 
 headers.files = $$HEADERS

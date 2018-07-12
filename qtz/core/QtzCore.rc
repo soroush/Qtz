@@ -1,8 +1,8 @@
 #include <windows.h>
  
 VS_VERSION_INFO     VERSIONINFO
-FILEVERSION         0, 3, 0, 0
-PRODUCTVERSION      0, 3, 0, 0
+FILEVERSION         0, 4, 0, 0
+PRODUCTVERSION      0, 4, 0, 0
 FILEFLAGSMASK       0x3fL
 FILEFLAGS           0
 FILEOS              VOS_NT_WINDOWS32
@@ -19,12 +19,12 @@ BEGIN
         BEGIN
             VALUE   "CompanyName",      "Ametis Ltd.\0"
             VALUE   "FileDescription",  "Ametis Qtz Core Module\0"
-            VALUE   "FileVersion",      "0.3.0\0"
+            VALUE   "FileVersion",      "0.4.0\0"
             VALUE   "InternalName",     "Qtz Core\0"
-            VALUE   "LegalCopyright",   "Copyright 2012-2016 by Ametis Ltd. All rights reserved.\0"
+            VALUE   "LegalCopyright",   "Copyright 2012-2018 by Ametis Ltd. All rights reserved.\0"
             VALUE   "OriginalFilename", "QtzCore.dll\0"
             VALUE   "ProductName",      "Qtz Core Library\0"
-            VALUE   "ProductVersion",   "0.3.0\0"
+            VALUE   "ProductVersion",   "0.4.0\0"
         END
     END
 END

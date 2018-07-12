@@ -1,8 +1,8 @@
 #include <windows.h>
  
 VS_VERSION_INFO     VERSIONINFO
-FILEVERSION         0, 2, 0, 0
-PRODUCTVERSION      0, 2, 0, 0
+FILEVERSION         0, 3, 0, 0
+PRODUCTVERSION      0, 3, 0, 0
 FILEFLAGSMASK       0x3fL
 FILEFLAGS           0
 FILEOS              VOS_NT_WINDOWS32
@@ -19,12 +19,12 @@ BEGIN
         BEGIN
             VALUE   "CompanyName",      "Ametis Co. Ltd.\0"
             VALUE   "FileDescription",  "Ametis Qtz User Interface Abstraction Layer.\0"
-            VALUE   "FileVersion",      "0.2.0\0"
+            VALUE   "FileVersion",      "0.3.0\0"
             VALUE   "InternalName",     "Qtz Widgets\0"
-            VALUE   "LegalCopyright",   "Copyright 2012-2016 by Ametis Co. Ltd. All rights reserved.\0"
+            VALUE   "LegalCopyright",   "Copyright 2012-2018 by Ametis Co. Ltd. All rights reserved.\0"
             VALUE   "OriginalFilename", "QtzWidgets.dll\0"
             VALUE   "ProductName",      "Qtz Widgets Library\0"
-            VALUE   "ProductVersion",   "0.2.0\0"
+            VALUE   "ProductVersion",   "0.3.0\0"
         END
     END
 END
