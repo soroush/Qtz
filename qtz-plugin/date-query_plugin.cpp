@@ -34,7 +34,8 @@ QString DateQueryPlugin::group() const {
 }
 
 QIcon DateQueryPlugin::icon() const {
-    return QIcon(":/qtz_plugin/images/date-query.png");
+    return QIcon::fromTheme("view-calendar-day",
+                            QIcon{":/qtz_plugin/images/date-query.png"});
 }
 
 QString DateQueryPlugin::toolTip() const {

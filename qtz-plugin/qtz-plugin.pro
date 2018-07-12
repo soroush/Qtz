@@ -41,15 +41,16 @@ VERSION = 0.1.3
 
 HEADERS     =   \
 #    table-edit_plugin.h \
+    qtz.hpp \
     jalali-date-edit_plugin.hpp \
     choose-file_plugin.hpp \
     date-query_plugin.hpp \
     editable-label_plugin.hpp \
     global.hpp \
     numeric-query_plugin.hpp \
-    qtz.hpp \
     sexagesimal-spinbox_plugin.hpp \
     text-editor-window_plugin.hpp \
+    image-viewer_plugin.hpp \
     text-query_plugin.hpp
 
 SOURCES     =   \
@@ -62,6 +63,7 @@ SOURCES     =   \
     editable-label_plugin.cpp \
     sexagesimal-spinbox_plugin.cpp \
     text-editor-window_plugin.cpp \
+    image-viewer_plugin.cpp \
     choose-file_plugin.cpp
 
 RESOURCES = \

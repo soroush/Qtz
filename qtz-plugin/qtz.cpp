@@ -7,6 +7,7 @@
 #include "sexagesimal-spinbox_plugin.hpp"
 #include "choose-file_plugin.hpp"
 #include "jalali-date-edit_plugin.hpp"
+#include "image-viewer_plugin.hpp"
 #include "qtz.hpp"
 
 Qtz::Qtz(QObject* parent)
@@ -19,6 +20,7 @@ Qtz::Qtz(QObject* parent)
     m_widgets.append(new SexagesimalSpinboxPlugin(this));
     m_widgets.append(new ChooseFilePlugin(this));
     m_widgets.append(new JalaliDateEditPlugin(this));
+    m_widgets.append(new ImageViewerPlugin(this));
     //m_widgets.append(new TableEditPlugin(this));
 }
 

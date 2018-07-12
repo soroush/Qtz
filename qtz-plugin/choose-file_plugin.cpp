@@ -34,7 +34,8 @@ QString ChooseFilePlugin::group() const {
 }
 
 QIcon ChooseFilePlugin::icon() const {
-    return QIcon(":/qtz_plugin/images/folder-open-o.png");
+    return QIcon::fromTheme("edit-find",
+                            QIcon{":/qtz_plugin/images/folder-open-o.png"});
 }
 
 QString ChooseFilePlugin::toolTip() const {
