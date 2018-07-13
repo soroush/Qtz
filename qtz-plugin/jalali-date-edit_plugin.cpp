@@ -34,7 +34,8 @@ QString JalaliDateEditPlugin::group() const {
 }
 
 QIcon JalaliDateEditPlugin::icon() const {
-    return QIcon(":/qtz_plugin/images/calendar.png");
+    return QIcon::fromTheme("resource-calendar-insert",
+                            QIcon{":/qtz_plugin/images/calendar.png"});
 }
 
 QString JalaliDateEditPlugin::toolTip() const {

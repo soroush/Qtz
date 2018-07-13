@@ -34,7 +34,8 @@ QString ImageViewerPlugin::group() const {
 }
 
 QIcon ImageViewerPlugin::icon() const {
-    return QIcon(":/qtz_plugin/images/compass.png");
+    return QIcon::fromTheme("photo",
+                            QIcon{":/qtz_plugin/images/compass.png"});
 }
 
 QString ImageViewerPlugin::toolTip() const {

@@ -34,7 +34,8 @@ QString NumericQueryPlugin::group() const {
 }
 
 QIcon NumericQueryPlugin::icon() const {
-    return QIcon(":/qtz_plugin/images/numeric-query.png");
+    return QIcon::fromTheme("format-precision-more",
+                            QIcon{":/qtz_plugin/images/numeric-query.png"});
 }
 
 QString NumericQueryPlugin::toolTip() const {

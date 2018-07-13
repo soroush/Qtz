@@ -34,7 +34,8 @@ QString SexagesimalSpinboxPlugin::group() const {
 }
 
 QIcon SexagesimalSpinboxPlugin::icon() const {
-    return QIcon(":/qtz_plugin/images/compass.png");
+    return QIcon::fromTheme("add-placemark",
+                            QIcon{":/qtz_plugin/images/compass.png"});
 }
 
 QString SexagesimalSpinboxPlugin::toolTip() const {

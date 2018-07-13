@@ -35,7 +35,8 @@ QString TextEditorWindowPlugin::group() const {
 }
 
 QIcon TextEditorWindowPlugin::icon() const {
-    return QIcon(":/qtz_plugin/images/edit.png");
+    return QIcon::fromTheme("story-editor",
+                            QIcon{":/qtz_plugin/images/edit.png"});
 }
 
 QString TextEditorWindowPlugin::toolTip() const {

@@ -34,7 +34,8 @@ QString EditableLabelPlugin::group() const {
 }
 
 QIcon EditableLabelPlugin::icon() const {
-    return QIcon(":/qtz_plugin/images/pencil.png");
+    return QIcon::fromTheme("edit-entry",
+                            QIcon{":/qtz_plugin/images/pencil.png"});
 }
 
 QString EditableLabelPlugin::toolTip() const {

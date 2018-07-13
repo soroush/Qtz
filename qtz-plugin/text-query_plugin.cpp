@@ -34,7 +34,8 @@ QString TextQueryPlugin::group() const {
 }
 
 QIcon TextQueryPlugin::icon() const {
-    return QIcon(":/qtz_plugin/images/text-query.png");
+    return QIcon::fromTheme("insert-text",
+                            QIcon{":/qtz_plugin/images/text-query.png"});
 }
 
 QString TextQueryPlugin::toolTip() const {
