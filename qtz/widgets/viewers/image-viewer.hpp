@@ -24,31 +24,46 @@
 #include "../qtz-widgets.hpp"
 
 class QTZ_WIDGETS_SHARED_EXPORT ImageViewer : public QGraphicsView {
-        Q_OBJECT
-    public:
-        explicit ImageViewer(QWidget* parent = 0);
-        QPixmap image() const;
-        bool isFitInView() const;
-        qreal zoomFactor() const;
+    Q_OBJECT
+    Q_PROPERTY(bool fitInView READ isFitInView WRITE setFitInView
+               NOTIFY fitInViewChanged)
+    Q_PROPERTY(qreal zoomFactor READ zoomFactor WRITE setZoomFactor
+               NOTIFY zoomFactorChanged)
+    Q_PROPERTY(qreal zoom READ zoom WRITE setZoom
+               NOTIFY zoomChanged)
+public:
+    explicit ImageViewer(QWidget* parent = 0);
+    QPixmap image() const;
+    bool isFitInView() const;
+    qreal zoomFactor() const;
+    qreal zoom() const;
 
-    signals:
+signals:
+    void fitInViewChanged(bool);
+    void zoomFactorChanged(bool);
+    void zoomChanged(bool);
 
-    public slots:
-        void setImage(const QString& filePath);
-        void setImage(const QPixmap& image);
-        void setImage(const cv::Mat& image);
-        void setFitInView(bool);
-        void setZoomFactor(qreal factor);
-    protected:
-        void resizeEvent(QResizeEvent*);
-        void wheelEvent(QWheelEvent*);
-    private:
-        bool m_fitInView;
-        bool m_isMoving;
-        qreal m_zoomFactor;
-        QPointF m_lastPosition;
-        QCursor m_defaultCursor;
-        QPixmap m_pixmap;
+public slots:
+    void setImage(const QString& filePath);
+    void setImage(const QPixmap& image);
+    void setImage(const cv::Mat& image);
+    void setFitInView(bool);
+    void setZoomFactor(qreal factor);
+    void setZoom(qreal factor);
+
+private slots:
+    void showContextMenu(const QPoint &);
+
+protected:
+    void resizeEvent(QResizeEvent*);
+    void wheelEvent(QWheelEvent*);
+private:
+    bool m_fitInView;
+    bool m_isMoving;
+    qreal m_zoomFactor;
+    QPointF m_lastPosition;
+    QCursor m_defaultCursor;
+    QPixmap m_pixmap;
 };
 
 #endif // QTZ_IMAGEVIEWER_HPP
