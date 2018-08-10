@@ -49,6 +49,8 @@ HEADERS     =   \
     global.hpp \
     numeric-query_plugin.hpp \
     sexagesimal-spinbox_plugin.hpp \
+    color-button_plugin.hpp \
+    font-button_plugin.hpp \
     text-editor-window_plugin.hpp \
     image-viewer_plugin.hpp \
     text-query_plugin.hpp
@@ -62,6 +64,8 @@ SOURCES     =   \
 #    table-edit_plugin.cpp \
     editable-label_plugin.cpp \
     sexagesimal-spinbox_plugin.cpp \
+    color-button_plugin.cpp \
+    font-button_plugin.cpp \
     text-editor-window_plugin.cpp \
     image-viewer_plugin.cpp \
     choose-file_plugin.cpp

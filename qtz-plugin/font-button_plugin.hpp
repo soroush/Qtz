@@ -1,15 +1,15 @@
-#ifndef QTZ_SEXAGESIMAL_SPINBOX_PLUGIN_HPP
-#define QTZ_SEXAGESIMAL_SPINBOX_PLUGIN_HPP
+#ifndef QTZ_FONT_BUTTON_PLUGIN_HPP
+#define QTZ_FONT_BUTTON_PLUGIN_HPP
 
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 #include "global.hpp"
 
-class QTZ_PLUGIN_SHARED_EXPORT SexagesimalSpinboxPlugin : public QObject, public QDesignerCustomWidgetInterface {
+class QTZ_PLUGIN_SHARED_EXPORT FontButtonPlugin : public QObject, public QDesignerCustomWidgetInterface {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 
 public:
-    SexagesimalSpinboxPlugin(QObject* parent = 0);
+    FontButtonPlugin(QObject* parent = 0);
 
     bool isContainer() const;
     bool isInitialized() const;
@@ -27,4 +27,4 @@ private:
     bool m_initialized;
 };
 
-#endif // QTZ_SEXAGESIMAL_SPINBOX_PLUGIN_HPP
+#endif // QTZ_FONT_BUTTON_PLUGIN_HPP

@@ -4,7 +4,8 @@
 ColorButton::ColorButton(QWidget* parent):
     QToolButton(parent) {
     this->setStyleSheet("QToolButton{border: 1px solid black;}");
-    connect(this,SIGNAL(clicked(bool)),this,SLOT(chooseColor()));
+    connect(this, &ColorButton::clicked,
+            this, &ColorButton::chooseColor);
 }
 
 QColor ColorButton::currentColor() const {
@@ -35,8 +36,7 @@ void ColorButton::setColor(QColor color) {
                                 ";}")
                         .arg(color.red())
                         .arg(color.green())
-                        .arg(color.blue())
-                        ;
+                        .arg(color.blue());
         this->setStyleSheet(style);
     }
 }

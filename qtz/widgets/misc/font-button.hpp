@@ -7,14 +7,12 @@
 class QTZ_WIDGETS_SHARED_EXPORT FontButton : public QToolButton {
     Q_OBJECT
 public:
-    FontButton(QWidget* parent=Q_NULLPTR);
+    FontButton(QWidget* parent = nullptr);
 public slots:
-    void setFont(const QFont &font);
-    void chooseFont();
+    void setFont(const QFont& font);
+    void selectFont();
 signals:
-    void fontSelected(QFont);
-private:
-    QFont m_currentFont;
+    void fontChanged(QFont);
 };
 
 #endif // QTZ_FONT_BUTTON_HPP

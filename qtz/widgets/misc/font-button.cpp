@@ -4,30 +4,30 @@
 
 FontButton::FontButton(QWidget* parent):
     QToolButton(parent) {
-    connect(this,SIGNAL(clicked(bool)),this,SLOT(chooseFont()));
+    connect(this, &QToolButton::clicked,
+            this, &FontButton::selectFont);
 }
 
-void FontButton::setFont(const QFont& font) {
-    QToolButton::setFont(font);
-    if(font!=m_currentFont) {
-        m_currentFont = font;
-        QString fontDisplay = font.family()+", "+
-                              QLocale().toString(font.pointSize())+tr("pt");
-        if(font.bold()) {
-            fontDisplay+= tr(", Bold");
+void FontButton::setFont(const QFont& newFont) {
+    QToolButton::setFont(newFont);
+    if(newFont != font()) {
+        QString fontDisplay = newFont.family() + ", " +
+                              QLocale().toString(newFont.pointSize()) + tr("pt");
+        if(newFont.bold()) {
+            fontDisplay += tr(", Bold");
         }
-        if(font.italic()) {
-            fontDisplay+= tr(", Italic");
+        if(newFont.italic()) {
+            fontDisplay += tr(", Italic");
         }
         this->setText(fontDisplay);
-        emit fontSelected(m_currentFont);
+        emit fontChanged(font());
     }
 }
 
-void FontButton::chooseFont() {
+void FontButton::selectFont() {
     QFontDialog dlg(this);
-    if(dlg.exec()==QFontDialog::Accepted) {
-        if(dlg.selectedFont()!=m_currentFont) {
+    if(dlg.exec() == QFontDialog::Accepted) {
+        if(dlg.selectedFont() != font()) {
             setFont(dlg.selectedFont());
         }
     }

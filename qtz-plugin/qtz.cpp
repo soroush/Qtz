@@ -5,6 +5,8 @@
 #include "text-editor-window_plugin.hpp"
 #include "editable-label_plugin.hpp"
 #include "sexagesimal-spinbox_plugin.hpp"
+#include "color-button_plugin.hpp"
+#include "font-button_plugin.hpp"
 #include "choose-file_plugin.hpp"
 #include "jalali-date-edit_plugin.hpp"
 #include "image-viewer_plugin.hpp"
@@ -21,6 +23,8 @@ Qtz::Qtz(QObject* parent)
     m_widgets.append(new ChooseFilePlugin(this));
     m_widgets.append(new JalaliDateEditPlugin(this));
     m_widgets.append(new ImageViewerPlugin(this));
+    m_widgets.append(new ColorButtonPlugin(this));
+    m_widgets.append(new FontButtonPlugin(this));
     //m_widgets.append(new TableEditPlugin(this));
 }
 
