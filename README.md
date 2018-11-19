@@ -1,6 +1,7 @@
 # Qtz Framework [![Build Status](https://travis-ci.org/soroush/Qtz.png?branch=master)](https://travis-ci.org/soroush/Qtz)
 
-Qtz is a Qt-based Application Development Framework. Currently Qtz consists of the following libraries:
+Qtz is a Qt-based Application Development Framework. Currently Qtz consists of 
+the following libraries:
 
 * QtzCore
   - Solar Hijri (Jalali) Date and Time
@@ -48,6 +49,29 @@ The library is built and tested on following envoirnments:
 |                       | 7                    | MSVC 14.0 (Visual Studio 2015)  |
 |                       | 7                    | MSVC 14.1 (Visual Studio 2017)  |
 
+## Install Pre-Built Binaries
+
+Debian/Ubuntu packages are available at following repository. You will need 
+repository key to validate you got the package from the person you think you're 
+getting it from. This prevent anyone injecting packages into your updates:
+
+In order to install public key:
+
+    wget -qO - https://soroush.github.io/repo/repo-sign-key.gpg | sudo apt-key add -
+    
+Fingerprint of the above key must be:
+
+    89958D908EB5CD0446D7D45D457CEB8B9CA825CC
+    
+Add repository:
+
+    sudo add-apt-repository "deb https://soroush.github.io/repo bionic contrib"
+    
+Install software:
+
+    sudo apt install libqtzcore0 libqtzdata0 libqtzsecurity0 libqtzwidgets0 
+        libqtzcore-dev libqtzdata-dev libqtzsecurity-dev libqtzwidgets-dev
+
 ## Compile
 To compile Qtz on *nix like environments type:
 
@@ -71,6 +95,8 @@ required. So you go like:
 In Windows environment:
 
     mingw32-make
+or
+    nmake
 
 To speed up build process you may want to use `make -j<N>` where `<N>` is number
 of your processors.
@@ -91,7 +117,7 @@ as specified below:
 `--mysql-root-password` Specifies MySQL root's password. If `--disable-mysql` is set, this parameter is ignored.
 
 
-## Installation
+## Install
 If build has been finished successfully, you may want to install it:
 
     sudo make install
