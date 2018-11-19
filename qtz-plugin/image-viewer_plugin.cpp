@@ -1,4 +1,4 @@
-#include <qtz/widgets/viewer/image-viewer.hpp>
+#include <qtz/widgets/viewers/image-viewer.hpp>
 #include "image-viewer_plugin.hpp"
 
 #include <QtCore/QtPlugin>
@@ -55,5 +55,5 @@ QString ImageViewerPlugin::domXml() const {
 }
 
 QString ImageViewerPlugin::includeFile() const {
-    return QLatin1String("qtz/widgets/viewer/image-viewer.hpp");
+    return QLatin1String("qtz/widgets/viewers/image-viewer.hpp");
 }

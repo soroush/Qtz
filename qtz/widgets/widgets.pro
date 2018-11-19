@@ -5,7 +5,7 @@ QT += widgets designer
 DEFINES += QTZ_WIDGETS_LIBRARY
 
 TEMPLATE = lib
-VERSION = 0.2.0
+VERSION = 0.2.1
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -41,7 +41,7 @@ unix {
     headers_misc.path = /usr/include/qtz/widgets/misc
     headers_security.path = /usr/include/qtz/widgets/security
     headers_i18n.path = /usr/include/qtz/widgets/i18n
-    headers_viewers.path = /usr/include/qtz/widgets/viewer
+    headers_viewers.path = /usr/include/qtz/widgets/viewers
     headers_application.path = /usr/include/qtz/widgets/application
     LINK_MAJ = ""
     CONFIG += create_pc create_prl no_install_prl
@@ -63,7 +63,7 @@ win32 {
     headers_misc.path = $$INSTALL_ROOT/include/qtz/widgets/misc
     headers_security.path = $$INSTALL_ROOT/include/qtz/widgets/security
     headers_i18n.path = $$INSTALL_ROOT/include/qtz/widgets/i18n
-    headers_viewers.path = $$INSTALL_ROOT/include/qtz/widgets/viewer
+    headers_viewers.path = $$INSTALL_ROOT/include/qtz/widgets/viewers
     headers_application.path = $$INSTALL_ROOT/include/qtz/widgets/application
     LINK_MAJ = "0"
     RC_FILE = QtzWidgets.rc
