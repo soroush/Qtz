@@ -1,0 +1,26 @@
+Source: libqtzwidgets
+Section: libs
+Priority: optional
+Maintainer: Soroush Rabiei <soroush@ametisco.ir>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.1.2
+Homepage: https://github.com/soroush/qtz
+Vcs-Git: https://github.com/soroush/qtz
+
+Package: libqtzwidgets0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a (>= 5.9) , libqt5gui5 (>= 5.9) , libqt5network5 (>= 5.9) , libqt5widgets5 (>= 5.9) , libqt5xml5 (>= 5.9) , libqt5sql5 (>= 5.9) , libqtzcore0 (>= 0.4), libqtzdata0 (>= 0.3) , libqtzsecurity0 (>= 0.1) , libopencv-imgcodecs3.2 (>= 3.2) , libopencv-core3.2 (>= 3.2) , libopencv-imgproc3.2 (>= 3.2)
+Description: Qtz is a Qt-based Application Development Framework.
+ QtzWidgets provides:
+    * Advanced Editor Widgets
+    * Data Management GUI
+    * Security GUI Backend
+    * OpenCV Image Viewer
+    * Miscellaneous
+ 
+Package: libqtzwidgets-dev
+Section: libdevel
+Architecture: any
+Depends: libqtzwidgets0 (= ${binary:Version}), ${misc:Depends} , qtbase5-dev (>= 5.9) , libqtzcore-dev (>= 0.4) , libqtzdata-dev (>= 0.3) , libqtzsecurity-dev (>= 0.1) , libopencv-imgcodecs-dev (>= 3.2) , libopencv-core-dev (>= 3.2) , libopencv-imgproc-dev (>= 3.2)
+Description: This package provides development files to use libqtzwidgets
+ You need to install this package, only if you want to develop software using libqtzwidgets

@@ -1,0 +1,25 @@
+Source: libqtzsecurity
+Section: libs
+Priority: optional
+Maintainer: Soroush Rabiei <soroush@ametisco.ir>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.1.2
+Homepage: https://github.com/soroush/qtz
+Vcs-Git: https://github.com/soroush/qtz
+
+Package: libqtzsecurity0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a (>= 5.9) , libqt5gui5 (>= 5.9) , libqt5xml5 (>= 5.9) , libqt5sql5 (>= 5.9) , libqtzcore0 (>= 0.4), libqtzdata0 (>= 0.3) , libssl1.1 (>= 1.1)
+Description: Qtz is a Qt-based Application Development Framework.
+ QtzSecurity provides:
+    * Authentication
+    * Access Control Lists
+    * Simple Encription
+ 
+ 
+Package: libqtzsecurity-dev
+Section: libdevel
+Architecture: any
+Depends: libqtzsecurity0 (= ${binary:Version}), ${misc:Depends} , qtbase5-dev (>= 5.9) , libqtzcore-dev (>= 0.4) , libqtzdata-dev (>= 0.3) , libssl-dev (>= 1.1)
+Description: This package provides development files to use libqtzsecurity
+ You need to install this package, only if you want to develop software using libqtzsecurity

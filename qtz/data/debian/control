@@ -1,0 +1,26 @@
+Source: libqtzdata
+Section: libs
+Priority: optional
+Maintainer: Soroush Rabiei <soroush@ametisco.ir>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.1.2
+Homepage: https://github.com/soroush/qtz
+Vcs-Git: https://github.com/soroush/qtz
+
+Package: libqtzdata0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a (>= 5.9) , libqt5sql5 (>= 5.9) , libqtzcore0 (>= 0.4)
+Description: Qtz is a Qt-based Application Development Framework.
+ QtzData supports:
+    * Asynchronous Data Model (Thanks to obeezzy)
+    * Database Integration Backend (multiple vendors)
+    * Data Management Utilities (vendor-agnostic backup, restore, encryption tools)
+    * Data Analysis Tools
+
+Package: libqtzdata-dev
+Section: libdevel
+Architecture: any
+Depends: libqtzdata0 (= ${binary:Version}), ${misc:Depends} , qtbase5-dev (>= 5.9) , libqtzcore-dev (>= 0.4)
+Description: This package provides development files to use libqtzdata
+ You need to install this package, only if you want to develop software using 
+ libqtzdata

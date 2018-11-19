@@ -1,0 +1,26 @@
+Source: libqtzcore
+Section: libs
+Priority: optional
+Maintainer: Soroush Rabiei <soroush@ametisco.ir>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.1.2
+Homepage: https://github.com/soroush/qtz
+Vcs-Git: https://github.com/soroush/qtz
+
+Package: libqtzcore0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5core5a (>= 5.9) , libqt5network5 (>= 5.9)
+Description: Qtz is a Qt-based Application Development Framework.
+ QtzCore Supports:
+    * Solar Hijri (Jalali) Date and Time
+    * Persian Number Formatter (Numeral to String converter)
+    * Single Application Mechanism
+    * Settings Backend
+
+Package: libqtzcore-dev
+Section: libdevel
+Architecture: any
+Depends: libqtzcore0 (= ${binary:Version}), ${misc:Depends} , qtbase5-dev (>= 5.9)
+Description: This package provides development files to use libqtzcore
+ You need to install this package, only if you want to develop software using 
+ libqtzcore
