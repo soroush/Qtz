@@ -4,7 +4,7 @@ CONFIG += c++11
 DEFINES += QTZ_SECURITY_LIBRARY
 
 TEMPLATE = lib
-VERSION = 0.2.0
+VERSION = 0.3.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -28,16 +28,12 @@ CONFIG(debug, debug|release){
     TARGET = QtzSecurityd
 }
 
-default_key {
-    DEFINES+=QTZ_PRIVATE_KEY="62cf0fef5182d45db8b5902409a57041"
-    DEFINES+=QTZ_INITIALIZATION_VECTOR="2f10b253254c4035ba9334ff70e775ec"
-}
-
 DEPENDPATH += .
 INCLUDEPATH += .
 
 unix {
-    LIBS += -lssl -lcrypto
+    CONFIG += link_pkgconfig
+    PKGCONFIG += qca2-qt5
     target.path = /usr/lib
     headers.path = /usr/include/qtz/security
     LINK_MAJ = ""
@@ -80,7 +76,8 @@ SOURCES += \
     token.cpp \
     username.cpp \
     crypto.cpp \
-    unique-machine-id.cpp
+    unique-machine-id.cpp \
+    key-ring.cpp
 
 HEADERS += \
     authentication-source.hpp \
@@ -93,7 +90,8 @@ HEADERS += \
     username.hpp \
     qtz-security.hpp \
     crypto.hpp \
-    unique-machine-id.hpp
+    unique-machine-id.hpp \
+    key-ring.hpp
 
 headers.files = $$HEADERS
 

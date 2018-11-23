@@ -16,10 +16,16 @@ private:
     Crypto();
 public:
     /**
+     * This method returns a raw data form a an encrypted message. Encryption schema is
+     * same as explained in @ref encrypt. There is no encoding applied to the key or data
+     */
+    static QByteArray decryptRawData(const QByteArray&input, const QByteArray& rawKey);
+
+    /**
       This method returns a UTF8-encoded string form a hex-encoded encrypted message.
-      Encryption schema is same as explained in @ref encryptPassword.
+      Encryption schema is same as explained in @ref encrypt.
       */
-    // static QString decrypt(const QString&input);
+     static QString decrypt(const QString&input, const QString& hexKey);
 
     /**
       This method returns a hex-encoded, encrypted message. The algorithm used for
@@ -28,7 +34,8 @@ public:
       as two numbers in hex encoding. The key is generated randomly using openssl with this command:
       openssl rand -hex 32
       */
-    // static QString encrypt(const QString&input);
+     static QByteArray encryptRawData(const QByteArray&input, const QByteArray& rawKey);
+     static QString encrypt(const QString&input, const QString& hexKey);
 
     /**
     This method hashes given password by message digest algorithm specified in @ref m_passwordHash.

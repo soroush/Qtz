@@ -1,3 +1,11 @@
+libqtzsecurity (0.3.0-1ubuntu1) bionic; urgency=medium
+
+  * Remove OpenSSL dependency, add QCA instead;
+  * Re-implement ecnryption schema;
+  * New minor release.
+
+ -- Soroush Rabiei <soroush@ametisco.ir>  Fri, 23 Nov 2018 22:45:05 +0330
+
 libqtzsecurity (0.1.1-1) bionic; urgency=medium
 
   * Initial release
