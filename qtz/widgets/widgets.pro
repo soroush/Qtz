@@ -1,11 +1,11 @@
 QT += core gui sql xml network
 CONFIG += c++11
-QT += widgets designer
+QT += widgets
 
 DEFINES += QTZ_WIDGETS_LIBRARY
 
 TEMPLATE = lib
-VERSION = 0.3.0
+VERSION = 0.3.1
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
