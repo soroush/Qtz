@@ -1,3 +1,10 @@
+libqtzwidgets (0.3.1-1ubuntu1) bionic; urgency=medium
+
+  * Remove unnecessary Qt module from project file;
+  * Add missing dependency to libopencv-dev.
+
+ -- Soroush Rabiei <soroush@ametisco.ir>  Fri, 23 Nov 2018 15:26:01 +0330
+
 libqtzwidgets (0.3.0-1ubuntu1) bionic; urgency=medium
 
   * Add an option to enable transformation matrix prevservetation for Image Viewer widget
