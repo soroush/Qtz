@@ -13,10 +13,11 @@
 
 #include <QDebug>
 
-DialogDatabaseConfig::DialogDatabaseConfig(QWidget* parent) :
+DialogDatabaseConfig::DialogDatabaseConfig(KeyRing* keyRing, QWidget* parent) :
     QDialog(parent),
     ui(new Ui::DialogDatabaseConfig),
-    tested(false), connected(false) {
+    tested(false), connected(false) ,
+    m_keyRing(keyRing) {
     ui->setupUi(this);
     // Remove maximize and minimize buttons
     this->setWindowFlags(Qt::Dialog | Qt::WindowContextHelpButtonHint |
@@ -30,10 +31,17 @@ DialogDatabaseConfig::DialogDatabaseConfig(QWidget* parent) :
     }
     updateSecurityOption(ui->comboBoxConnectionSecurity->currentIndex());
     updateDatabaseType(ui->comboBoxDatabaseType->currentIndex());
+    if(m_keyRing == nullptr) {
+        m_keyRing = KeyRing::defaultKeyRing();
+    }
 }
 
 DialogDatabaseConfig::~DialogDatabaseConfig() {
     delete ui;
+    if(m_keyRing != nullptr) {
+        delete m_keyRing;
+        m_keyRing = nullptr;
+    }
 }
 
 void DialogDatabaseConfig::changeEvent(QEvent* e) {
@@ -51,7 +59,7 @@ void DialogDatabaseConfig::initializeDatabaseSystems() {
     QVector<DataProvider> systems =
         DataProviderInformation::getInstance()->getSupportedProviders();
     foreach(DataProvider p, systems) {
-        ui->comboBoxDatabaseType->addItem(p.providerName(),p.providerCode());
+        ui->comboBoxDatabaseType->addItem(p.providerName(), p.providerCode());
     }
     // Establish first valid state:
     quint8 type = ui->comboBoxDatabaseType->itemData(
@@ -70,25 +78,25 @@ void DialogDatabaseConfig::createConnections() {
     connect(ui->pushButtonTest, SIGNAL(clicked()), this, SLOT(test()));
     connect(ui->checkBoxLocal, SIGNAL(toggled(bool)), ui->lineEditHost,
             SLOT(setDisabled(bool)));
-    connect(ui->checkBoxLocal, SIGNAL(toggled(bool)), this ,
+    connect(ui->checkBoxLocal, SIGNAL(toggled(bool)), this,
             SLOT(updateLocalHostStatus(bool)));
     connect(ui->checkBoxDefaultPort, SIGNAL(toggled(bool)), ui->spinBoxPort,
             SLOT(setDisabled(bool)));
-    connect(ui->checkBoxDefaultPort, SIGNAL(toggled(bool)), this ,
+    connect(ui->checkBoxDefaultPort, SIGNAL(toggled(bool)), this,
             SLOT(updateDefaultPortStatus(bool)));
-    connect(ui->comboBoxConnectionSecurity,SIGNAL(currentIndexChanged(int)),this,
+    connect(ui->comboBoxConnectionSecurity, SIGNAL(currentIndexChanged(int)), this,
             SLOT(updateSecurityOption(int)));
     // TODO: add signals for choose file
     // Concurrency Connections:
-    connect(&FW_testDBOpen,SIGNAL(finished()),this,SLOT(handleTestResult()));
-    connect(&FW_testDBOpen,SIGNAL(finished()),this,SLOT(releaseGUI()));
-    connect(&FW_mainDBOpen,SIGNAL(finished()),this,SLOT(handleActualConnection()));
-    connect(&FW_mainDBOpen,SIGNAL(finished()),this,SLOT(releaseGUI()));
+    connect(&FW_testDBOpen, SIGNAL(finished()), this, SLOT(handleTestResult()));
+    connect(&FW_testDBOpen, SIGNAL(finished()), this, SLOT(releaseGUI()));
+    connect(&FW_mainDBOpen, SIGNAL(finished()), this, SLOT(handleActualConnection()));
+    connect(&FW_mainDBOpen, SIGNAL(finished()), this, SLOT(releaseGUI()));
 }
 
 void DialogDatabaseConfig::readConnectionInfo() {
     QSettings* instance = Settings::getInstance();
-    currentType = static_cast<DataProvider::Type>(instance->value("database/type",1).toInt());
+    currentType = static_cast<DataProvider::Type>(instance->value("database/type", 1).toInt());
     ui->lineEditHost->setText(instance->value("database/host").toString());
     int index = ui->comboBoxDatabaseType->findData(static_cast<int>(currentType));
     ui->comboBoxDatabaseType->setCurrentIndex(index);
@@ -103,33 +111,33 @@ void DialogDatabaseConfig::readConnectionInfo() {
     ui->lineEditSchema->setText(instance->value("database/schema").toString());
     QString userNameC = instance->value("database/username").toString();
     QString usernameP;
-    usernameP = Crypto::decrypt(userNameC);
+    usernameP = Crypto::decrypt(userNameC, m_keyRing->provideKey());
     ui->lineEditUser->setText(usernameP);
     QString passwordC = instance->value("database/password").toString();
     QString passwordP;
-    passwordP = Crypto::decrypt(passwordC);
+    passwordP = Crypto::decrypt(passwordC, m_keyRing->provideKey());
     ui->lineEditPassword->setText(passwordP);
 }
 
 void DialogDatabaseConfig::writeConnectionInfo() {
     QSettings* s = Settings::getInstance();
-#if QT_VERSION >= 0x050200
+    #if QT_VERSION >= 0x050200
     s->setValue("database/type",
                 ui->comboBoxDatabaseType->currentData(Qt::UserRole).toInt());
-#else
+    #else
     s->setValue("database/type",
                 ui->comboBoxDatabaseType->itemData(ui->comboBoxDatabaseType->currentIndex()));
-#endif
+    #endif
     s->setValue("database/host",
                 ui->lineEditHost->text());
     s->setValue("database/port",
                 ui->spinBoxPort->value());
     s->setValue("database/schema",
                 ui->lineEditSchema->text());
-    QString usernameC = Crypto::encrypt(ui->lineEditUser->text());
+    QString usernameC = Crypto::encrypt(ui->lineEditUser->text(), m_keyRing->provideKey());
     s->setValue("database/username",
                 usernameC);
-    QString passwordC = Crypto::encrypt(ui->lineEditPassword->text());
+    QString passwordC = Crypto::encrypt(ui->lineEditPassword->text(), m_keyRing->provideKey());
     s->setValue("database/password",
                 passwordC);
     s->setValue("ui/data/dbconfig/local",
@@ -164,7 +172,7 @@ void DialogDatabaseConfig::accept() {
         }
         QDialog::accept();
     } else {
-        int result = QMessageBox::question(this,tr("Connection Not Tested!"),
+        int result = QMessageBox::question(this, tr("Connection Not Tested!"),
                                            tr("Your connection is not tested yet.\n"
                                               "Do you want to continue anyway?"));
         switch(result) {
@@ -187,7 +195,7 @@ void DialogDatabaseConfig::test() {
         case DataProvider::Type::MySQL5:
             QSqlDatabase::database("testConnection").close();
             QSqlDatabase::removeDatabase("testConnection");
-            testDB = QSqlDatabase::addDatabase("QMYSQL","testConnection");
+            testDB = QSqlDatabase::addDatabase("QMYSQL", "testConnection");
             testDB.setHostName(ui->lineEditHost->text());
             testDB.setPort(ui->spinBoxPort->value());
             testDB.setDatabaseName(ui->lineEditSchema->text());
@@ -212,7 +220,7 @@ void DialogDatabaseConfig::handleTestResult() {
                                 QMessageBox::Ok,
                                 this);
         information.exec();
-        connected= true;
+        connected = true;
     } else {
         QMessageBox::critical(this,
                               tr("Unable to connect to database."),
@@ -221,7 +229,7 @@ void DialogDatabaseConfig::handleTestResult() {
                                  "has reported following error(s):\n%1")
                               .arg(testDB.lastError().text())
                              );
-        connected=false;
+        connected = false;
     }
 }
 
@@ -234,7 +242,7 @@ void DialogDatabaseConfig::handleActualConnection() {
 void DialogDatabaseConfig::updateLocalHostStatus(bool checked) {
     if(checked) {
         this->lastCustomHost = ui->lineEditHost->text();
-        if((quint8)currentType!=0) {
+        if((quint8)currentType != 0) {
             ui->lineEditHost->setText(
                 DataProviderInformation::getInstance()->getProviderInfo(
                     currentType).defaultHost());
@@ -247,7 +255,7 @@ void DialogDatabaseConfig::updateLocalHostStatus(bool checked) {
 void DialogDatabaseConfig::updateDefaultPortStatus(bool checked) {
     if(checked) {
         this->lastCustomPort = ui->spinBoxPort->value();
-        if((quint8)currentType!=0) {
+        if((quint8)currentType != 0) {
             quint32 port = DataProviderInformation::getInstance()->getProviderInfo(
                                currentType).defaultPort();
             ui->spinBoxPort->setValue(port);
