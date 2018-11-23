@@ -6,7 +6,7 @@ DEFINES += QTZ_CORE_LIBRARY
 
 TEMPLATE = lib
 
-VERSION = 0.4.0
+VERSION = 0.4.1
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -40,7 +40,6 @@ INCLUDEPATH += .
 unix {
     target.path = /usr/lib
     headers.path = /usr/include/qtz/core
-    LIBS += -lssl -lcrypto
     LINK_MAJ = ""
     CONFIG += create_pc create_prl no_install_prl
     QMAKE_PKGCONFIG_NAME = libqtz-core

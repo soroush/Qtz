@@ -37,7 +37,7 @@ public:
     hash is then encoded to UTF8. Doing this, we will give a penalty of doubled size in storage, but gain
     compatibility and ease of use.
     */
-    //QString hash(const QString&);
+    static QByteArray hash(const QByteArray&);
 };
 
 #endif // AUTHPROVIDER_H

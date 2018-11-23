@@ -15,7 +15,7 @@
 
 ImageViewer::ImageViewer(QWidget* parent) : QGraphicsView(parent)
     , m_fitInView(false)
-    , m_isMoving(false)
+    , m_preserveMatrix(false)
     , m_zoomFactor(1.05)
     , m_defaultCursor(cursor()) {
     setScene(new QGraphicsScene);
@@ -27,6 +27,10 @@ ImageViewer::ImageViewer(QWidget* parent) : QGraphicsView(parent)
 
 QPixmap ImageViewer::image() const {
     return m_pixmap;
+}
+
+bool ImageViewer::preserveMatrix() const {
+    return m_preserveMatrix;
 }
 
 bool ImageViewer::isFitInView() const {
@@ -49,12 +53,20 @@ void ImageViewer::setImage(const QString& filePath) {
 void ImageViewer::setImage(const QPixmap& image) {
     QGraphicsPixmapItem* item =
         new QGraphicsPixmapItem(image);
+    // Preserve transformation matrix
+    QTransform previousTransform;
+    if(m_preserveMatrix) {
+        previousTransform = transform();
+    }
     resetMatrix();
     scene()->clear();
     scene()->setSceneRect(0, 0, image.width(), image.height());
     scene()->addItem(item);
     if(m_fitInView) {
         fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
+    } else if(m_preserveMatrix){
+        // Restore transformation matrix
+        setTransform(previousTransform);
     } else {
         resetMatrix();
     }
@@ -73,6 +85,14 @@ void ImageViewer::setImage(const cv::Mat& image) {
             setImage(m_pixmap);
         }
     }
+}
+
+void ImageViewer::setPreserveMatrix(bool preserve) {
+    if(m_preserveMatrix == preserve) {
+        return;
+    }
+    m_preserveMatrix = preserve;
+    emit preserveMatrixChanged(m_preserveMatrix);
 }
 
 void ImageViewer::setFitInView(bool fit) {
@@ -122,7 +142,7 @@ void ImageViewer::showContextMenu(const QPoint& position) {
     contextMenu.addAction(resetZoom);
     // Zoom Levels
     QMenu zoomLevels(tr("Zoom Level"), this);
-    zoomLevels.addSection(QString("Zoom: %1%").arg(zoom()*100));
+    zoomLevels.addSection(QString("Zoom: %1%").arg(zoom() * 100));
     QList<int> levels;
     levels << 10 << 20 << 30 << 40 << 50
            << 60 << 70 << 80 << 90 << 100

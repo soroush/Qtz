@@ -1,3 +1,9 @@
+libqtzwidgets (0.3.0-1ubuntu1) bionic; urgency=medium
+
+  * Add an option to enable transformation matrix prevservetation for Image Viewer widget
+
+ -- Soroush Rabiei <soroush@ametisco.ir>  Tue, 20 Nov 2018 22:49:38 +0330
+
 libqtzwidgets (0.2.1-1ubuntu1) bionic; urgency=medium
 
   * Bugfixes on header locations

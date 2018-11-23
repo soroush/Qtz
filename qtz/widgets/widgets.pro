@@ -5,7 +5,7 @@ QT += widgets designer
 DEFINES += QTZ_WIDGETS_LIBRARY
 
 TEMPLATE = lib
-VERSION = 0.2.1
+VERSION = 0.3.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release

@@ -4,7 +4,7 @@ CONFIG += c++11
 DEFINES += QTZ_SECURITY_LIBRARY
 
 TEMPLATE = lib
-VERSION = 0.1.1
+VERSION = 0.2.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
