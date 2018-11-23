@@ -45,6 +45,7 @@ void hex_to_string(unsigned char* output, const unsigned char* input, size_t siz
 Crypto::Crypto() {
 }
 
+/*
 QString Crypto::decrypt(const QString& input) {
     if(input.isEmpty()) {
         return "";
@@ -89,6 +90,7 @@ QString Crypto::encrypt(const QString& input) {
     delete[] cypher;
     return result;
 }
+*/
 
 QByteArray Crypto::hash(const QByteArray& data) {
     return QCryptographicHash::hash(data, QCryptographicHash::Keccak_512);
