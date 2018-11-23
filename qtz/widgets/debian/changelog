@@ -1,3 +1,9 @@
+libqtzwidgets (0.4.0-1ubuntu1) bionic; urgency=medium
+
+  * Update and re-organize dependencies.
+
+ -- Soroush Rabiei <soroush@ametisco.ir>  Fri, 23 Nov 2018 23:08:48 +0330
+
 libqtzwidgets (0.3.1-1ubuntu1) bionic; urgency=medium
 
   * Remove unnecessary Qt module from project file;
