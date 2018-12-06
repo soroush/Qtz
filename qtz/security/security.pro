@@ -4,7 +4,7 @@ CONFIG += c++11
 DEFINES += QTZ_SECURITY_LIBRARY
 
 TEMPLATE = lib
-VERSION = 0.2.0
+VERSION = 0.3.0
 
 CONFIG(release, debug|release){
     DESTDIR = ./release
@@ -28,16 +28,12 @@ CONFIG(debug, debug|release){
     TARGET = QtzSecurityd
 }
 
-default_key {
-    DEFINES+=QTZ_PRIVATE_KEY={0x2b,0x5f,0xa3,0x5a,0xa5,0x1e,0xfa,0xc5,0x7e,0x84,0xb6,0x0f,0xb9,0xb4,0x89,0x28}
-    DEFINES+=QTZ_INITIALIZATION_VECTOR={0xce,0xaa,0x7c,0x4b,0x4a,0x05,0xc4,0x74,0x72,0xc3,0x6e,0xa2,0x58,0xde,0xf6,0x29}
-}
-
 DEPENDPATH += .
 INCLUDEPATH += .
 
 unix {
-    LIBS += -lssl -lcrypto
+    CONFIG += link_pkgconfig
+    PKGCONFIG += qca2-qt5
     target.path = /usr/lib
     headers.path = /usr/include/qtz/security
     LINK_MAJ = ""
@@ -80,7 +76,10 @@ SOURCES += \
     token.cpp \
     username.cpp \
     crypto.cpp \
-    unique-machine-id.cpp
+    unique-machine-id.cpp \
+    key-ring.cpp \
+    license-manager.cpp \
+    virtual-machine-detector.cpp
 
 HEADERS += \
     authentication-source.hpp \
@@ -93,7 +92,10 @@ HEADERS += \
     username.hpp \
     qtz-security.hpp \
     crypto.hpp \
-    unique-machine-id.hpp
+    unique-machine-id.hpp \
+    key-ring.hpp \
+    license-manager.hpp \
+    virtual-machine-detector.hpp
 
 headers.files = $$HEADERS
 

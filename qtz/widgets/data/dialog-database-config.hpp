@@ -6,6 +6,7 @@
 #include <QFuture>
 #include <QSqlDatabase>
 #include <qtz/data/data-provider.hpp>
+#include <qtz/security/key-ring.hpp>
 #include "../qtz-widgets.hpp"
 
 QT_BEGIN_NAMESPACE
@@ -18,14 +19,15 @@ class QTZ_WIDGETS_SHARED_EXPORT DialogDatabaseConfig : public QDialog {
     Q_OBJECT
     friend class GuiTest;
 public:
-    explicit DialogDatabaseConfig(QWidget *parent = 0);
+    explicit DialogDatabaseConfig(KeyRing* keyRing = nullptr,
+                                  QWidget* parent = nullptr);
     ~DialogDatabaseConfig();
 
 protected:
-    void changeEvent(QEvent *e);
+    void changeEvent(QEvent* e);
 
 private:
-    Ui::DialogDatabaseConfig *ui;
+    Ui::DialogDatabaseConfig* ui;
     void initializeDatabaseSystems();
     void createConnections();
     bool testConnection();
@@ -48,6 +50,7 @@ private:
     QFuture<bool> F_mainDBOpen;
 
     QSqlDatabase testDB;
+    KeyRing* m_keyRing;
 
 public slots:
     void accept();
