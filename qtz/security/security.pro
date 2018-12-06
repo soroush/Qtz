@@ -77,7 +77,9 @@ SOURCES += \
     username.cpp \
     crypto.cpp \
     unique-machine-id.cpp \
-    key-ring.cpp
+    key-ring.cpp \
+    license-manager.cpp \
+    virtual-machine-detector.cpp
 
 HEADERS += \
     authentication-source.hpp \
@@ -91,7 +93,9 @@ HEADERS += \
     qtz-security.hpp \
     crypto.hpp \
     unique-machine-id.hpp \
-    key-ring.hpp
+    key-ring.hpp \
+    license-manager.hpp \
+    virtual-machine-detector.hpp
 
 headers.files = $$HEADERS
 

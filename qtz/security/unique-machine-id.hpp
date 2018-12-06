@@ -1,5 +1,5 @@
-#ifndef UNIQUEMACHINEID_H
-#define UNIQUEMACHINEID_H
+#ifndef QTZ_UNIQUEMACHINEID_H
+#define QTZ_UNIQUEMACHINEID_H
 
 #include "qtz-security.hpp"
 
@@ -10,4 +10,4 @@ public:
     static QByteArray getMachineID(const QByteArray& salt=QByteArray());
 };
 
-#endif // UNIQUEMACHINEID_H
+#endif // QTZ_UNIQUEMACHINEID_H

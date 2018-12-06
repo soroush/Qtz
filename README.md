@@ -6,15 +6,18 @@ the following libraries:
 * QtzCore
   - Solar Hijri (Jalali) Date and Time
   - Persian Number Formatter (Numeral to String converter)
-  - Single Application Mechanism
+  - Single Application Instance Mechanism
   - Settings Backend
 * QtzSecurity
   - Authentication
   - Access Control Lists
-  - Simple Encription
+  - Simple Encription / Decryption and Hash algorithms
+  - Software License Management
+  - Virtual Machine Detection
+  - Unique Hardwer Identifier
 * QtzData
   - Asynchronous Data Model (Thanks to [obeezzy](https://github.com/obeezzy/AsyncSql))
-  - Database Integration Backend (multiple vendors)
+  - Database Integration Backend (multiple RDMs)
   - Data Management Utilities (vendor-agnostic backup, restore, encryption tools)
   - Data Analysis Tools
 * QtzWidgets
@@ -26,12 +29,14 @@ the following libraries:
 
 ## Dependencies
 
-This library depends on Qt5, OpenSSL and OpenCV (version 3).
+This library depends on Qt5, QCA and OpenCV. Following versions of these
+libraries were used to build Qtz. Any compatible version should also do the
+work.
 
 | Dependency      | Version              |
 | ----------------|----------------------|
-| OpenSSL         | 1.0.2g               |
-| OpenCV          | 3.4.1                |
+| QCA             | 2.1.3                |
+| OpenCV          | 3.4.2                |
 
 
 You will also need a modern C++ compiler that implements C++11 specification.
@@ -57,40 +62,26 @@ getting it from. This prevent anyone injecting packages into your updates:
 
 In order to install public key:
 
-    wget -qO - https://soroush.github.io/repo/repo-sign-key.gpg | sudo apt-key add -
+    wget -qO - https://deb.ametisco.ir/key.gpg | sudo apt-key add -
     
 Fingerprint of the above key must be:
 
-    89958D908EB5CD0446D7D45D457CEB8B9CA825CC
+    8995 8D90 8EB5 CD04 46D7 D45D 457C EB8B 9CA8 25CC
     
 Add repository:
 
-    sudo add-apt-repository "deb https://soroush.github.io/repo bionic contrib"
+    sudo add-apt-repository "deb https://deb.ametisco.ir/ bionic ametis"
     
 Install software:
 
-    sudo apt install libqtzcore0 libqtzdata0 libqtzsecurity0 libqtzwidgets0 
+    sudo apt install \
         libqtzcore-dev libqtzdata-dev libqtzsecurity-dev libqtzwidgets-dev
 
 ## Compile
 To compile Qtz on *nix like environments type:
 
-    qmake CONFIG+=release CONFIG+=local CONFIG+=default_key
+    qmake CONFIG+=release CONFIG+=local
     make
-    
-The `default_key` passes the key
-`f9bf8a579d1fa38c4e20ee884e4096c054b57771153799f49fb674d1006caf52` to internal
-
-AES encryption algorithm. It's strongly recommended to
-use your own key instead. You can pass your private key to qmake by adding:
-
-    qmake CONFIG+=release CONFIG+=local DEFINES+=PRIVATE_KEY=\\\"YOUR_PRIVATE_HEX_KEY\\\"
-
-Number of escapes depend on platform and shell. Typically in most Linux systems
-(for example my current machine: Ubuntu 12.04 /bin/bash) there 7 escapes are
-required. So you go like:
-
-    qmake CONFIG+=release CONFIG+=local DEFINES+=PRIVATE_KEY=\\\\\\\"YOUR_PRIVATE_HEX_KEY\\\\\\\"
 
 In Windows environment:
 
@@ -101,7 +92,7 @@ or
 To speed up build process you may want to use `make -j<N>` where `<N>` is number
 of your processors.
 
-##Test
+## Test
 Qtz is shipped with a comprehensive automated test suite. In order to run tests,
 you need to specify input data to test program. After compiling the library, go
 to build directory and run `tst_qtz` and pass input parameters in command line

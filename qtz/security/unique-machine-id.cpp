@@ -1,5 +1,4 @@
 #include "unique-machine-id.hpp"
-#include <QCryptographicHash>
 
 #include <QFile>
 
@@ -8,7 +7,8 @@ QByteArray UniqueMachineID::getMachineID(const QByteArray& salt) {
     if(!machineIDFile.open(QFile::ReadOnly)) {
         return QByteArray{};
     }
-    QByteArray data = QByteArray::fromHex(machineIDFile.readLine().append(salt));
+    QByteArray data = QByteArray::fromHex(machineIDFile.readLine());
     machineIDFile.close();
-    return QCryptographicHash::hash(data, QCryptographicHash::Md5);
+    data.append(salt);
+    return data;
 }
