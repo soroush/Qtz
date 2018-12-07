@@ -1,5 +1,5 @@
-#ifndef QTZ_H
-#define QTZ_H
+#ifndef QTZ_PLUGINS_HPP
+#define QTZ_PLUGINS_HPP
 
 #include <QtDesigner/QtDesigner>
 #include <QtCore/qplugin.h>
@@ -20,4 +20,4 @@ private:
     QList<QDesignerCustomWidgetInterface *> m_widgets;
 };
 
-#endif
+#endif // QTZ_PLUGINS_HPP

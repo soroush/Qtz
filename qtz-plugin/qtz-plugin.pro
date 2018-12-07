@@ -27,12 +27,13 @@ CONFIG(local){
     LIBS    += -L"../qtz/core/$$BUILD" -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
     LIBS    += -L"../qtz/data/$$BUILD" -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
     LIBS    += -L"../qtz/widgets/$$BUILD" -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
-    QT      += sql gui
-    QT += widgets
+    QT      += sql gui widgets
 } else {
     CONFIG  += QTZ
     QTZ     += widgets
-    LIBS    += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ} -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS    += -lQtzCore$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS    += -lQtzData$${BUILD_SUFFIX}$${LINK_MAJ}
+    LIBS    += -lQtzWidgets$${BUILD_SUFFIX}$${LINK_MAJ}
 }
 
 DEFINES += QTZ_LIBRARY
@@ -42,11 +43,12 @@ VERSION = 0.1.3
 HEADERS     =   \
 #    table-edit_plugin.h \
     qtz.hpp \
+    global.hpp \
+    hex-editor_plugin.hpp \
     jalali-date-edit_plugin.hpp \
     choose-file_plugin.hpp \
     date-query_plugin.hpp \
     editable-label_plugin.hpp \
-    global.hpp \
     numeric-query_plugin.hpp \
     sexagesimal-spinbox_plugin.hpp \
     color-button_plugin.hpp \
@@ -58,6 +60,7 @@ HEADERS     =   \
 SOURCES     =   \
     qtz.cpp \
     date-query_plugin.cpp \
+    hex-editor_plugin.cpp \
     jalali-date-edit_plugin.cpp \
     numeric-query_plugin.cpp \
     text-query_plugin.cpp \

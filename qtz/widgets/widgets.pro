@@ -38,6 +38,10 @@ unix {
     headers_base.path = /usr/include/qtz/widgets
     headers_data.path = /usr/include/qtz/widgets/data
     headers_editors.path = /usr/include/qtz/widgets/editors
+    headers_editors_hexdocument.path = /usr/include/qtz/widgets/editors/hex-editor-document
+    headers_editors_hexdocument_commands.path = /usr/include/qtz/widgets/editors/hex-editor-document/commands
+    headers_editors_hexdocument_metadata.path = /usr/include/qtz/widgets/editors/hex-editor-document/metadata
+    headers_editors_hexpaint.path = /usr/include/qtz/widgets/editors/hex-editor-paint
     headers_misc.path = /usr/include/qtz/widgets/misc
     headers_security.path = /usr/include/qtz/widgets/security
     headers_i18n.path = /usr/include/qtz/widgets/i18n
@@ -60,6 +64,10 @@ win32 {
     headers.path = $$INSTALL_ROOT/include/qtz/widgets
     headers_data.path = $$INSTALL_ROOT/include/qtz/widgets/data
     headers_editors.path = $$INSTALL_ROOT/include/qtz/widgets/editors
+    headers_editors_hexdocument.path = $$INSTALL_ROOT/include/qtz/widgets/editors/hex-editor-document
+    headers_editors_hexdocument_commands.path = $$INSTALL_ROOT/include/qtz/widgets/editors/hex-editor-document/commands
+    headers_editors_hexdocument_metadata.path = $$INSTALL_ROOT/include/qtz/widgets/editors/hex-editor-document/metadata
+    headers_editors_hexpaint.path = $$INSTALL_ROOT/include/qtz/widgets/editors/hex-editor-paint
     headers_misc.path = $$INSTALL_ROOT/include/qtz/widgets/misc
     headers_security.path = $$INSTALL_ROOT/include/qtz/widgets/security
     headers_i18n.path = $$INSTALL_ROOT/include/qtz/widgets/i18n
@@ -117,7 +125,22 @@ SOURCES += \
     misc/color-button.cpp \
     misc/font-button.cpp \
     data/i-dialog-insert-record.cpp \
-    data/asynchronous-main-window.cpp
+    data/asynchronous-main-window.cpp \
+    editors/hex-editor-private.cpp \
+    editors/hex-editor.cpp \
+    editors/hex-editor-document/gap-buffer.cpp \
+    editors/hex-editor-document/hex-cursor.cpp \
+    editors/hex-editor-document/hex-document.cpp \
+    editors/hex-editor-document/hex-theme.cpp \
+    editors/hex-editor-document/commands/hex-command.cpp \
+    editors/hex-editor-document/commands/insert-command.cpp \
+    editors/hex-editor-document/commands/remove-command.cpp \
+    editors/hex-editor-document/commands/replace-command.cpp \
+    editors/hex-editor-document/metadata/hex-metadata.cpp \
+    editors/hex-editor-document/metadata/hex-metadata-item.cpp \
+    editors/hex-editor-paint/hex-metrics.cpp \
+    editors/hex-editor-paint/hex-painter.cpp
+
 
 #    data/wizard-backup-database.cpp \
 #    security/dialog-user-login.cpp \
@@ -152,7 +175,25 @@ HEADERS_EDITORS += \
     editors/text-editor-window.hpp \
     editors/editable-label.hpp \
     editors/jalali-date-edit.hpp \
-    editors/sexagesimal-spinbox.hpp
+    editors/sexagesimal-spinbox.hpp \
+    editors/hex-editor.hpp \
+    editors/hex-editor-private.hpp
+HEADERS_EDITORS_HEXDOC += \
+    editors/hex-editor-document/gap-buffer.hpp \
+    editors/hex-editor-document/hex-cursor.hpp \
+    editors/hex-editor-document/hex-document.hpp \
+    editors/hex-editor-document/hex-theme.hpp
+HEADERS_EDITORS_HEXDOC_COMMANDS += \
+    editors/hex-editor-document/commands/hex-command.hpp \
+    editors/hex-editor-document/commands/insert-command.hpp \
+    editors/hex-editor-document/commands/remove-command.hpp \
+    editors/hex-editor-document/commands/replace-command.hpp
+HEADERS_EDITORS_HEXDOC_METADATA += \
+    editors/hex-editor-document/metadata/hex-metadata-item.hpp \
+    editors/hex-editor-document/metadata/hex-metadata.hpp
+HEADERS_EDITORS_HEXDOC_PAINT += \
+    editors/hex-editor-paint/hex-metrics.hpp \
+    editors/hex-editor-paint/hex-painter.hpp
 HEADERS_MISC = \
     misc/choose-file.hpp \
     misc/color-button.hpp \
@@ -166,12 +207,15 @@ HEADERS_VIEWERS = \
 HEADERS_APPLICATION = \
     application/qtz-single-application.hpp \
     application/qtz-single-application_p.hpp
-
 HEADERS_BASE = qtz-widgets.hpp
 
 HEADERS += $$HEADERS_BASE \
     $$HEADERS_DATA \
     $$HEADERS_EDITORS \
+    $$HEADERS_EDITORS_HEXDOC \
+    $$HEADERS_EDITORS_HEXDOC_COMMANDS \
+    $$HEADERS_EDITORS_HEXDOC_METADATA \
+    $$HEADERS_EDITORS_HEXDOC_PAINT \
     $$HEADERS_MISC \
     $$HEADERS_SECURITY \
     $$HEADERS_I18N \
@@ -199,6 +243,10 @@ FORMS += \
 
 headers_data.files = $$HEADERS_DATA
 headers_editors.files = $$HEADERS_EDITORS
+headers_editors_hexdocument.files = $$HEADERS_EDITORS_HEXDOC
+headers_editors_hexdocument_commands.files = $$HEADERS_EDITORS_HEXDOC_COMMANDS
+headers_editors_hexdocument_metadata.files = $$HEADERS_EDITORS_HEXDOC_METADATA
+headers_editors_hexpaint.files = $$HEADERS_EDITORS_HEXDOC_PAINT
 headers_misc.files = $$HEADERS_MISC
 headers_security.files = $$HEADERS_SECURITY
 headers_i18n.files = $$HEADERS_I18N
@@ -210,6 +258,10 @@ INSTALLS += target
 INSTALLS += headers_base \
     headers_data \
     headers_editors \
+    headers_editors_hexdocument \
+    headers_editors_hexdocument_commands \
+    headers_editors_hexdocument_metadata \
+    headers_editors_hexpaint \
     headers_misc \
     headers_security \
     headers_i18n \

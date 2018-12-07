@@ -10,6 +10,7 @@
 #include "choose-file_plugin.hpp"
 #include "jalali-date-edit_plugin.hpp"
 #include "image-viewer_plugin.hpp"
+#include "hex-editor_plugin.hpp"
 #include "qtz.hpp"
 
 Qtz::Qtz(QObject* parent)
@@ -25,6 +26,7 @@ Qtz::Qtz(QObject* parent)
     m_widgets.append(new ImageViewerPlugin(this));
     m_widgets.append(new ColorButtonPlugin(this));
     m_widgets.append(new FontButtonPlugin(this));
+    m_widgets.append(new HexEditorPlugin(this));
     //m_widgets.append(new TableEditPlugin(this));
 }
 
