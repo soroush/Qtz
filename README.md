@@ -21,7 +21,8 @@ the following libraries:
   - Data Management Utilities (vendor-agnostic backup, restore, encryption tools)
   - Data Analysis Tools
 * QtzWidgets
-  - Advanced Editor Widgets
+  - Advanced Editor Widgets (Editable Label, Various Tables, etc.)
+  - Hexadecimal Editor (Based on [Dax89](https://github.com/Dax89/QHexEdit)'s work)
   - Data Management GUI
   - Security GUI Backend
   - OpenCV Image Viewer
