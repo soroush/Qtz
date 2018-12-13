@@ -1,3 +1,9 @@
+libqtzwidgets (0.4.1) bionic; urgency=medium
+
+  * Add Hexadecimal Editor Widget
+
+ -- Soroush Rabiei <soroush@ametisco.ir>  Fri, 14 Dec 2018 00:25:21 +0330
+
 libqtzwidgets (0.4.0-1ubuntu1) bionic; urgency=medium
 
   * Update and re-organize dependencies.
