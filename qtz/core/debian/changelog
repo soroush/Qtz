@@ -1,3 +1,9 @@
+libqtzcore (0.4.1-1ubuntu1) bionic; urgency=medium
+
+  * Remove default key configuration
+
+ -- Soroush Rabiei <soroush@ametisco.ir>  Fri, 14 Dec 2018 00:19:46 +0330
+
 libqtzcore (0.4.0-1) bionic; urgency=medium
 
   * Initial release
