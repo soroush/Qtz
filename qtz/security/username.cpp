@@ -1,8 +1,5 @@
 #include "username.hpp"
 
-Username::Username() {
-}
-
 Username::Username(const QString& username):
     m_username(username) {
 }

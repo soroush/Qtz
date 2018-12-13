@@ -6,8 +6,8 @@
 
 class Username : public Identity {
 public:
-    Username();
-    Username(const QString& username);
+    Username(const QString& username = "");
+    ~Username() = default;
     void setUsername(const QString& username);
     QString getUsername() const;
 private:
