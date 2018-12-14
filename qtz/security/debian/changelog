@@ -1,3 +1,10 @@
+libqtzsecurity (0.4.0) bionic; urgency=medium
+
+  * Add initialization vector to AES-CBC encryption schema
+  * Update to 0.4.0
+
+ -- Soroush Rabiei <soroush@ametisco.ir>  Fri, 14 Dec 2018 21:35:09 +0330
+
 libqtzsecurity (0.3.0-1ubuntu1) bionic; urgency=medium
 
   * Remove OpenSSL dependency, add QCA instead;
