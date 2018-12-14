@@ -5,33 +5,45 @@
 #include <QDebug>
 
 QByteArray Crypto::decryptRawData(const QByteArray& input,
-                                  const QByteArray& rawKey) {
+                                  const QByteArray& rawKey,
+                                  const QByteArray& rawIV) {
     QCA::SymmetricKey key(rawKey);
+    QCA::InitializationVector iv(rawIV);
     QCA::SecureArray sinput(input);
     QCA::Cipher c("aes128", QCA::Cipher::CBC, QCA::Cipher::DefaultPadding,
-                  QCA::Decode, key);
+                  QCA::Decode, key, iv);
     return c.process(sinput).toByteArray();
 }
 
-QString Crypto::decrypt(const QString& base64Cipher, const QString& base64Key) {
+QString Crypto::decrypt(const QString& base64Cipher,
+                        const QString& base64Key,
+                        const QString& base64IV) {
     QByteArray rawKey = QByteArray::fromBase64(base64Key.toLatin1());
+    QByteArray rawIV = QByteArray::fromBase64(base64IV.toLatin1());
     QByteArray rawCipher = QByteArray::fromBase64(base64Cipher.toLatin1());
-    QByteArray rawPlain = decryptRawData(rawCipher, rawKey);
+    QByteArray rawPlain = decryptRawData(rawCipher, rawKey, rawIV);
     return QString::fromUtf8(rawPlain);
 }
 
 QByteArray Crypto::encryptRawData(const QByteArray& input,
-                                  const QByteArray& rawKey) {
+                                  const QByteArray& rawKey,
+                                  const QByteArray& rawIV) {
     QCA::SymmetricKey key(rawKey);
+    QCA::InitializationVector iv(rawIV);
     QCA::Cipher c("aes128", QCA::Cipher::CBC, QCA::Cipher::DefaultPadding,
-                  QCA::Encode, key);
+                  QCA::Encode, key, iv);
     QCA::SecureArray secureInput(input);
     return c.process(secureInput).toByteArray();
 }
 
-QString Crypto::encrypt(const QString& input, const QString& base64Key) {
+QString Crypto::encrypt(const QString& input,
+                        const QString& base64Key,
+                        const QString& base64IV) {
     QByteArray rawKey = QByteArray::fromBase64(base64Key.toLatin1());
-    QByteArray base64Cipher = encryptRawData(input.toUtf8(), rawKey).toBase64();
+    QByteArray rawIV = QByteArray::fromBase64(base64IV.toLatin1());
+    QByteArray base64Cipher = encryptRawData(input.toUtf8(),
+                              rawKey,
+                              rawIV).toBase64();
     return QString::fromLatin1(base64Cipher);
 }
 
