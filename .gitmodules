@@ -1,0 +1,15 @@
+[submodule "core"]
+	path = core
+	url = git@github.com:soroush/qtz-core.git
+[submodule "data"]
+	path = data
+	url = git@github.com:soroush/qtz-data.git
+[submodule "security"]
+	path = security
+	url = git@github.com:soroush/qtz-security.git
+[submodule "widgets"]
+	path = widgets
+	url = git@github.com:soroush/qtz-widgets.git
+[submodule "plugin"]
+	path = plugin
+	url = git@github.com:soroush/qtz-plugin.git

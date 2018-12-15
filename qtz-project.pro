@@ -2,8 +2,11 @@ TEMPLATE = subdirs
 CONFIG += ordered
 
 SUBDIRS += \
-    qtz \
-    qtz-plugin
+    core \
+    data \
+    security \
+    widgets \
+    plugin
 #    tests
 
 OTHER_FILES += README.md
