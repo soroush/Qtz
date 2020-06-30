@@ -81,14 +81,9 @@ Install software:
 ## Compile
 To compile Qtz on *nix like environments type:
 
-    qmake CONFIG+=release CONFIG+=local
-    make
-
-In Windows environment:
-
-    mingw32-make
-or
-    nmake
+    mkdir build && cd build
+    cmake ..
+    cmake --build .
 
 To speed up build process you may want to use `make -j<N>` where `<N>` is number
 of your processors.
@@ -112,9 +107,5 @@ as specified below:
 ## Install
 If build has been finished successfully, you may want to install it:
 
-    sudo make install
+    sudo cmake --install .
 
-On Linux platforms all files will go through correct path. On Windows you may
-need to define explicit paths.
-
-    mingw32-make install INSTALL_ROOT=c:\mingw64
