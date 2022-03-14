@@ -4,17 +4,17 @@ Qtz is a Qt-based Application Development Framework. Currently Qtz consists of
 the following libraries:
 
 * QtzCore
-  - Solar Hijri (Jalali) Date and Time
+  - Solar Hijri (Jalali) Date and Time [1]
   - Persian Number Formatter (Numeral to String converter)
   - Single Application Instance Mechanism
   - Settings Backend
 * QtzSecurity
   - Authentication
   - Access Control Lists
-  - Simple Encription / Decryption and Hash algorithms
+  - Simple Encryption / Decryption and Hash algorithms
   - Software License Management
   - Virtual Machine Detection
-  - Unique Hardwer Identifier
+  - Unique Hardware Identifier
 * QtzData
   - Asynchronous Data Model (Thanks to [obeezzy](https://github.com/obeezzy/AsyncSql))
   - Database Integration Backend (multiple RDMs)
@@ -26,7 +26,7 @@ the following libraries:
   - Data Management GUI
   - Security GUI Backend
   - OpenCV Image Viewer
-  - Miscellaneous 
+  - Miscellaneous
 
 ## Dependencies
 
@@ -36,24 +36,16 @@ work.
 
 | Dependency      | Version              |
 | ----------------|----------------------|
-| QCA             | 2.1.3                |
-| OpenCV          | 3.4.2                |
+| QCA             | 2.3.4                |
+| OpenCV          | 4.x                  |
 
 
-You will also need a modern C++ compiler that implements C++11 specification.
-The library is built and tested on following envoirnments:
+You will also need a modern C++ compiler that implements C++17 specification.
+The library is built and tested on following environments:
 
 | Operating System      | Version / Distro     | Compiler                     |
 | ----------------------|----------------------|------------------------------|
-| Debian                | 8.0 jessie           | gcc 4.9.2                    |
-|                       | 9.0 stretch          | gcc 6.3.0                    |
-| Ubuntu                | 16.04 LTS xenial     | gcc 5.3.1                    |
-|                       | 16.10 yakkety        | gcc 6.1.1                    |
-|                       | 17.04 zesty          | gcc 6.3.0                    |
-|                       | 17.10 artful         | gcc 7.2.0                    |
-| Windows               | 7                    | MSVC 12.0 (Visual Studio 2013)  |
-|                       | 7                    | MSVC 14.0 (Visual Studio 2015)  |
-|                       | 7                    | MSVC 14.1 (Visual Studio 2017)  |
+| Windows               | 10                   | MSVC 16 (Visual Studio 2019) |
 
 ## Install Pre-Built Binaries
 
@@ -109,3 +101,7 @@ If build has been finished successfully, you may want to install it:
 
     sudo cmake --install .
 
+### Notes
+
+1. The Jalali (Solar Hijri) calendar implementation and its widget are considered to be deprecated and will be removed in the future versions. 
+Several calendaring system implementations have already been merged into Qt version 5.14 and is available since then.
